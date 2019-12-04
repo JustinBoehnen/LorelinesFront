@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme => ({
 export default function App() {
   const [email, setEmail] = useState('')
   const [auth, setAuth] = useState(false)
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState('dark')
 
   const classes = useStyles()
   const payload = {
@@ -100,7 +100,7 @@ export default function App() {
         <div className={classes.root}>
           <Redirect
             to={{
-              pathname: auth ? '/app' : '/testing'
+              pathname: auth ? '/app' : '/'
             }}
           />
 
