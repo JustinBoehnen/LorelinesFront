@@ -110,7 +110,7 @@ export default function App() {
 
           <Route path='/forgot' component={ForgotPassword} />
           <Route exact path='/testing' component={Testing} />
-
+          <Route exact path='/favicon.ico' to='../public/favicon.ico' />
           <Route path='/app'>
             <Home props={payload} />
           </Route>
