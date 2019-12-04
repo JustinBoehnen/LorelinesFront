@@ -15,8 +15,8 @@
     "uuid": "^3.3.3"
   },
   "scripts": {
-    "start": "npm run start", // react-scripts start
-    "build": "npm run start", // react-scripts build
+    "start": "npm run start",
+    "build": "npm run start",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
