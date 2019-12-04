@@ -29,6 +29,7 @@ export default class TimelineNode {
     this._pos = value
   }
 }
+
 /*
 class EventNode extends TimelineNode {
   constructor(id, content, pos, before, after) {
