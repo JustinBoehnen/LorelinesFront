@@ -21,6 +21,14 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": {
+    "/": {
+      "target": "https://lorelines-reactapp.herokuapp.com/",
+      "pathRewrite": {
+        "^lorelines/": "/"
+      }
+    }
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
