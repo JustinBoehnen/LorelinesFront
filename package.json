@@ -16,8 +16,8 @@
     "uuid": "^3.3.3"
   },
   "scripts": {
-    "start": "%PORT% react-scripts start",
-    "build": "react-scripts build",
+    "start": "$PORT react-scripts start",
+    "build": "$PORT react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
