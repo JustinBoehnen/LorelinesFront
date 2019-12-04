@@ -16,14 +16,14 @@
     "uuid": "^3.3.3"
   },
   "scripts": {
-    "start": "$PORT react-scripts start",
-    "build": "$PORT react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "proxy": {
     "/": {
-      "target": "https://lorelines-reactapp.herokuapp.com/",
+      "target": "https://localhost:3000",
       "pathRewrite": {
         "^lorelines/": "/"
       }
