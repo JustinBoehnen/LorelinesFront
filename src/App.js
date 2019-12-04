@@ -84,13 +84,13 @@ export default function App() {
     setAuth(true)
     setEmail(tryEmail)
 
-    axios
+    /*axios
       .post('http://localhost:3000/api/user/auth', {
         Email: { tryEmail },
         Password: { tryPassword }
       })
       .then(res => console.log(res.error))
-      .catch(error => console.log(error))
+      .catch(error => console.log(error))*/
   }
 
   return (
