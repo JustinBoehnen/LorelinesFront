@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core'
 
 import Topbar from './Topbar'
@@ -27,7 +27,12 @@ export default function Home(props) {
 
   return (
     <div>
-      <Topbar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
+      {!props.auth && <Redirect to='/' />}
+      <Topbar
+        logout={props.logout}
+        drawerOpen={drawerOpen}
+        setDrawerOpen={setDrawerOpen}
+      />
       <div className={classes.root}>
         <Sidebar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
         <Route path='/app/account' component={Account} />

@@ -144,7 +144,9 @@ export default function Topbar(props) {
               </g>
             </g>
           </svg>
-          <Button className={classes.logout}>Log Out</Button>
+          <Button className={classes.logout} onClick={props.logout}>
+            Log Out
+          </Button>
         </Toolbar>
       </AppBar>
       <div className={classes.toolbar} />

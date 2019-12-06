@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   createMuiTheme,
   MuiThemeProvider,
   CssBaseline,
   makeStyles
 } from '@material-ui/core'
-//import axios from 'axios'
+import axios from 'axios'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import './App.css'
 
@@ -14,9 +14,6 @@ import Home from './components/Home'
 import RegisterForm from './components/RegisterForm'
 import RegisterConfirmation from './components/RegisterConfirmation'
 import ForgotPassword from './components/ForgotPassword'
-
-//test imports
-import Testing from './components/Testing'
 
 const light = createMuiTheme({
   palette: {
@@ -70,27 +67,44 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function App() {
-  const [email, setEmail] = useState('')
+  const [user, setUser] = useState({})
   const [auth, setAuth] = useState(false)
   const [theme, setTheme] = useState('dark')
 
   const classes = useStyles()
-  const payload = {
-    email,
-    setTheme
+
+  useEffect(() => {
+    let token = localStorage.getItem('token')
+    if (token) {
+      axios
+        .put('/users/token', { token })
+        .then(res => {
+          localStorage.setItem('token', res.data)
+          setAuth(true)
+        })
+        .catch(error => console.log(error))
+    }
+  })
+
+  const tryLogin = async (email, password) => {
+    try {
+      const { data } = await axios.post('/users/token', {
+        email,
+        password
+      })
+      localStorage.setItem('token', data)
+      console.log(data)
+      setAuth(true)
+      return true
+    } catch (err) {
+      console.log('Login failed!')
+      return false
+    }
   }
 
-  const tryLogin = (tryEmail, tryPassword) => {
-    setAuth(true)
-    setEmail(tryEmail)
-
-    /*axios
-      .post('http://localhost:3000/api/user/auth', {
-        Email: { tryEmail },
-        Password: { tryPassword }
-      })
-      .then(res => console.log(res.error))
-      .catch(error => console.log(error))*/
+  const logout = () => {
+    localStorage.removeItem('token')
+    setAuth(false)
   }
 
   return (
@@ -98,21 +112,15 @@ export default function App() {
       <CssBaseline />
       <Router>
         <div className={classes.root}>
-          <Redirect
-            to={{
-              pathname: auth ? '/app' : '/'
-            }}
-          />
+          {auth && <Redirect to='/app' />}
 
           <Route exact path='/'>
             <LoginForm className={classes.center} tryLogin={tryLogin} />
           </Route>
 
           <Route path='/forgot' component={ForgotPassword} />
-          <Route exact path='/testing' component={Testing} />
-          <Route exact path='/favicon.ico' to='../public/favicon.ico' />
           <Route path='/app'>
-            <Home props={payload} />
+            <Home logout={logout} auth={auth} />
           </Route>
           <Route exact path='/register' component={RegisterForm} />
           <Route path='/register/confirm' component={RegisterConfirmation} />

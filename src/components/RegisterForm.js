@@ -74,7 +74,7 @@ export default function RegisterForm(props) {
     <main className={classes.root}>
       <form>
         <Grid
-          style={{ height: '100vh', textAlign: 'center' }}
+          style={{ minHeight: '100vh', textAlign: 'center' }}
           direction='column'
           justify='center'
           alignItems='center'
