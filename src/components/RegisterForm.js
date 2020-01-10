@@ -23,6 +23,9 @@ const useStyles = makeStyles(theme => ({
   link: {
     color: theme.palette.secondary.main,
     textDecoration: 'underline'
+  },
+  error: {
+    color: theme.palette.error.main
   }
 }))
 
@@ -36,7 +39,8 @@ export default function RegisterForm(props) {
     confirmPassword: '',
     showPassword: false,
     showConfirmPassword: false,
-    submitAttempted: false
+    submitAttempted: false,
+    emailExists: false
   })
 
   const handleChange = prop => event => {
@@ -59,15 +63,18 @@ export default function RegisterForm(props) {
     e.preventDefault()
     setValues({ ...values, submitAttempted: true })
 
-    if (Validator.validate(values.email) === true) {
-      if (values.email === values.confirmEmail) {
-        if (values.password !== '') {
+    if (Validator.validate(values.email) === true)
+      if (values.email === values.confirmEmail)
+        if (values.password !== '')
           if (values.password === values.confirmPassword) {
-            props.history.push('/register/confirm')
+            let exists = !props.createUser(
+              values.name,
+              values.email,
+              values.password
+            )
+            if (exists) console.log('email exists')
+            setValues({ ...values, emailExists: exists })
           }
-        }
-      }
-    }
   }
 
   return (
@@ -91,6 +98,16 @@ export default function RegisterForm(props) {
               Create a new Lorelines account
             </Typography>
           </Grid>
+          {values.emailExists && (
+            <Grid item>
+              <Typography
+                className={classes.error}
+                style={{ padding: 5, fontSize: 16 }}
+              >
+                a user with that email already exists
+              </Typography>
+            </Grid>
+          )}
           <Grid item>
             <TextField
               className={classes.field}

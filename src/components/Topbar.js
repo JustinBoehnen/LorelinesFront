@@ -5,9 +5,12 @@ import {
   Toolbar,
   makeStyles,
   IconButton,
-  Button
+  Button,
+  useMediaQuery,
+  useTheme
 } from '@material-ui/core'
-import { Menu } from '@material-ui/icons'
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
+import { Menu, ExitToApp } from '@material-ui/icons'
 
 const drawerWidthExpanded = 240
 
@@ -44,12 +47,15 @@ const useStyles = makeStyles(theme => ({
   },
   logo: {
     fill: '#fff',
-    height: 50
+    height: 35,
+    [theme.breakpoints.up('md')]: {
+      height: 50
+    }
   },
   orange: {
     fill: theme.palette.primary.main
   },
-  logout: {
+  logoutButton: {
     color: theme.palette.primary.main,
     backgroundColor: 'white',
     fontSize: 14,
@@ -60,11 +66,32 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: 'black',
       color: theme.palette.primary.main
     }
+  },
+  logoutIcon: {
+    marginLeft: 'auto',
+    marginRight: 0
   }
 }))
 
 export default function Topbar(props) {
   const classes = useStyles()
+  const theme = useTheme()
+  const widthAboveMd = useMediaQuery(theme.breakpoints.up('md'))
+
+  function LogoutButton() {
+    if (widthAboveMd)
+      return (
+        <Button className={classes.logoutButton} onClick={props.logout}>
+          Log Out
+        </Button>
+      )
+
+    return (
+      <IconButton className={classes.logoutIcon} onClick={props.logout}>
+        <ExitToApp />
+      </IconButton>
+    )
+  }
 
   return (
     <div className={classes.root}>
@@ -144,9 +171,7 @@ export default function Topbar(props) {
               </g>
             </g>
           </svg>
-          <Button className={classes.logout} onClick={props.logout}>
-            Log Out
-          </Button>
+          <LogoutButton />
         </Toolbar>
       </AppBar>
       <div className={classes.toolbar} />

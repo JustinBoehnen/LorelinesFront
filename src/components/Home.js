@@ -6,6 +6,8 @@ import Topbar from './Topbar'
 import Sidebar from './Sidebar'
 
 import Account from './Account'
+import Directory from './Directory'
+import Test from './Test'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,11 +37,19 @@ export default function Home(props) {
       />
       <div className={classes.root}>
         <Sidebar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
-        <Route path='/app/account' component={Account} />
+
+        <Route path='/app/account'>
+          <Account />
+        </Route>
+
         <Route path='/app/lorelines' render={() => <h1>Lorelines</h1>} />
         <Route path='/app/new' render={() => <div className={classes.box} />} />
         <Route path='/app/timeline' render={() => <h1>Timeline</h1>} />
-        <Route path='/app/directory' render={() => <h1>Directory</h1>} />
+
+        <Route path='/app/directory'>
+          <Test />
+        </Route>
+
         <Route path='/app/about' render={() => <h1>About</h1>} />
       </div>
     </div>

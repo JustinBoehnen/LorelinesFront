@@ -6,9 +6,11 @@ import {
   Button,
   InputAdornment,
   makeStyles,
-  Grid
+  Grid,
+  IconButton
 } from '@material-ui/core'
-import { Mail, Lock } from '@material-ui/icons'
+
+import { Mail, Lock, Visibility, VisibilityOff } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
 import Validator from 'email-validator'
 
@@ -23,6 +25,9 @@ const useStyles = makeStyles(theme => ({
   field: {
     width: '20vw',
     minWidth: '250px'
+  },
+  error: {
+    color: theme.palette.error.main
   }
 }))
 
@@ -30,6 +35,8 @@ export default function LoginForm(props) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [submitAttempted, setSubmitAttempted] = useState(false)
+  const [loginFailed, setLoginFailed] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const classes = useStyles()
   //const onSubmit = (e) => {
@@ -37,15 +44,25 @@ export default function LoginForm(props) {
   //}
 
   const onEmailChange = e => setEmail(e.target.value)
+
   const onPasswordChange = e => setPassword(e.target.value)
+
   const onSubmit = async e => {
     e.preventDefault()
     setSubmitAttempted(true)
 
-    if (Validator.validate(email) && password !== '')
-      return await props.tryLogin(email, password)
-    else return false
+    if (Validator.validate(email) && password !== '') {
+      let accept = await props.tryLogin(email, password)
+      if (!accept) setLoginFailed(true)
+      return accept
+    } else {
+      return false
+    }
   }
+
+  const handleClickShowPassword = () => setShowPassword(!showPassword)
+
+  const handleMouseDownPassword = event => event.preventDefault()
 
   return (
     <main className={classes.content}>
@@ -86,6 +103,7 @@ export default function LoginForm(props) {
               }
               name='email'
               label='Email'
+              type='email'
               variant='outlined'
               margin='normal'
               autoComplete='off'
@@ -113,12 +131,23 @@ export default function LoginForm(props) {
               label='Password'
               variant='outlined'
               margin='normal'
-              type='password'
+              type={showPassword ? 'text' : 'password'}
               autoComplete='off'
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>
                     <Lock color='secondary' />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label='toggle password visibility'
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
                   </InputAdornment>
                 )
               }}
@@ -126,6 +155,18 @@ export default function LoginForm(props) {
               onChange={onPasswordChange}
             />
           </Grid>
+          {loginFailed && (
+            <Grid item>
+              <Typography
+                className={classes.error}
+                style={{ padding: 5, fontSize: 16 }}
+              >
+                an incorrect email or password was provided
+                <br />
+                please try again
+              </Typography>
+            </Grid>
+          )}
           <Grid item>
             <Button
               style={{

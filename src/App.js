@@ -15,6 +15,8 @@ import RegisterForm from './components/RegisterForm'
 import RegisterConfirmation from './components/RegisterConfirmation'
 import ForgotPassword from './components/ForgotPassword'
 
+const uuidv4 = require('uuid/v4')
+
 const light = createMuiTheme({
   palette: {
     primary: {
@@ -27,10 +29,8 @@ const light = createMuiTheme({
       text: '#fff',
       icons: '#000'
     },
-    secondary: {
-      // contrast: black
-      main: '#000'
-    }
+    secondary: { main: '#000' },
+    error: { main: '#ff0000' }
   }
 })
 
@@ -46,10 +46,8 @@ const dark = createMuiTheme({
       text: '#fff',
       icons: '#fff'
     },
-    secondary: {
-      // contrast: white
-      main: '#fff'
-    },
+    secondary: { main: '#fff' },
+    error: { main: '#ff0000' },
     type: 'dark'
   }
 })
@@ -77,27 +75,51 @@ export default function App() {
     let token = localStorage.getItem('token')
     if (token) {
       axios
-        .put('/users/token', { token })
+        .put('https://lorelines-expressapi.herokuapp.com/api/users/token', {
+          token
+        })
         .then(res => {
           localStorage.setItem('token', res.data)
           setAuth(true)
         })
-        .catch(error => console.log(error))
+        .catch(err => console.log(err))
     }
   })
 
   const tryLogin = async (email, password) => {
     try {
-      const { data } = await axios.post('/users/token', {
-        email,
-        password
-      })
+      const { data } = await axios.post(
+        'https://lorelines-expressapi.herokuapp.com/api/users/token',
+        {
+          email,
+          password
+        }
+      )
       localStorage.setItem('token', data)
-      console.log(data)
       setAuth(true)
       return true
     } catch (err) {
-      console.log('Login failed!')
+      return false
+    }
+  }
+
+  const createUser = async (name, email, password) => {
+    try {
+      let id = uuidv4()
+
+      const { data } = await axios.post(
+        'https://lorelines-expressapi.herokuapp.com/api/users',
+        {
+          id,
+          name,
+          email,
+          password
+        }
+      )
+      localStorage.setItem('token', data)
+      setAuth(true)
+      return true
+    } catch (err) {
       return false
     }
   }
@@ -113,16 +135,16 @@ export default function App() {
       <Router>
         <div className={classes.root}>
           {auth && <Redirect to='/app' />}
-
-          <Route exact path='/'>
-            <LoginForm className={classes.center} tryLogin={tryLogin} />
-          </Route>
-
-          <Route path='/forgot' component={ForgotPassword} />
           <Route path='/app'>
             <Home logout={logout} auth={auth} />
           </Route>
-          <Route exact path='/register' component={RegisterForm} />
+          <Route exact path='/'>
+            <LoginForm className={classes.center} tryLogin={tryLogin} />
+          </Route>
+          <Route path='/forgot' component={ForgotPassword} />
+          <Route exact path='/register'>
+            <RegisterForm createUser={createUser} />
+          </Route>
           <Route path='/register/confirm' component={RegisterConfirmation} />
         </div>
       </Router>
