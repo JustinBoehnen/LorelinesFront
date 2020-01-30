@@ -7,7 +7,6 @@ import Sidebar from './Sidebar'
 
 import Account from './Account'
 import Directory from './Directory'
-import Test from './Test'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,7 +46,6 @@ export default function Home(props) {
         <Route path='/app/timeline' render={() => <h1>Timeline</h1>} />
 
         <Route path='/app/directory'>
-          <Test />
         </Route>
 
         <Route path='/app/about' render={() => <h1>About</h1>} />
