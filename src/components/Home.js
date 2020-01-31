@@ -7,6 +7,7 @@ import Sidebar from './Sidebar'
 
 import Account from './Account'
 import Directory from './Directory'
+import Timeline from './Timeline'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,7 +44,9 @@ export default function Home(props) {
 
         <Route path='/app/lorelines' render={() => <h1>Lorelines</h1>} />
         <Route path='/app/new' render={() => <div className={classes.box} />} />
-        <Route path='/app/timeline' render={() => <h1>Timeline</h1>} />
+        <Route path='/app/timeline'>
+          <Timeline />
+          </Route>
 
         <Route path='/app/directory'>
         </Route>
