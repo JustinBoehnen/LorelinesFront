@@ -12,6 +12,9 @@ import { makeStyles,
 } from '@material-ui/core'
  
 import FontDownloadIcon from '@material-ui/icons/FontDownloadOutlined'
+import FormatListNumbered from '@material-ui/icons/FormatListNumberedOutlined'
+import FlightTakeoffOutlined from '@material-ui/icons/FlightTakeoffOutlined'
+import CallMade from '@material-ui/icons/CallMadeOutlined'
 
 const drawerWidthExpanded = 240
 const drawerWidthCondensed = 58
@@ -27,9 +30,6 @@ const useStyles = makeStyles({
 export default function Timeline() {
     const classes = useStyles();
     const [state, setState] = React.useState({
-        top: false,
-        left: false,
-        bottom: false,
         right: false,
       });
 
@@ -55,6 +55,24 @@ const sideList = side => (
         </ListItemIcon>
             <ListItemText primary='Event Node' />
         </ListItem>
+        <ListItem button key='Branching Event Node'>
+        <ListItemIcon>
+            <FormatListNumbered color='secondary' />
+        </ListItemIcon>
+            <ListItemText primary='Branching Event Node' />
+        </ListItem>
+        <ListItem button key='Teather'>
+        <ListItemIcon>
+            <CallMade color='secondary' />
+        </ListItemIcon>
+            <ListItemText primary='Teather' />
+        </ListItem>
+        <ListItem button key='Warp Node'>
+        <ListItemIcon>
+            <FlightTakeoffOutlined color='secondary' />
+        </ListItemIcon>
+            <ListItemText primary='Warp Node' />
+        </ListItem>
       </List>
     </div>
 );
@@ -75,6 +93,7 @@ const sideList = side => (
       </Grid>
       
       <div>
+        <Button onClick={toggleDrawer('right',true)}>Open Components</Button>
       <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>
         {sideList('right')}
       </Drawer>
