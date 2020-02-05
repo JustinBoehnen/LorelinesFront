@@ -99,7 +99,7 @@ export default function App() {
       setAuth(true)
       return true
     } catch (err) {
-      return false
+      return false;
     }
   }
 

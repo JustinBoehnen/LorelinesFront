@@ -8,7 +8,11 @@ import Sidebar from './Sidebar'
 import Timeline from './Timeline'
 import Account from './Account'
 import Directory from './Directory'
+<<<<<<< HEAD
 import About from './About'
+=======
+import Timeline from './Timeline'
+>>>>>>> 767306ffee3e31bfdbef478cbc37897e06541946
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,6 +51,12 @@ export default function Home(props) {
         <Route path='/app/new' render={() => <div className={classes.box} />} />
         <Route path='/app/timeline'>
           <Timeline />
+<<<<<<< HEAD
+=======
+          </Route>
+
+        <Route path='/app/directory'>
+>>>>>>> 767306ffee3e31bfdbef478cbc37897e06541946
         </Route>
 
         <Route path='/app/directory'></Route>
