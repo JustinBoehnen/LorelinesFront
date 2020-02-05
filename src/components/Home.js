@@ -5,9 +5,10 @@ import { makeStyles } from '@material-ui/core'
 import Topbar from './Topbar'
 import Sidebar from './Sidebar'
 
+import Timeline from './Timeline'
 import Account from './Account'
 import Directory from './Directory'
-import Test from './Test'
+import About from './About'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,13 +45,15 @@ export default function Home(props) {
 
         <Route path='/app/lorelines' render={() => <h1>Lorelines</h1>} />
         <Route path='/app/new' render={() => <div className={classes.box} />} />
-        <Route path='/app/timeline' render={() => <h1>Timeline</h1>} />
-
-        <Route path='/app/directory'>
-          <Test />
+        <Route path='/app/timeline'>
+          <Timeline />
         </Route>
 
-        <Route path='/app/about' render={() => <h1>About</h1>} />
+        <Route path='/app/directory'></Route>
+
+        <Route path='/app/about'>
+          <About />
+        </Route>
       </div>
     </div>
   )

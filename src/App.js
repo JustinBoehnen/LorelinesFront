@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function App() {
   const [user, setUser] = useState({})
-  const [auth, setAuth] = useState(false)
+  const [auth, setAuth] = useState(true)
   const [theme, setTheme] = useState('dark')
 
   const classes = useStyles()

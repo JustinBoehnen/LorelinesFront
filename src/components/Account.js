@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function RegisterForm() {
+export default function Account() {
   const classes = useStyles()
 
   return (

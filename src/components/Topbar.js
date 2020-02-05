@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 'auto',
     marginRight: 0,
     '&:hover': {
-      backgroundColor: 'black',
+      backgroundColor: '#303030',
       color: theme.palette.primary.main
     }
   },
