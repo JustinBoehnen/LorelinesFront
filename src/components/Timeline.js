@@ -30,23 +30,23 @@ const useStyles = makeStyles({
 export default function Timeline() {
     const classes = useStyles();
     const [state, setState] = React.useState({
-        right: false,
+        bottom: false,
       });
 
-const toggleDrawer = (side, open) => event => {
+const toggleDrawer = (bottom, open) => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
 
-    setState({ ...state, [side]: open });
+    setState({ ...state, [bottom]: open });
 };
 
-const sideList = side => (
+const sideList = bottom => (
     <div
       className={classes.list}
       role="presentation"
-      onClick={toggleDrawer(side, false)}
-      onKeyDown={toggleDrawer(side, false)}
+      onClick={toggleDrawer(bottom, false)}
+      onKeyDown={toggleDrawer(bottom, false)}
     >
       <List>
       <ListItem button key='Event Node'>
@@ -82,7 +82,7 @@ const sideList = side => (
     <main className={classes.root}>
     <Grid
         style={{ height: '70vh', width: '70vw', textAlign: 'center' }}
-        direction='column'
+        direction='row'
         justify='center'
         alignItems='center'
         container
@@ -93,9 +93,9 @@ const sideList = side => (
       </Grid>
       
       <div>
-        <Button onClick={toggleDrawer('right',true)}>Open Components</Button>
-      <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>
-        {sideList('right')}
+        <Button onClick={toggleDrawer('bottom', true)}>Open Components</Button>
+      <Drawer anchor="bottom" open={state.bottom} onClose={toggleDrawer('bottom', false)}>
+        {sideList('bottom')}
       </Drawer>
     </div>
     </main>
