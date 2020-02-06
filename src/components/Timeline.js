@@ -3,7 +3,6 @@ import { makeStyles,
     Grid, 
     Typography, 
     Drawer, 
-    Button, 
     List, 
     Divider, 
     ListItem,
@@ -16,67 +15,31 @@ import FormatListNumbered from '@material-ui/icons/FormatListNumberedOutlined'
 import FlightTakeoffOutlined from '@material-ui/icons/FlightTakeoffOutlined'
 import CallMade from '@material-ui/icons/CallMadeOutlined'
 
-const drawerWidthExpanded = 240
-const drawerWidthCondensed = 58
+const drawerWidth = 120
 
-const useStyles = makeStyles({
-    list: {
-      width: 250,
-    },
-    fullList: {
-      width: 'auto',
-    },
-});
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+  toolbar: theme.mixins.toolbar,
+}));
+
 export default function Timeline() {
     const classes = useStyles();
-    const [state, setState] = React.useState({
-        bottom: false,
-      });
-
-const toggleDrawer = (bottom, open) => event => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-
-    setState({ ...state, [bottom]: open });
-};
-
-const sideList = bottom => (
-    <div
-      className={classes.list}
-      role="presentation"
-      onClick={toggleDrawer(bottom, false)}
-      onKeyDown={toggleDrawer(bottom, false)}
-    >
-      <List>
-      <ListItem button key='Event Node'>
-        <ListItemIcon>
-            <FontDownloadIcon color='secondary' />
-        </ListItemIcon>
-            <ListItemText primary='Event Node' />
-        </ListItem>
-        <ListItem button key='Branching Event Node'>
-        <ListItemIcon>
-            <FormatListNumbered color='secondary' />
-        </ListItemIcon>
-            <ListItemText primary='Branching Event Node' />
-        </ListItem>
-        <ListItem button key='Teather'>
-        <ListItemIcon>
-            <CallMade color='secondary' />
-        </ListItemIcon>
-            <ListItemText primary='Teather' />
-        </ListItem>
-        <ListItem button key='Warp Node'>
-        <ListItemIcon>
-            <FlightTakeoffOutlined color='secondary' />
-        </ListItemIcon>
-            <ListItemText primary='Warp Node' />
-        </ListItem>
-      </List>
-    </div>
-);
-
 
   return (
     <main className={classes.root}>
@@ -88,16 +51,47 @@ const sideList = bottom => (
         container
       >
         <Grid item>
-          <Typography>Side menu in progress</Typography>
+          <Typography>Canvas and Drag/Drop Components in progress</Typography>
         </Grid>
       </Grid>
-      
-      <div>
-        <Button onClick={toggleDrawer('bottom', true)}>Open Components</Button>
-      <Drawer anchor="bottom" open={state.bottom} onClose={toggleDrawer('bottom', false)}>
-        {sideList('bottom')}
+     <div>
+      <Drawer
+        className={classes.drawer}
+        variant="permanent"
+        anchor = 'right'
+        
+      >
+        <div className={classes.toolbar}>
+        </div>
+      <List>
+      <ListItem button key='Event Node'>
+        <ListItemIcon>
+            <FontDownloadIcon color='secondary' />
+        </ListItemIcon>
+            <ListItemText primary='Event Node' />
+        </ListItem>
+        <ListItem button key='Branching Event Node'>
+        <ListItemIcon>
+            <FormatListNumbered color='secondary' />
+        </ListItemIcon>
+            <ListItemText primary='Branching Node' />
+        </ListItem>
+        <ListItem button key='Teather'>
+        <ListItemIcon>
+            <CallMade color='secondary' />
+        </ListItemIcon>
+            <ListItemText primary='Teather' />
+        </ListItem>
+        <Divider/>
+        <ListItem button key='Warp Node'>
+        <ListItemIcon>
+            <FlightTakeoffOutlined color='secondary' />
+        </ListItemIcon>
+            <ListItemText primary='Warp Node' />
+        </ListItem>
+      </List>
       </Drawer>
     </div>
-    </main>
-  )
+  </main>
+  );
 }
