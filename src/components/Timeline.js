@@ -1,15 +1,16 @@
 import React from 'react'
-import { makeStyles, 
-    Grid, 
-    Typography, 
-    Drawer, 
-    List, 
-    Divider, 
-    ListItem,
-    ListItemText,
-    ListItemIcon
+import {
+  makeStyles,
+  Grid,
+  Typography,
+  Drawer,
+  List,
+  Divider,
+  ListItem,
+  ListItemText,
+  ListItemIcon
 } from '@material-ui/core'
- 
+
 import FontDownloadIcon from '@material-ui/icons/FontDownloadOutlined'
 import FormatListNumbered from '@material-ui/icons/FormatListNumberedOutlined'
 import FlightTakeoffOutlined from '@material-ui/icons/FlightTakeoffOutlined'
@@ -39,11 +40,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Timeline() {
-    const classes = useStyles();
+  const classes = useStyles();
 
   return (
     <main className={classes.root}>
-    <Grid
+      <Grid
         style={{ height: '70vh', width: '70vw', textAlign: 'center' }}
         direction='row'
         justify='center'
@@ -54,44 +55,44 @@ export default function Timeline() {
           <Typography>Canvas and Drag/Drop Components in progress</Typography>
         </Grid>
       </Grid>
-     <div>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        anchor = 'right'
-        
-      >
-        <div className={classes.toolbar}>
-        </div>
-      <List>
-      <ListItem button key='Event Node'>
-        <ListItemIcon>
-            <FontDownloadIcon color='secondary' />
-        </ListItemIcon>
-            <ListItemText primary='Event Node' />
-        </ListItem>
-        <ListItem button key='Branching Event Node'>
-        <ListItemIcon>
-            <FormatListNumbered color='secondary' />
-        </ListItemIcon>
-            <ListItemText primary='Branching Node' />
-        </ListItem>
-        <ListItem button key='Teather'>
-        <ListItemIcon>
-            <CallMade color='secondary' />
-        </ListItemIcon>
-            <ListItemText primary='Teather' />
-        </ListItem>
-        <Divider/>
-        <ListItem button key='Warp Node'>
-        <ListItemIcon>
-            <FlightTakeoffOutlined color='secondary' />
-        </ListItemIcon>
-            <ListItemText primary='Warp Node' />
-        </ListItem>
-      </List>
-      </Drawer>
-    </div>
-  </main>
+      <div>
+        <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          anchor='right'
+
+        >
+          <div className={classes.toolbar}>
+          </div>
+          <List>
+            <ListItem button key='Event Node'>
+              <ListItemIcon>
+                <FontDownloadIcon color='secondary' />
+              </ListItemIcon>
+              <ListItemText primary='Event Node' />
+            </ListItem>
+            <ListItem button key='Branching Event Node'>
+              <ListItemIcon>
+                <FormatListNumbered color='secondary' />
+              </ListItemIcon>
+              <ListItemText primary='Branching Node' />
+            </ListItem>
+            <ListItem button key='Teather'>
+              <ListItemIcon>
+                <CallMade color='secondary' />
+              </ListItemIcon>
+              <ListItemText primary='Teather' />
+            </ListItem>
+            <Divider />
+            <ListItem button key='Warp Node'>
+              <ListItemIcon>
+                <FlightTakeoffOutlined color='secondary' />
+              </ListItemIcon>
+              <ListItemText primary='Warp Node' />
+            </ListItem>
+          </List>
+        </Drawer>
+      </div>
+    </main>
   );
 }

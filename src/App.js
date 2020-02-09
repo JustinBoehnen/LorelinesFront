@@ -14,6 +14,7 @@ import Home from './components/Home'
 import RegisterForm from './components/RegisterForm'
 import RegisterConfirmation from './components/RegisterConfirmation'
 import ForgotPassword from './components/ForgotPassword'
+import Lorelines from './components/Lorelines'
 
 const uuidv4 = require('uuid/v4')
 
@@ -103,6 +104,20 @@ export default function App() {
     }
   }
 
+  const tryLorelineAdd = async (LorelineName) => {
+    try{
+      const { data } = await axios.post(
+        'https://lorelines-expressapi.herokuapp.com/api/lorelines',
+        {
+           LorelineName
+        }
+      )
+      return true
+    } catch(err) {
+      return false;
+    }
+  }
+
   const createUser = async (name, email, password) => {
     try {
       let id = uuidv4()
@@ -140,6 +155,9 @@ export default function App() {
           </Route>
           <Route exact path='/'>
             <LoginForm className={classes.center} tryLogin={tryLogin} />
+          </Route>
+          <Route exact path='/app/lorelines'>
+            <Lorelines tryLorelineAdd={tryLorelineAdd} />
           </Route>
           <Route path='/forgot' component={ForgotPassword} />
           <Route exact path='/register'>

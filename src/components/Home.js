@@ -9,6 +9,7 @@ import Timeline from './Timeline'
 import Account from './Account'
 import Directory from './Directory'
 import About from './About'
+import Lorelines from "./Lorelines"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,8 +44,12 @@ export default function Home(props) {
           <Account />
         </Route>
 
-        <Route path='/app/lorelines' render={() => <h1>Lorelines</h1>} />
+        <Route path='/app/lorelines'>
+           <Lorelines />
+        </Route>
+
         <Route path='/app/new' render={() => <div className={classes.box} />} />
+
         <Route path='/app/timeline'>
           <Timeline />
         </Route>
