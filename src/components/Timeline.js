@@ -85,15 +85,16 @@ export default function Timeline() {
     <main className={classes.root}>
       <Grid
         style={{ height: '70vh', width: '70vw', textAlign: 'center' }}
-        direction='column'
+        direction='row'
         justify='center'
         alignItems='center'
         container
       >
         <Grid item>
-          <Typography>Side menu in progress</Typography>
+          <Typography>Canvas and Drag/Drop Components in progress</Typography>
         </Grid>
       </Grid>
+<<<<<<< HEAD
 
       <div>
         <Button onClick={toggleDrawer('right', true)}>Open Components</Button>
@@ -108,3 +109,46 @@ export default function Timeline() {
     </main>
   )
 }
+=======
+      <div>
+        <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          anchor='right'
+
+        >
+          <div className={classes.toolbar}>
+          </div>
+          <List>
+            <ListItem button key='Event Node'>
+              <ListItemIcon>
+                <FontDownloadIcon color='secondary' />
+              </ListItemIcon>
+              <ListItemText primary='Event Node' />
+            </ListItem>
+            <ListItem button key='Branching Event Node'>
+              <ListItemIcon>
+                <FormatListNumbered color='secondary' />
+              </ListItemIcon>
+              <ListItemText primary='Branching Node' />
+            </ListItem>
+            <ListItem button key='Teather'>
+              <ListItemIcon>
+                <CallMade color='secondary' />
+              </ListItemIcon>
+              <ListItemText primary='Teather' />
+            </ListItem>
+            <Divider />
+            <ListItem button key='Warp Node'>
+              <ListItemIcon>
+                <FlightTakeoffOutlined color='secondary' />
+              </ListItemIcon>
+              <ListItemText primary='Warp Node' />
+            </ListItem>
+          </List>
+        </Drawer>
+      </div>
+    </main>
+  );
+}
+>>>>>>> 3e77d291c39fac523f73ea4b3615c0c82f428958

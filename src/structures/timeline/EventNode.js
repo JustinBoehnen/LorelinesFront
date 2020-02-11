@@ -1,4 +1,4 @@
-class EventNode extends timelineNode {}
+class EventNode extends TimelineNode {}
 
 // Initializing a class
 class Hero {

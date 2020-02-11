@@ -20,6 +20,7 @@ export default function About() {
         className={classes.root}
         style={{ minHeight: '90vh', textAlign: 'center' }}
         container
+        direction='column'
         justify='center'
         alignItems='center'
       >
