@@ -16,6 +16,7 @@ import Home from './components/Home';
 import RegisterForm from './components/RegisterForm';
 import RegisterConfirmation from './components/RegisterConfirmation';
 import ForgotPassword from './components/ForgotPassword';
+import Lorelines from './components/Lorelines';
 
 const uuidv4 = require('uuid/v4');
 
@@ -99,6 +100,20 @@ export default function App() {
       );
       localStorage.setItem('token', data);
       setAuth(true);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  };
+
+  const tryLorelineAdd = async LorelineName => {
+    try {
+      const { data } = await axios.post(
+        'https://lorelines-expressapi.herokuapp.com/api/lorelines',
+        {
+          LorelineName
+        }
+      );
       return true;
     } catch (err) {
       return false;
