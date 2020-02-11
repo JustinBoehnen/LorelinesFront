@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core'
+import axios from 'axios'
 
 import Topbar from './Topbar'
 import Sidebar from './Sidebar'
@@ -26,7 +27,19 @@ const useStyles = makeStyles(theme => ({
 
 export default function Home(props) {
   const [drawerOpen, setDrawerOpen] = useState(false)
-
+  const tryLorelineAdd = async (LorelineName) => {
+    try{
+      const { data } = await axios.post(
+        'https://lorelines-expressapi.herokuapp.com/api/lorelines',
+        {
+           LorelineName
+        }
+      )
+      return true
+    } catch(err) {
+      return false;
+    }
+  }
   const classes = useStyles()
 
   return (
@@ -41,11 +54,11 @@ export default function Home(props) {
         <Sidebar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
 
         <Route path='/app/account'>
-          <Account />
+          
         </Route>
 
         <Route path='/app/lorelines'>
-           <Lorelines />
+           <Lorelines tryLorelineAdd = {tryLorelineAdd}/>
         </Route>
 
         <Route path='/app/new' render={() => <div className={classes.box} />} />

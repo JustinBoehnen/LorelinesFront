@@ -156,9 +156,6 @@ export default function App() {
           <Route exact path='/'>
             <LoginForm className={classes.center} tryLogin={tryLogin} />
           </Route>
-          <Route exact path='/app/lorelines'>
-            <Lorelines tryLorelineAdd={tryLorelineAdd} />
-          </Route>
           <Route path='/forgot' component={ForgotPassword} />
           <Route exact path='/register'>
             <RegisterForm createUser={createUser} />
