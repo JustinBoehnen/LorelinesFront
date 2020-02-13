@@ -27,15 +27,15 @@ const useStyles = makeStyles(theme => ({
 
 export default function Home(props) {
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const tryLorelineAdd = async LorelineName => {
+  const tryLorelineAdd = async name => {
     try {
       const { data } = await axios.post(
-        'https://lorelines-expressapi.herokuapp.com/api/lorelines',
+        'https://lorelines-expressapi.herokuapp.com/api/users/5e448e579532070017431edc/lorelines',
         {
-          LorelineName
+          name
         }
       )
-      return true
+      console.log("Added loreline with name: " + name + " and id: " + data);
     } catch (err) {
       return false
     }

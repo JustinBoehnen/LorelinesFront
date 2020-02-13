@@ -39,14 +39,14 @@ export default function Lorelines(props) {
 
   const onLoreLineChange = e => setloreLineName(e.target.value);
 
-  const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+  //const handleChange = prop => event => {
+  //  setValues({ ...values, [prop]: event.target.value });
+  //};
 
   const onSubmit = async e => {
     e.preventDefault();
     setSubmitAttempted(true);
-
+    console.log("In onsubmit with name: " + loreLineName);
     if (loreLineName !== "") {
       let accept = await props.tryLorelineAdd(loreLineName);
       if (!accept) setSubmitFailed(true);
@@ -95,8 +95,8 @@ export default function Lorelines(props) {
                 variant="outlined"
                 margin="normal"
                 autoComplete="off"
-                value={values.loreLineName}
-                onChange={handleChange("loreLineName")}
+                value={loreLineName}
+                onChange={onLoreLineChange}
               />
             </Grid>
             <Grid item>
