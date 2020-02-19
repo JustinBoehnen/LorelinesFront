@@ -17,14 +17,14 @@ export default class CreateInstance extends React.Component {
     fields: []
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     axios
       .get(
         "http://localhost:8080/api/lorelines/5e44c8b56a5d003218847a9f/entities/5e44cf2f6a5d003218847aa1"
       )
       .then(response => {
         const fields = response.data;
-        this.setState;
+        this.setState({ fields });
       });
   }
 
