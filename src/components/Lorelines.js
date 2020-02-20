@@ -11,7 +11,7 @@ import {
   List,
   ListItem
 } from "@material-ui/core";
-
+import axios from 'axios'
 import CloseIcon from "@material-ui/icons/Close"
 import AddBox from "@material-ui/icons/AddBoxOutlined";
 
@@ -40,9 +40,25 @@ export default function Lorelines(props) {
   const [loreLineName, setloreLineName] = useState("");
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [submitFailed, setSubmitFailed] = useState(false);
+  const [state, setState] = useState([{}])
   const [values, setValues] = React.useState({
     loreLineName: ""
   });
+
+  const GetLorelines = () => {
+    try {
+      axios.get(
+        'https://lorelines-expressapi.herokuapp.com/api/users/5e448e579532070017431edc/lorelines'
+        ).then(response =>{
+          setState(response.data);
+          console.log(response.data);
+        });
+         return <ui>{JSON.stringify(this.state)}</ui>;
+      
+    } catch (err) {
+      return false
+    }
+  }
   
   const onLoreLineChange = e => setloreLineName(e.target.value);
   
@@ -53,10 +69,15 @@ export default function Lorelines(props) {
     setFeedbackOpen(false);
   };
 
+  const onPull = async e => {
+    e.preventDefault()
+    let list = GetLorelines();
+    console.log(list);
+  }
+
   const onSubmit = async e => {
     e.preventDefault();
     setSubmitAttempted(true);
-    console.log("In onsubmit with name: " + loreLineName);
     if (loreLineName !== "") {
       let accept = await props.tryLorelineAdd(loreLineName);
       setloreLineName("")
@@ -142,7 +163,8 @@ export default function Lorelines(props) {
                 }}               
                 open={open}
                 autoHideDuration={6000}
-                onClose={handleFeedbackClose}                
+                onClose={handleFeedbackClose}
+                message = "Loreline Added"                
                 action={
                   <React.Fragment>
                     <IconButton size="small" aria-label="close" color="inherit" onClick={handleFeedbackClose}>
@@ -155,6 +177,26 @@ export default function Lorelines(props) {
           </Grid>
         </div>
         <Divider />
+              <Button
+                style={{
+                  maxWidth: "90px",
+                  maxHeight: "55px",
+                  minWidth: "90px",
+                  minHeight: "55px",
+                  marginInlineStart: 10,
+                  marginTop: 16,
+                  padding: 5,
+                  fontSize: 15,
+                  borderRadius: "50px",
+                  width: "350px"
+                }}
+                type="submit"
+                color="primary"
+                variant="contained"
+                onClick={async e => await onPull(e)}
+              >
+                FetchLoreline
+              </Button>
 
         
         <Typography>Working on retrieving all lorelines from db</Typography>

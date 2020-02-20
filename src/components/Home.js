@@ -27,6 +27,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Home(props) {
   const [drawerOpen, setDrawerOpen] = useState(false)
+
   const tryLorelineAdd = async name => {
     try {
       const { data } = await axios.post(
@@ -35,11 +36,20 @@ export default function Home(props) {
           name
         }
       )
-      console.log("Added loreline with name: " + name + " and id: " + data);
+      //console.log("Added loreline with name: " + name + " and id: " + data);
     } catch (err) {
       return false
     }
   }
+
+ // const GetLorelines = async name => {
+  //  try {
+  //    return axios.get(
+   //     'https://lorelines-expressapi.herokuapp.com/api/users/5e448e579532070017431edc/lorelines')
+  //  } catch (err) {
+   //   return false
+   // }
+  //}
   const classes = useStyles()
 
   return (
@@ -56,7 +66,7 @@ export default function Home(props) {
         <Route path='/app/account'></Route>
 
         <Route path='/app/lorelines'>
-          <Lorelines tryLorelineAdd={tryLorelineAdd} />
+          <Lorelines tryLorelineAdd={tryLorelineAdd}/>
         </Route>
 
         <Route path='/app/new' render={() => <div className={classes.box} />} />
