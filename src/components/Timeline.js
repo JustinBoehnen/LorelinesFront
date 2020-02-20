@@ -94,31 +94,9 @@ export default function Timeline() {
           <Typography>Canvas and Drag/Drop Components in progress</Typography>
         </Grid>
       </Grid>
-<<<<<<< HEAD
-
       <div>
-        <Button onClick={toggleDrawer('right', true)}>Open Components</Button>
-        <Drawer
-          anchor='right'
-          open={state.right}
-          onClose={toggleDrawer('right', false)}
-        >
-          {sideList('right')}
-        </Drawer>
-      </div>
-    </main>
-  )
-}
-=======
-      <div>
-        <Drawer
-          className={classes.drawer}
-          variant="permanent"
-          anchor='right'
-
-        >
-          <div className={classes.toolbar}>
-          </div>
+        <Drawer className={classes.drawer} variant='permanent' anchor='right'>
+          <div className={classes.toolbar}></div>
           <List>
             <ListItem button key='Event Node'>
               <ListItemIcon>
@@ -149,6 +127,5 @@ export default function Timeline() {
         </Drawer>
       </div>
     </main>
-  );
+  )
 }
->>>>>>> 3e77d291c39fac523f73ea4b3615c0c82f428958
