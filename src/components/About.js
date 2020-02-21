@@ -1,5 +1,7 @@
-import React from 'react'
-import { makeStyles, Grid, Typography } from '@material-ui/core'
+/** @format */
+
+import React from 'react';
+import { makeStyles, Grid, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -9,10 +11,10 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.secondary.main,
     textDecoration: 'underline'
   }
-}))
+}));
 
 export default function About() {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <main>
@@ -20,9 +22,9 @@ export default function About() {
         className={classes.root}
         style={{ minHeight: '90vh', textAlign: 'center' }}
         container
-        direction='column'
-        justify='center'
-        alignItems='center'
+        direction="column"
+        justify="center"
+        alignItems="center"
       >
         <Grid item xs={3}></Grid>
         <Grid item xs={6}>
@@ -70,5 +72,5 @@ export default function About() {
         <Grid item xs={3}></Grid>
       </Grid>
     </main>
-  )
+  );
 }

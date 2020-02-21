@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core'
-import axios from 'axios'
+/** @format */
 
-import Topbar from './Topbar'
-import Sidebar from './Sidebar'
+import React, { useState } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core';
+import axios from 'axios';
 
-import Timeline from './Timeline'
-import Account from './Account'
-import Directory from './Directory'
-import About from './About'
-import Lorelines from './Lorelines'
+import Topbar from './Topbar';
+import Sidebar from './Sidebar';
+
+import Timeline from './Timeline';
+import Account from './Account';
+import Directory from './Directory';
+import About from './About';
+import Lorelines from './Lorelines';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,10 +25,11 @@ const useStyles = makeStyles(theme => ({
     borderWidth: '2px 2px 2px 2px',
     backgroundColor: 'red'
   }
-}))
+}));
 
 export default function Home(props) {
-  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const tryLorelineAdd = async LorelineName => {
     try {
       const { data } = await axios.post(
@@ -34,17 +37,17 @@ export default function Home(props) {
         {
           LorelineName
         }
-      )
-      return true
+      );
+      return true;
     } catch (err) {
-      return false
+      return false;
     }
-  }
-  const classes = useStyles()
+  };
+  const classes = useStyles();
 
   return (
     <div>
-      {!props.auth && <Redirect to='/' />}
+      {!props.auth && <Redirect to="/" />}
       <Topbar
         logout={props.logout}
         drawerOpen={drawerOpen}
@@ -53,26 +56,28 @@ export default function Home(props) {
       <div className={classes.root}>
         <Sidebar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
 
-        <Route path='/app/account'></Route>
+        <Route path="/app/account">
+          <Account />
+        </Route>
 
-        <Route path='/app/lorelines'>
+        <Route path="/app/lorelines">
           <Lorelines tryLorelineAdd={tryLorelineAdd} />
         </Route>
 
-        <Route path='/app/new' render={() => <div className={classes.box} />} />
+        <Route path="/app/new" render={() => <div className={classes.box} />} />
 
-        <Route path='/app/timeline'>
+        <Route path="/app/timeline">
           <Timeline />
         </Route>
 
-        <Route path='/app/directory'></Route>
+        <Route path="/app/directory">
+          <Directory />
+        </Route>
 
-        <Route path='/app/directory'></Route>
-
-        <Route path='/app/about'>
+        <Route path="/app/about">
           <About />
         </Route>
       </div>
     </div>
-  )
+  );
 }

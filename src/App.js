@@ -10,15 +10,17 @@ import {
   CircularProgress
 } from '@material-ui/core';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import './App.css';
 
+import './App.css';
+import { setUser } from './actions/index';
 import LoginForm from './components/LoginForm';
 import Home from './components/Home';
 import RegisterForm from './components/RegisterForm';
 import RegisterConfirmation from './components/RegisterConfirmation';
 import ForgotPassword from './components/ForgotPassword';
-import Lorelines from './components/Lorelines';
 
 const jwtDecode = require('jwt-decode');
 
@@ -73,9 +75,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function App() {
+export default connect(matchDispatchToProps)(function App(props) {
   const [loading, SetLoading] = useState(false);
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState(true);
   const [theme, setTheme] = useState('dark');
 
   const classes = useStyles();
@@ -89,9 +91,7 @@ export default function App() {
         })
         .then(res => {
           localStorage.setItem('token', res.data);
-          const parse = jwtDecode(res.data);
-          console.log(parse);
-          //Store user data with redux /\
+          props.setUser(jwtDecode(res.data));
           setAuth(true);
         })
         .catch(err => console.log(err));
@@ -109,28 +109,12 @@ export default function App() {
         }
       );
       localStorage.setItem('token', data);
-      const parse = jwtDecode(data);
-      console.log('User Data:' + parse);
-      //Store user data with redux /\
       SetLoading(false);
+      props.setUser(jwtDecode(data));
       setAuth(true);
       return true;
     } catch (err) {
       SetLoading(false);
-      return false;
-    }
-  };
-
-  const tryLorelineAdd = async LorelineName => {
-    try {
-      const { data } = await axios.post(
-        'https://lorelines-expressapi.herokuapp.com/api/lorelines',
-        {
-          LorelineName
-        }
-      );
-      return true;
-    } catch (err) {
       return false;
     }
   };
@@ -147,8 +131,8 @@ export default function App() {
         }
       );
       localStorage.setItem('token', data);
-      //Store user data with redux
       SetLoading(false);
+      props.setUser(jwtDecode(data));
       setAuth(true);
       return true;
     } catch (err) {
@@ -186,4 +170,8 @@ export default function App() {
       </Router>
     </MuiThemeProvider>
   );
+});
+
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({ setUser: setUser }, dispatch);
 }

@@ -1,5 +1,9 @@
-import React from 'react'
-import { makeStyles, Grid, Typography } from '@material-ui/core'
+/** @format */
+
+import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { makeStyles, Grid, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -9,24 +13,37 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.secondary.main,
     textDecoration: 'underline'
   }
-}))
+}));
 
-export default function Account() {
-  const classes = useStyles()
-
+export default connect(mapStateToProps)(function Account(props) {
+  const classes = useStyles();
+  if (!props.user) {
+    return <h2>NULL</h2>;
+  }
   return (
     <main className={classes.root}>
       <Grid
-        style={{ height: '70vh', width: '70vw', textAlign: 'center' }}
-        direction='column'
-        justify='center'
-        alignItems='center'
+        style={{ height: '70vh', width: '70vw', textAlign: 'left' }}
+        direction="column"
+        justify="center"
+        alignItems="center"
         container
       >
         <Grid item>
-          <Typography>This is the Account page yo</Typography>
+          <Typography>
+            Hello, {props.user.name || 'null'}, this is your account view
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Typography>Email: {props.user.email || 'null'}</Typography>
         </Grid>
       </Grid>
     </main>
-  )
+  );
+});
+
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
 }
