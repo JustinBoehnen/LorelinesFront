@@ -40,23 +40,24 @@ export default function Lorelines(props) {
   const [loreLineName, setloreLineName] = useState("");
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [submitFailed, setSubmitFailed] = useState(false);
-  const [state, setState] = useState([{}])
+  const [LoreLineArray, SetLoreLineArray] = useState([]);
   const [values, setValues] = React.useState({
     loreLineName: ""
   });
+  var id = props.UserId();
+
 
   const GetLorelines = () => {
     try {
-      axios.get(
-        'https://lorelines-expressapi.herokuapp.com/api/users/5e448e579532070017431edc/lorelines'
+      const {data} = axios.get(
+        `https://lorelines-expressapi.herokuapp.com/api/users/${id}/lorelines`
         ).then(response =>{
-          setState(response.data);
-          console.log(response.data);
-        });
-         return <ui>{JSON.stringify(this.state)}</ui>;
-      
+          SetLoreLineArray(response.data);
+          console.log(response.data)
+          console.log(LoreLineArray);
+        });     
     } catch (err) {
-      return false
+      console.log(err);
     }
   }
   
@@ -71,8 +72,7 @@ export default function Lorelines(props) {
 
   const onPull = async e => {
     e.preventDefault()
-    let list = GetLorelines();
-    console.log(list);
+    GetLorelines();
   }
 
   const onSubmit = async e => {
@@ -146,7 +146,7 @@ export default function Lorelines(props) {
                   padding: 5,
                   fontSize: 15,
                   borderRadius: "50px",
-                  width: "150px"
+                 
                 }}
                 type="submit"
                 color="primary"
@@ -179,16 +179,15 @@ export default function Lorelines(props) {
         <Divider />
               <Button
                 style={{
-                  maxWidth: "90px",
+                  maxWidth: "145px",
                   maxHeight: "55px",
-                  minWidth: "90px",
+                  minWidth: "145px",
                   minHeight: "55px",
                   marginInlineStart: 10,
                   marginTop: 16,
                   padding: 5,
                   fontSize: 15,
                   borderRadius: "50px",
-                  width: "350px"
                 }}
                 type="submit"
                 color="primary"

@@ -30,8 +30,9 @@ export default function Home(props) {
 
   const tryLorelineAdd = async name => {
     try {
+      var id = UserId();
       const { data } = await axios.post(
-        'https://lorelines-expressapi.herokuapp.com/api/users/5e448e579532070017431edc/lorelines',
+        `https://lorelines-expressapi.herokuapp.com/api/users/${id}/lorelines`,
         {
           name
         }
@@ -41,15 +42,16 @@ export default function Home(props) {
       return false
     }
   }
+  
+  const UserId = () =>{
+    let token = localStorage.getItem('token')
+    var base64Url = token.split('.')[1]
+    var decodedValue = JSON.parse(window.atob(base64Url))
+    var id = decodedValue.id
+    return id;
+  }
 
- // const GetLorelines = async name => {
-  //  try {
-  //    return axios.get(
-   //     'https://lorelines-expressapi.herokuapp.com/api/users/5e448e579532070017431edc/lorelines')
-  //  } catch (err) {
-   //   return false
-   // }
-  //}
+
   const classes = useStyles()
 
   return (
@@ -66,7 +68,7 @@ export default function Home(props) {
         <Route path='/app/account'></Route>
 
         <Route path='/app/lorelines'>
-          <Lorelines tryLorelineAdd={tryLorelineAdd}/>
+          <Lorelines tryLorelineAdd={tryLorelineAdd} UserId={UserId}/>
         </Route>
 
         <Route path='/app/new' render={() => <div className={classes.box} />} />
