@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
-import Logo from '../images/logo.svg'
+/** @format */
+
+import React, { useState } from 'react';
+import Logo from '../images/logo.svg';
 import {
   TextField,
   Typography,
@@ -8,11 +10,11 @@ import {
   makeStyles,
   Grid,
   IconButton
-} from '@material-ui/core'
+} from '@material-ui/core';
 
-import { Mail, Lock, Visibility, VisibilityOff } from '@material-ui/icons'
-import { Link } from 'react-router-dom'
-import Validator from 'email-validator'
+import { Mail, Lock, Visibility, VisibilityOff } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
+import Validator from 'email-validator';
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -29,40 +31,40 @@ const useStyles = makeStyles(theme => ({
   error: {
     color: theme.palette.error.main
   }
-}))
+}));
 
 export default function LoginForm(props) {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [submitAttempted, setSubmitAttempted] = useState(false)
-  const [loginFailed, setLoginFailed] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+  const [loginFailed, setLoginFailed] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const classes = useStyles()
+  const classes = useStyles();
   //const onSubmit = (e) => {
   //    e.preventDefault();
   //}
 
-  const onEmailChange = e => setEmail(e.target.value)
+  const onEmailChange = e => setEmail(e.target.value);
 
-  const onPasswordChange = e => setPassword(e.target.value)
+  const onPasswordChange = e => setPassword(e.target.value);
 
   const onSubmit = async e => {
-    e.preventDefault()
-    setSubmitAttempted(true)
+    e.preventDefault();
+    setSubmitAttempted(true);
 
     if (Validator.validate(email) && password !== '') {
-      let accept = await props.tryLogin(email, password)
-      if (!accept) setLoginFailed(true)
-      return accept
+      let accept = await props.tryLogin(email, password);
+      if (!accept) setLoginFailed(true);
+      return accept;
     } else {
-      return false
+      return false;
     }
-  }
+  };
 
-  const handleClickShowPassword = () => setShowPassword(!showPassword)
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
 
-  const handleMouseDownPassword = event => event.preventDefault()
+  const handleMouseDownPassword = event => event.preventDefault();
 
   return (
     <main className={classes.content}>
@@ -70,11 +72,11 @@ export default function LoginForm(props) {
         <Grid
           style={{ minHeight: '100vh', textAlign: 'center' }}
           container
-          direction='column'
-          justify='center'
-          alignItems='center'
+          direction="column"
+          justify="center"
+          alignItems="center"
         >
-          <img alt='logo' src={Logo} width={160} />
+          <img alt="logo" src={Logo} width={160} />
           <br />
           <Grid item>
             <Typography
@@ -101,16 +103,16 @@ export default function LoginForm(props) {
                   ? 'invalid email address'
                   : ''
               }
-              name='email'
-              label='Email'
-              type='email'
-              variant='outlined'
-              margin='normal'
-              autoComplete='off'
+              name="email"
+              label="Email"
+              type="email"
+              variant="outlined"
+              margin="normal"
+              autoComplete="off"
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position='start'>
-                    <Mail color='secondary' />
+                  <InputAdornment position="start">
+                    <Mail color="secondary" />
                   </InputAdornment>
                 )
               }}
@@ -127,22 +129,22 @@ export default function LoginForm(props) {
                   ? 'this field cannot be empty'
                   : ''
               }
-              name='password'
-              label='Password'
-              variant='outlined'
-              margin='normal'
+              name="password"
+              label="Password"
+              variant="outlined"
+              margin="normal"
               type={showPassword ? 'text' : 'password'}
-              autoComplete='off'
+              autoComplete="off"
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position='start'>
-                    <Lock color='secondary' />
+                  <InputAdornment position="start">
+                    <Lock color="secondary" />
                   </InputAdornment>
                 ),
                 endAdornment: (
-                  <InputAdornment position='end'>
+                  <InputAdornment position="end">
                     <IconButton
-                      aria-label='toggle password visibility'
+                      aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
                     >
@@ -176,9 +178,9 @@ export default function LoginForm(props) {
                 borderRadius: '50px',
                 width: '260px'
               }}
-              type='submit'
-              color='primary'
-              variant='contained'
+              type="submit"
+              color="primary"
+              variant="contained"
               onClick={async e => await onSubmit(e)}
             >
               Log in
@@ -187,7 +189,7 @@ export default function LoginForm(props) {
           <Grid item>
             <Typography style={{ padding: 5, fontSize: 16 }}>
               I forgot{' '}
-              <Link className={classes.link} to='/forgot'>
+              <Link className={classes.link} to="/forgot">
                 my password
               </Link>
             </Typography>
@@ -195,7 +197,7 @@ export default function LoginForm(props) {
           <Grid item>
             <Typography style={{ padding: 30, fontSize: 20 }}>
               Don't have a Lorelines account?{' '}
-              <Link className={classes.link} to='/register'>
+              <Link className={classes.link} to="/register">
                 Click here
               </Link>
             </Typography>
@@ -203,5 +205,5 @@ export default function LoginForm(props) {
         </Grid>
       </form>
     </main>
-  )
+  );
 }
