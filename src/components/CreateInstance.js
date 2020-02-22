@@ -1,6 +1,12 @@
 import React from "react";
 import axios from "axios";
-import { makeStyles, Grid, Typography, TextField } from "@material-ui/core";
+import {
+  makeStyles,
+  Grid,
+  Typography,
+  TextField,
+  Button
+} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,7 +34,7 @@ export default class CreateInstance extends React.Component {
       });
   }
 
-  async onsubmit(e) {
+  const onSubmit = async e => {
     console.log("here");
   }
 
@@ -44,13 +50,13 @@ export default class CreateInstance extends React.Component {
             </li>
           );
         })}
-        <button
+        <Button
           type="submit"
           varient="contained"
-          onClick={async e => await onsubmit(e)}
+          onClick={async e => await onSubmit(e)}
         >
           Submit
-        </button>
+        </Button>
       </ul>
     );
   }
