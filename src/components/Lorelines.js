@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   makeStyles,
   Grid,
@@ -8,6 +8,10 @@ import {
   TextField,
   Snackbar,
   IconButton,
+  Card,
+  CardHeader,
+  ButtonBase,
+  CardActionArea,
   List,
   ListItem
 } from "@material-ui/core";
@@ -34,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function Lorelines(props) {
-  
+
   const classes = useStyles();
   const [open, setFeedbackOpen] = React.useState(false);
   const [loreLineName, setloreLineName] = useState("");
@@ -48,29 +52,28 @@ export default function Lorelines(props) {
 
 
   const GetLorelines = async () => {
-    try {const response = await axios.get(
+    try {
+      const response = await axios.get(
         `https://lorelines-expressapi.herokuapp.com/api/users/${id}/lorelines`
-        )
-        setLoreLineArray(response.data)
-          //return response.data
+      )
+      setLoreLineArray(response.data)
     } catch (err) {
       console.log(err);
     }
   }
-  
+
+    useEffect(() => {
+      GetLorelines()
+    }, [])
+
   const onLoreLineChange = e => setloreLineName(e.target.value);
-  
+
   const handleFeedbackClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setFeedbackOpen(false);
   };
-
-  const onPull = async e => {
-    e.preventDefault()
-    GetLorelines()
-  }
 
   const onSubmit = async e => {
     e.preventDefault();
@@ -79,6 +82,7 @@ export default function Lorelines(props) {
       let accept = await props.tryLorelineAdd(loreLineName);
       setloreLineName("")
       setSubmitAttempted(false)
+      GetLorelines()
       setFeedbackOpen(true)
       if (!accept) setSubmitFailed(true);
       return accept;
@@ -91,7 +95,7 @@ export default function Lorelines(props) {
     <main className={classes.root}>
       <form>
         <div width="100vw">
-        {/************************************Adding loreline to the DB******************************/}
+          {/************************************Adding loreline to the DB******************************/}
           <Grid container
             direction="row"
             justify="center"
@@ -143,7 +147,7 @@ export default function Lorelines(props) {
                   padding: 5,
                   fontSize: 15,
                   borderRadius: "50px",
-                 
+
                 }}
                 type="submit"
                 color="primary"
@@ -152,16 +156,16 @@ export default function Lorelines(props) {
               >
                 Submit
               </Button>
-             {/************************************Adds a small popup letting users know that a lorelines been added******************************/}
+              {/************************************Adds a small popup letting users know that a lorelines been added******************************/}
               <Snackbar
                 anchorOrigin={{
                   vertical: 'bottom',
                   horizontal: 'left',
-                }}               
+                }}
                 open={open}
                 autoHideDuration={6000}
                 onClose={handleFeedbackClose}
-                message = "Loreline Added"                
+                message="Loreline Added"
                 action={
                   <React.Fragment>
                     <IconButton size="small" aria-label="close" color="inherit" onClick={handleFeedbackClose}>
@@ -174,29 +178,39 @@ export default function Lorelines(props) {
           </Grid>
         </div>
         <Divider />
-              <Button
-                style={{
-                  maxWidth: "145px",
-                  maxHeight: "55px",
-                  minWidth: "145px",
-                  minHeight: "55px",
-                  marginInlineStart: 10,
-                  marginTop: 16,
-                  padding: 5,
-                  fontSize: 15,
-                  borderRadius: "50px",
-                }}
-                type="submit"
-                color="primary"
-                variant="contained"
-                onClick={async e => await onPull(e)}
-              >
-                FetchLoreline
-              </Button>
-
-        
-        <Typography>Working on retrieving all lorelines from db</Typography>
+        <Typography style=
+        {{ marginInlineStart: 20, 
+          fontSize: 20 }} 
+          color = 'primary'>Current lorelines:</Typography>
+        <div className={classes.root}>
+          {/*************************************Dynamically adding cards to screen***************/}
+          <Grid
+            container
+            //spacing={2}
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+            {loreLineArray.map(elem => (
+              <Grid item
+                key={loreLineArray.indexOf(elem)}>
+                <Card style={{
+                  margin: 20,
+                  maxWidth: '300px',
+                  minWidth: '300px',
+                }}>
+                  <CardActionArea onClick={() => {console.log(elem._id)}}>
+                    <CardHeader
+                      title={`${elem.name}`}
+                      subheader={`Last Modified: ${elem.modified}`}
+                    />
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </div>
       </form>
-    </main>
+    </main >
   );
 }
