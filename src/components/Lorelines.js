@@ -40,22 +40,19 @@ export default function Lorelines(props) {
   const [loreLineName, setloreLineName] = useState("");
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [submitFailed, setSubmitFailed] = useState(false);
-  const [LoreLineArray, SetLoreLineArray] = useState([]);
+  const [loreLineArray, setLoreLineArray] = useState([]);
   const [values, setValues] = React.useState({
     loreLineName: ""
   });
   var id = props.UserId();
 
 
-  const GetLorelines = () => {
-    try {
-      const {data} = axios.get(
+  const GetLorelines = async () => {
+    try {const response = await axios.get(
         `https://lorelines-expressapi.herokuapp.com/api/users/${id}/lorelines`
-        ).then(response =>{
-          SetLoreLineArray(response.data);
-          console.log(response.data)
-          console.log(LoreLineArray);
-        });     
+        )
+        setLoreLineArray(response.data)
+          //return response.data
     } catch (err) {
       console.log(err);
     }
@@ -72,7 +69,7 @@ export default function Lorelines(props) {
 
   const onPull = async e => {
     e.preventDefault()
-    GetLorelines();
+    GetLorelines()
   }
 
   const onSubmit = async e => {
