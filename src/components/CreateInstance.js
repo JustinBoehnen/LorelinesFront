@@ -28,6 +28,10 @@ export default class CreateInstance extends React.Component {
       });
   }
 
+  async onsubmit(e) {
+    console.log("here");
+  }
+
   render() {
     return (
       <ul>
@@ -40,7 +44,13 @@ export default class CreateInstance extends React.Component {
             </li>
           );
         })}
-        <button>Submit</button>
+        <button
+          type="submit"
+          varient="contained"
+          onClick={async e => await onsubmit(e)}
+        >
+          Submit
+        </button>
       </ul>
     );
   }
