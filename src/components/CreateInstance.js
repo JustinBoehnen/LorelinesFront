@@ -5,7 +5,8 @@ import {
   Grid,
   Typography,
   TextField,
-  Button
+  Button,
+  Input
 } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
@@ -83,19 +84,50 @@ export default class CreateInstance extends React.Component {
   render() {
     return (
       <ul>
-        <Typography>{this.state.name}</Typography>
+        <Typography
+          style={{
+            marginTop: 5,
+            marginInlineStart: 20,
+            marginBottom: 5,
+            fontSize: 22,
+            borderRadius: "50px",
+            width: "150px"
+          }}
+          varient="contained"
+          color="primary"
+        >
+          Add {this.state.name}
+        </Typography>
         <form id="EntForm" onSubmit={this.SaveInstance}>
           <Typography>name</Typography>
-          <input id="outlined-basic" varient="outlined" />
+          <Input id="outlined-basic" varient="outlined" />
           {this.state.fields.map(function(field, index) {
             return (
               <li key={index}>
                 <Typography> {field.name} </Typography>
-                <input id="outlined-basic" varient="outlined" />
+                <Input id="outlined-basic" varient="outlined" />
               </li>
             );
           })}
-          <Button type="submit">Submit</Button>
+          <Button
+            style={{
+              maxWidth: "90px",
+              maxHeight: "55px",
+              minWidth: "90px",
+              minHeight: "55px",
+              marginInlineStart: 10,
+              marginTop: 16,
+              padding: 5,
+              fontSize: 15,
+              borderRadius: "50px",
+              width: "150px"
+            }}
+            color="primary"
+            type="submit"
+            variant="contained"
+          >
+            Submit
+          </Button>
         </form>
       </ul>
     );
