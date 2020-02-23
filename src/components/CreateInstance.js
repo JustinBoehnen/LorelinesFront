@@ -9,17 +9,8 @@ import {
   Input
 } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
-  link: {
-    color: theme.palette.secondary.main,
-    textDecoration: "underline"
-  }
-}));
-
 export default class CreateInstance extends React.Component {
+  // This constructor binds state editing functions to this instance
   constructor() {
     super();
     this.SaveInstance = this.SaveInstance.bind(this);
@@ -29,7 +20,8 @@ export default class CreateInstance extends React.Component {
     fields: [],
     name: []
   };
-
+  // Creates a JSON from user input and saves it as an instance of
+  // the custom entity designated by state
   SaveInstance(event) {
     event.preventDefault();
     const e = event.nativeEvent;
@@ -61,7 +53,7 @@ export default class CreateInstance extends React.Component {
       });
     document.getElementById("EntForm").reset();
   }
-
+  // When the component is linked to, it does this gets to initialize its state
   async componentDidMount() {
     axios
       .get(
@@ -80,7 +72,7 @@ export default class CreateInstance extends React.Component {
         this.setState({ name });
       });
   }
-
+  // creates a dynamic display based on the designated custom entity
   render() {
     return (
       <ul>
