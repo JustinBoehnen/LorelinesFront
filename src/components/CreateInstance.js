@@ -30,6 +30,7 @@ export default class CreateInstance extends React.Component {
   };
 
   SaveInstance(event) {
+    event.preventDefault();
     const e = event.nativeEvent;
     var save = {
       name: String,
@@ -49,6 +50,15 @@ export default class CreateInstance extends React.Component {
       save.content.push(temp);
     });
     console.log(JSON.stringify(save));
+    axios
+      .post(
+        "http://localhost:8080/api/lorelines/5e44c8b56a5d003218847a9f/entities/5e44cf2f6a5d003218847aa1/instances",
+        save
+      )
+      .then(() => {
+        console.log("Entity instance addded to database!");
+      });
+    document.getElementById("EntForm").reset();
   }
 
   async componentDidMount() {
@@ -74,7 +84,7 @@ export default class CreateInstance extends React.Component {
     return (
       <ul>
         <Typography>{this.state.name}</Typography>
-        <form onSubmit={this.SaveInstance}>
+        <form id="EntForm" onSubmit={this.SaveInstance}>
           <Typography>name</Typography>
           <input id="outlined-basic" varient="outlined" />
           {this.state.fields.map(function(field, index) {
