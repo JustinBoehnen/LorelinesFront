@@ -19,6 +19,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default class CreateInstance extends React.Component {
+  constructor() {
+    super();
+    this.SaveInstance = this.SaveInstance.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+  }
   state = {
     fields: [],
     name: []
@@ -26,8 +31,24 @@ export default class CreateInstance extends React.Component {
 
   SaveInstance(event) {
     const e = event.nativeEvent;
-    console.log(e.target[0].value);
-    console.log(e.target[1].value);
+    var save = {
+      name: String,
+      content: []
+    };
+    var temp;
+    save.name = e.target[0].value;
+    this.state.fields.map(function(field, index) {
+      temp = {
+        content: [],
+        type: Number,
+        name: String
+      };
+      temp.content = e.target[index + 1].value;
+      temp.type = field.type;
+      temp.name = field.name;
+      save.content.push(temp);
+    });
+    console.log(JSON.stringify(save));
   }
 
   async componentDidMount() {
