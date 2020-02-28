@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import {
   createMuiTheme,
   MuiThemeProvider,
@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 import './App.css';
-import { setUser } from './actions/index';
+import { setUser, setLoading } from './actions/index';
 import LoginForm from './components/LoginForm';
 import Home from './components/Home';
 import RegisterForm from './components/RegisterForm';
@@ -24,6 +24,7 @@ import ForgotPassword from './components/ForgotPassword';
 
 const jwtDecode = require('jwt-decode');
 
+// color theme definition: light
 const light = createMuiTheme({
   palette: {
     primary: {
@@ -41,6 +42,7 @@ const light = createMuiTheme({
   }
 });
 
+// color theme definition: dark
 const dark = createMuiTheme({
   palette: {
     primary: {
@@ -59,7 +61,11 @@ const dark = createMuiTheme({
   }
 });
 
-const useStyles = makeStyles(theme => ({
+// add themes to a js object
+const themes = { dark: dark, light: light };
+
+// this component's styles
+const styleClasses = theme => ({
   root: {
     display: 'flex'
   },
@@ -73,16 +79,19 @@ const useStyles = makeStyles(theme => ({
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff'
   }
-}));
+});
 
-export default connect(matchDispatchToProps)(function App(props) {
-  const [loading, SetLoading] = useState(false);
-  const [auth, setAuth] = useState(true);
-  const [theme, setTheme] = useState('dark');
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      auth: false
+    };
+  }
 
-  const classes = useStyles();
+  componentDidMount() {
+    console.log('MOUNTED 1');
 
-  useEffect(() => {
     let token = localStorage.getItem('token');
     if (token) {
       axios
@@ -91,16 +100,24 @@ export default connect(matchDispatchToProps)(function App(props) {
         })
         .then(res => {
           localStorage.setItem('token', res.data);
-          props.setUser(jwtDecode(res.data));
-          setAuth(true);
+          this.setState({ auth: true, userData: jwtDecode(res.data) });
+          var temp = jwtDecode(res.data);
+          this.props.setUser({
+            id: temp.id,
+            name: temp.name,
+            email: temp.email
+          });
+          console.log(this.state.userData);
         })
         .catch(err => console.log(err));
     }
-  });
 
-  const tryLogin = async (email, password) => {
+    console.log('MOUNTED 2');
+  }
+
+  tryLogin = async (email, password) => {
     try {
-      SetLoading(true);
+      this.setState.loading = true;
       const { data } = await axios.post(
         'https://lorelines-expressapi.herokuapp.com/api/users/token',
         {
@@ -109,19 +126,18 @@ export default connect(matchDispatchToProps)(function App(props) {
         }
       );
       localStorage.setItem('token', data);
-      SetLoading(false);
-      props.setUser(jwtDecode(data));
-      setAuth(true);
+      this.setState({ loading: false, auth: true });
+      this.props.setUser(jwtDecode(data));
       return true;
     } catch (err) {
-      SetLoading(false);
+      this.setState.loading = false;
       return false;
     }
   };
 
-  const createUser = async (name, email, password) => {
+  createUser = async (name, email, password) => {
     try {
-      SetLoading(true);
+      this.setState.loading = true;
       const { data } = await axios.post(
         'https://lorelines-expressapi.herokuapp.com/api/users',
         {
@@ -131,47 +147,68 @@ export default connect(matchDispatchToProps)(function App(props) {
         }
       );
       localStorage.setItem('token', data);
-      SetLoading(false);
-      props.setUser(jwtDecode(data));
-      setAuth(true);
+      this.setState.auth = true;
+      this.props.setLoading(false);
       return true;
     } catch (err) {
-      SetLoading(false);
+      this.setState.loading = false;
       return false;
     }
   };
 
-  const logout = () => {
+  logout = () => {
     localStorage.removeItem('token');
-    setAuth(false);
+    this.setState({ auth: false, userData: null });
+    console.log('LOGGING OUT');
   };
 
-  return (
-    <MuiThemeProvider theme={theme === 'dark' ? dark : light}>
-      <CssBaseline />
-      <Router>
-        <div className={classes.root}>
-          <Backdrop className={classes.backdrop} open={loading}>
-            <CircularProgress color="inherit" />
-          </Backdrop>
-          {auth && <Redirect to="/app" />}
-          <Route path="/app">
-            <Home logout={logout} auth={auth} />
-          </Route>
-          <Route exact path="/">
-            <LoginForm className={classes.center} tryLogin={tryLogin} />
-          </Route>
-          <Route path="/forgot" component={ForgotPassword} />
-          <Route exact path="/register">
-            <RegisterForm createUser={createUser} />
-          </Route>
-          <Route path="/register/confirm" component={RegisterConfirmation} />
-        </div>
-      </Router>
-    </MuiThemeProvider>
-  );
-});
+  render() {
+    return (
+      <MuiThemeProvider theme={themes[this.props.colorTheme]}>
+        <CssBaseline />
+        <Router>
+          <div className={styleClasses.root}>
+            <Backdrop
+              className={styleClasses.backdrop}
+              open={this.props.loading}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
+            {this.state.auth && <Redirect to="/app" />}
+            <Route path="/app">
+              <Home logout={this.logout} auth={this.state.auth} />
+            </Route>
+            <Route exact path="/">
+              <LoginForm
+                className={styleClasses.center}
+                tryLogin={this.tryLogin}
+              />
+            </Route>
+            <Route path="/forgot" component={ForgotPassword} />
+            <Route exact path="/register">
+              <RegisterForm createUser={this.createUser} />
+            </Route>
+            <Route path="/register/confirm" component={RegisterConfirmation} />
+          </div>
+        </Router>
+      </MuiThemeProvider>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    loading: state.loading,
+    colorTheme: state.colorTheme
+  };
+}
 
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({ setUser: setUser }, dispatch);
+  return bindActionCreators(
+    { setUser: setUser, setLoading: setLoading },
+    dispatch
+  );
 }
+
+export default connect(mapStateToProps, matchDispatchToProps)(App);

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { makeStyles, Grid, Typography } from '@material-ui/core';
+import { orange } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,7 +21,7 @@ export default function About() {
     <main>
       <Grid
         className={classes.root}
-        style={{ minHeight: '90vh', textAlign: 'center' }}
+        style={{ textAlign: 'center' }}
         container
         direction="column"
         justify="center"
@@ -39,7 +40,8 @@ export default function About() {
           <Typography
             style={{
               fontWeight: 500,
-              fontSize: 20
+              fontSize: 20,
+              color: '#f78d1e'
             }}
           >
             Justin Boehnen, Evan Clark, Seth Ray, and Isaac Medlin
@@ -55,18 +57,10 @@ export default function About() {
             style={{
               padding: 20,
               fontWeight: 600,
-              fontSize: 30
+              fontSize: 80
             }}
           >
             JESI
-          </Typography>
-          <Typography
-            style={{
-              fontSize: 14
-            }}
-          >
-            We hope that our little piece of software helps you build something
-            huge.
           </Typography>
         </Grid>
         <Grid item xs={3}></Grid>

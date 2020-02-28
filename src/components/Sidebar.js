@@ -1,6 +1,8 @@
-import clsx from 'clsx'
-import React from 'react'
-import { Link } from 'react-router-dom'
+/** @format */
+
+import clsx from 'clsx';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Drawer,
   Divider,
@@ -10,7 +12,7 @@ import {
   ListItemIcon,
   ListItemText,
   IconButton
-} from '@material-ui/core'
+} from '@material-ui/core';
 import {
   AccountCircle,
   LibraryAdd,
@@ -19,10 +21,10 @@ import {
   List as ListIcon,
   Info,
   Close
-} from '@material-ui/icons'
+} from '@material-ui/icons';
 
-const drawerWidthExpanded = 240
-const drawerWidthCondensed = 58
+const drawerWidthExpanded = 240;
+const drawerWidthCondensed = 58;
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -60,15 +62,15 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.secondary.main,
     textDecoration: 'underline'
   }
-}))
+}));
 
 export default function Sidebar(props) {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <div>
       <Drawer
-        variant='permanent'
+        variant="permanent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: props.drawerOpen,
           [classes.drawerClose]: !props.drawerOpen
@@ -83,70 +85,70 @@ export default function Sidebar(props) {
       >
         <div className={classes.toolbar}>
           <IconButton onClick={() => props.setDrawerOpen(false)}>
-            <Close color='secondary' />
+            <Close color="secondary" />
           </IconButton>
         </div>
         <Divider />
         <List>
-          <Link className={classes.link} to='/app/account'>
-            <ListItem button key='Account'>
+          <Link className={classes.link} to="/app/account">
+            <ListItem button key="Account">
               <ListItemIcon>
-                <AccountCircle color='secondary' />
+                <AccountCircle color="secondary" />
               </ListItemIcon>
-              <ListItemText primary='Account' />
+              <ListItemText primary="Account" />
             </ListItem>
           </Link>
-          <Link className={classes.link} to='/app/lorelines'>
-            <ListItem button key='Lorelines'>
+          <Link className={classes.link} to="/app/lorelines">
+            <ListItem button key="Lorelines">
               <ListItemIcon>
-                <Apps color='secondary' />
+                <Apps color="secondary" />
               </ListItemIcon>
-              <ListItemText primary='Lorelines' />
-            </ListItem>
-          </Link>
-        </List>
-        <Divider />
-        <List>
-          <Link className={classes.link} to='/app/new'>
-            <ListItem button key='New Custom Entity'>
-              <ListItemIcon>
-                <LibraryAdd color='secondary' />
-              </ListItemIcon>
-              <ListItemText primary='New Custom Entity' />
+              <ListItemText primary="Lorelines" />
             </ListItem>
           </Link>
         </List>
         <Divider />
         <List>
-          <Link className={classes.link} to='/app/timeline'>
-            <ListItem button key='Timeline'>
+          <Link className={classes.link} to="/app/new">
+            <ListItem button key="New Custom Entity">
               <ListItemIcon>
-                <Timeline color='secondary' />
+                <LibraryAdd color="secondary" />
               </ListItemIcon>
-              <ListItemText primary='Timeline' />
-            </ListItem>
-          </Link>
-          <Link className={classes.link} to='/app/directory'>
-            <ListItem button key='Directory'>
-              <ListItemIcon>
-                <ListIcon color='secondary' />
-              </ListItemIcon>
-              <ListItemText primary='Directory' />
+              <ListItemText primary="New Custom Entity" />
             </ListItem>
           </Link>
         </List>
         <Divider />
         <List>
-          <Link className={classes.link} to='/app/about'>
-            <ListItem button key='About Lorelines'>
+          <Link className={classes.link} to="/app/timeline">
+            <ListItem button key="Timeline">
               <ListItemIcon>
-                <Info color='secondary' />
+                <Timeline color="secondary" />
               </ListItemIcon>
-              <ListItemText primary='About Lorelines' />
+              <ListItemText primary="Timeline" />
+            </ListItem>
+          </Link>
+          <Link className={classes.link} to="/app/directory">
+            <ListItem button key="Directory">
+              <ListItemIcon>
+                <ListIcon color="secondary" />
+              </ListItemIcon>
+              <ListItemText primary="Directory" />
+            </ListItem>
+          </Link>
+        </List>
+        <Divider />
+        <List>
+          <Link className={classes.link} to="/app/about">
+            <ListItem button key="About Lorelines">
+              <ListItemIcon>
+                <Info color="secondary" />
+              </ListItemIcon>
+              <ListItemText primary="About Lorelines" />
             </ListItem>
           </Link>
         </List>
       </Drawer>
     </div>
-  )
+  );
 }

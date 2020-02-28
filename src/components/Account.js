@@ -1,7 +1,6 @@
 /** @format */
 
 import React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { makeStyles, Grid, Typography } from '@material-ui/core';
 
@@ -17,13 +16,14 @@ const useStyles = makeStyles(theme => ({
 
 export default connect(mapStateToProps)(function Account(props) {
   const classes = useStyles();
-  if (!props.user) {
-    return <h2>NULL</h2>;
-  }
+
   return (
     <main className={classes.root}>
       <Grid
-        style={{ height: '70vh', width: '70vw', textAlign: 'left' }}
+        style={{
+          height: '70vh',
+          textAlign: 'left'
+        }}
         direction="column"
         justify="center"
         alignItems="center"
@@ -36,6 +36,10 @@ export default connect(mapStateToProps)(function Account(props) {
         </Grid>
         <Grid item>
           <Typography>Email: {props.user.email || 'null'}</Typography>
+          <Typography>
+            Lorelines: <b>3/5</b>
+          </Typography>
+          <Typography>Member Since: 12/02/19</Typography>
         </Grid>
       </Grid>
     </main>
@@ -44,6 +48,7 @@ export default connect(mapStateToProps)(function Account(props) {
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
+    window: state.window
   };
 }
