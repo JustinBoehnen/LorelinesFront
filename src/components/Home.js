@@ -82,8 +82,9 @@ class Home extends Component {
 
   tryLorelineAdd = async LorelineName => {
     try {
+      var id = 12345; //JUSTIN REDUX
       const { data } = await axios.post(
-        'https://lorelines-expressapi.herokuapp.com/api/lorelines',
+        `https://lorelines-expressapi.herokuapp.com/api/users/${id}/lorelines`,
         {
           LorelineName
         }

@@ -40,7 +40,7 @@ const light = createMuiTheme({
     secondary: { main: '#000' },
     error: { main: '#ff0000' }
   }
-});
+})
 
 // color theme definition: dark
 const dark = createMuiTheme({
@@ -59,7 +59,7 @@ const dark = createMuiTheme({
     error: { main: '#ff0000' },
     type: 'dark'
   }
-});
+})
 
 // add themes to a js object
 const themes = { dark: dark, light: light };
@@ -109,7 +109,7 @@ class App extends Component {
           });
           console.log(this.state.userData);
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
     }
 
     console.log('MOUNTED 2');
@@ -154,7 +154,7 @@ class App extends Component {
       this.setState.loading = false;
       return false;
     }
-  };
+  }
 
   logout = () => {
     localStorage.removeItem('token');
