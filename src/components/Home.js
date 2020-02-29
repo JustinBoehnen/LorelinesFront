@@ -17,6 +17,7 @@ import Account from './Account'
 import Directory from './Directory'
 import About from './About'
 import Lorelines from './Lorelines'
+import CreateInstance from './CreateInstance'
 
 const styleClasses = () => ({
   root: {
