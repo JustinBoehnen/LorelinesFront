@@ -109,12 +109,12 @@ export default function Sidebar(props) {
         </List>
         <Divider />
         <List>
-          <Link className={classes.link} to="/app/new">
-            <ListItem button key="New Custom Entity">
+          <Link className={classes.link} to="/app/directory/createinstance">
+            <ListItem button key="Create Instance">
               <ListItemIcon>
                 <LibraryAdd color="secondary" />
               </ListItemIcon>
-              <ListItemText primary="New Custom Entity" />
+              <ListItemText primary="Creeeeate" />
             </ListItem>
           </Link>
         </List>

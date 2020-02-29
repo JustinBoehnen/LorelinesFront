@@ -142,6 +142,10 @@ class Home extends Component {
             <Route path="/app/about">
               <About />
             </Route>
+
+            <Route path="/app/directory/createinstance">
+              <CreateInstance />
+            </Route>
           </div>
         </div>
       </div>
