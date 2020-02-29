@@ -1,8 +1,8 @@
 /** @format */
 
-import clsx from 'clsx';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import clsx from "clsx";
+import React from "react";
+import { Link } from "react-router-dom";
 import {
   Drawer,
   Divider,
@@ -12,7 +12,7 @@ import {
   ListItemIcon,
   ListItemText,
   IconButton
-} from '@material-ui/core';
+} from "@material-ui/core";
 import {
   AccountCircle,
   LibraryAdd,
@@ -21,7 +21,7 @@ import {
   List as ListIcon,
   Info,
   Close
-} from '@material-ui/icons';
+} from "@material-ui/icons";
 
 const drawerWidthExpanded = 240;
 const drawerWidthCondensed = 58;
@@ -30,37 +30,37 @@ const useStyles = makeStyles(theme => ({
   drawer: {
     width: drawerWidthExpanded,
     flexShrink: 0,
-    whiteSpace: 'nowrap'
+    whiteSpace: "nowrap"
   },
   drawerOpen: {
-    overflowX: 'hidden',
+    overflowX: "hidden",
     width: drawerWidthExpanded,
-    transition: theme.transitions.create('width', {
+    transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen
     })
   },
   drawerClose: {
-    transition: theme.transitions.create('width', {
+    transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     }),
-    overflowX: 'hidden',
+    overflowX: "hidden",
     width: drawerWidthCondensed, //theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: drawerWidthCondensed //theme.spacing(9) + 1,
     }
   },
   toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar
   },
   link: {
     color: theme.palette.secondary.main,
-    textDecoration: 'underline'
+    textDecoration: "underline"
   }
 }));
 
