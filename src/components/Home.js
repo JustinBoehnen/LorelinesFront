@@ -80,13 +80,12 @@ class Home extends Component {
     this.updateWindowDimensions()
   }
 
-  tryLorelineAdd = async LorelineName => {
+  tryLorelineAdd = async name => {
     try {
-      var id = 12345 //JUSTIN REDUX
       const { data } = await axios.post(
-        `https://lorelines-expressapi.herokuapp.com/api/users/${id}/lorelines`,
+        `https://lorelines-expressapi.herokuapp.com/api/users/${this.props.user.id}/lorelines`,
         {
-          LorelineName
+          name
         }
       )
       return true
@@ -150,6 +149,7 @@ class Home extends Component {
 
 function mapStateToProps(state) {
   return {
+    user: state.user,
     window: state.window
   }
 }

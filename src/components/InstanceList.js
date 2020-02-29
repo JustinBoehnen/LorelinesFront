@@ -16,11 +16,14 @@ class InstanceList extends Component {
   state = { open: {}, entities: [] }
 
   componentDidMount() {
-    axios.get('https://lorelines-expressapi.herokuapp.com/api/lorelines/5e535c6b01fb034d88d8a771/directory/')
-    .then(res => {
-      const entities = res.data;
-      this.setState({entities});
-    })
+    axios
+      .get(
+        `https://lorelines-expressapi.herokuapp.com/api/lorelines/${this.props.lorelineId}/directory/`
+      )
+      .then(res => {
+        const entities = res.data
+        this.setState({ entities })
+      })
   }
 
   handleClick = key => () => {
@@ -59,7 +62,8 @@ class InstanceList extends Component {
 
 function mapStatetoProps(state) {
   return {
-    entities: state.entities
+    entities: state.entities,
+    lorelineId: state.lorelineId
   }
 }
 
