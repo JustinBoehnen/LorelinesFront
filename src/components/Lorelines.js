@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import {
   makeStyles,
   Grid,
@@ -17,7 +19,7 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 import CloseIcon from "@material-ui/icons/Close";
-import AddBox from "@material-ui/icons/AddBoxOutlined";
+import { setLoreline } from "../actions/index";
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -36,7 +38,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Lorelines(props) {
+export default connect(
+  mapStateToProps,
+  matchDispatchToProps
+)(function Lorelines(props) {
   const classes = useStyles();
   const [open, setFeedbackOpen] = React.useState(false);
   const [loreLineName, setloreLineName] = useState("");
@@ -46,12 +51,11 @@ export default function Lorelines(props) {
   const [values, setValues] = React.useState({
     loreLineName: ""
   });
-  //var id = props.UserId();
 
   const GetLorelines = async () => {
     try {
       const response = await axios.get(
-        `https://lorelines-expressapi.herokuapp.com/api/users/${id}/lorelines`
+        `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/lorelines`
       );
       setLoreLineArray(response.data);
     } catch (err) {
@@ -179,7 +183,7 @@ export default function Lorelines(props) {
           style={{ marginInlineStart: 20, fontSize: 20 }}
           color="primary"
         >
-          Current lorelines:
+          My Lorelines:
         </Typography>
         <div className={classes.root}>
           {/*************************************Dynamically adding cards to screen***************/}
@@ -188,25 +192,25 @@ export default function Lorelines(props) {
             //spacing={2}
             direction="row"
             justify="flex-start"
-            alignItems="flex-start"
+            alignItems="center"
           >
             {loreLineArray.map(elem => (
               <Grid item key={loreLineArray.indexOf(elem)}>
                 <Card
                   style={{
-                    margin: 20,
-                    maxWidth: "300px",
-                    minWidth: "300px"
+                    margin: 10,
+                    width: 250,
+                    height: 140
                   }}
                 >
                   <CardActionArea
                     onClick={() => {
-                      console.log(elem._id);
+                      props.setLoreline(elem._id);
                     }}
                   >
                     <CardHeader
                       title={`${elem.name}`}
-                      subheader={`Last Modified: ${elem.modified}`}
+                      subheader={`Last Modified: ${Date(elem.modified)}`}
                     />
                   </CardActionArea>
                 </Card>
@@ -217,4 +221,14 @@ export default function Lorelines(props) {
       </form>
     </main>
   );
+});
+
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({ setLoreline: setLoreline }, dispatch);
 }

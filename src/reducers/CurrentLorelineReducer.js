@@ -1,8 +1,8 @@
 /** @format */
 
-export default function(state = false, action) {
+export default function(state = null, action) {
   switch (action.type) {
-    case 'SET_LOADING':
+    case 'LORELINE_CHANGED':
       return action.payload
   }
   return state
