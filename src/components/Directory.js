@@ -1,32 +1,29 @@
 /** @format */
 
-import React from 'react';
-import {
-  makeStyles,
-  Drawer
-} from '@material-ui/core';
+import React from "react";
+import { makeStyles, Drawer } from "@material-ui/core";
 
 //import AddBox from '@material-ui/icons/AddBoxOutlined';
-import InstanceList from './InstanceList';
+import InstanceList from "./InstanceList";
 
-const drawerWidth = 120
+const drawerWidth = 120;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
+    display: "flex"
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0,
+    flexShrink: 0
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: drawerWidth
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(3)
   },
-  toolbar: theme.mixins.toolbar,
+  toolbar: theme.mixins.toolbar
 }));
 
 export default function Lorelines(props) {
@@ -58,17 +55,13 @@ export default function Lorelines(props) {
   // };
 
   return (
-      <main className={classes.root}>
-        <div>
-          <Drawer
-          className={classes.drawer}
-          variant="permanent"
-          anchor="right"
-          >
-            <div className={classes.toolbar}></div>
-            <InstanceList />
-          </Drawer>
-        </div>
-      </main>
+    <main className={classes.root}>
+      <div>
+        <Drawer className={classes.drawer} variant="permanent" anchor="right">
+          <div className={classes.toolbar}></div>
+          <InstanceList />
+        </Drawer>
+      </div>
+    </main>
   );
 }

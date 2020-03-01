@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import axios from "axios";
 import {
   makeStyles,
@@ -6,10 +7,13 @@ import {
   Typography,
   TextField,
   Button,
-  Input
+  Input,
+  Snackbar,
+  IconButton
 } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 
-export default class CreateInstance extends React.Component {
+class CreateInstance extends React.Component {
   // This constructor binds state editing functions to this instance
   constructor() {
     super();
@@ -42,10 +46,9 @@ export default class CreateInstance extends React.Component {
       temp.name = field.name;
       save.content.push(temp);
     });
-    console.log(JSON.stringify(save));
     axios
       .post(
-        "http://localhost:8080/api/lorelines/5e44c8b56a5d003218847a9f/entities/5e44cf2f6a5d003218847aa1/instances",
+        `http://localhost:8080/api/lorelines/${this.props.lorelineId}/entities/${this.props.customEntityId}/instances`,
         save
       )
       .then(() => {
@@ -57,20 +60,15 @@ export default class CreateInstance extends React.Component {
   async componentDidMount() {
     axios
       .get(
-        "http://localhost:8080/api/lorelines/5e44c8b56a5d003218847a9f/entities/5e44cf2f6a5d003218847aa1/content"
+        `http://localhost:8080/api/lorelines/${this.props.lorelineId}/entities/${this.props.customEntityId}`
       )
       .then(response => {
-        const fields = response.data;
+        const fields = response.data.content;
         this.setState({ fields });
-      });
-    axios
-      .get(
-        "http://localhost:8080/api/lorelines/5e44c8b56a5d003218847a9f/entities/5e44cf2f6a5d003218847aa1/name"
-      )
-      .then(response => {
-        const name = response.data;
+        const name = response.data.name;
         this.setState({ name });
       });
+    console.log(JSON.stringify(this.props.lorelineId));
   }
   // creates a dynamic display based on the designated custom entity
   render() {
@@ -120,8 +118,46 @@ export default class CreateInstance extends React.Component {
           >
             Submit
           </Button>
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left"
+            }}
+            //open={open}
+            autoHideDuration={6000}
+            onClose={handleFeedbackClose}
+            message={this.state.name}
+            action={
+              <React.Fragment>
+                <IconButton
+                  size="small"
+                  aria-label="close"
+                  color="inherit"
+                  onClick={handleFeedbackClose}
+                >
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </React.Fragment>
+            }
+          />
         </form>
       </ul>
     );
   }
 }
+
+const handleFeedbackClose = (event, reason) => {
+  if (reason === "clickaway") {
+    return;
+  }
+  //setFeedbackOpen(false);
+};
+
+function mapStatetoProps(state) {
+  return {
+    lorelineId: "5e44c8b56a5d003218847a9f",
+    customEntityId: "5e44ce096a5d003218847aa0"
+  };
+}
+
+export default connect(mapStatetoProps)(CreateInstance);
