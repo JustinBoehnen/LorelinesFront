@@ -13,6 +13,12 @@ import {
   Card,
   CardHeader,
   CardActionArea,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+
 } from "@material-ui/core";
 import axios from "axios";
 import CloseIcon from "@material-ui/icons/Close";
@@ -41,8 +47,8 @@ export default connect(
   matchDispatchToProps
 )(function Lorelines(props) {
   const classes = useStyles();
+  const [warningopen, setOpen] = React.useState(false);
   const [open, setFeedbackOpen] = React.useState(false);
-  const [deleteOpen, setDeleteFeedbackOpen] = React.useState(false);
   const [loreLineName, setloreLineName] = useState("");
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [submitFailed, setSubmitFailed] = useState(false);
@@ -50,6 +56,14 @@ export default connect(
   const [values, setValues] = React.useState({
     loreLineName: ""
   });
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const GetLorelines = async () => {
     try {
@@ -75,13 +89,6 @@ export default connect(
     setFeedbackOpen(false);
   };
 
-  const handleDeleteFeedbackClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setDeleteFeedbackOpen(false);
-  };
-
   const lorelneDelete = async (e, id) => {
     e.preventDefault()
     console.log("in delete")
@@ -91,7 +98,7 @@ export default connect(
         `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/lorelines/${id}`,
       )
       GetLorelines();
-      setDeleteFeedbackOpen(true);
+      //handleClose();
       return true
     } catch (err) {
       console.log(err.message)
@@ -225,7 +232,7 @@ export default connect(
                   style={{
                     margin: 10,
                     width: 250,
-                    //height: 180
+                    height: 220
                   }}
                 >
                   <CardActionArea
@@ -243,33 +250,34 @@ export default connect(
                       marginBottom: 2,
                       marginLeft: 2
                     }}
-                    onClick={(e) => { lorelneDelete(e, elem._id) }}>
+                    onClick={handleClickOpen}>
                     <DeleteIcon
                       color="primary"
                     />
-                  </IconButton>
-                  {/************************************Adds a small popup letting users know that a lorelines been added******************************/}
-              <Snackbar
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left"
-                }}
-                open={deleteOpen}
-                autoHideDuration={6000}
-                onClose={handleDeleteFeedbackClose}
-                message= {"Deleted loreline " + elem.name}
-                action={
-                  <React.Fragment>
-                    <IconButton
-                      size="small"
-                      aria-label="close"
-                      color="inherit"
-                      onClick={handleDeleteFeedbackClose}
-                    >
-                      <CloseIcon fontSize="small" />
-                    </IconButton>
-                  </React.Fragment>
-                }/>
+                 </IconButton>
+                  <Dialog
+                    open={warningopen}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                  >
+                    <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete " + elem.name +"?"}</DialogTitle>
+                     <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        console.log(elem.name)
+                        This will permently delete this loreline, this is unreversible!
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose} color="primary">
+                        Cancel
+                      </Button>
+                      <Button onClick={(e) => { lorelneDelete(e, elem._id) }} color="primary" autoFocus>
+                        Delete
+                     </Button>
+                    </DialogActions>
+                  </Dialog>
+                  
                 </Card>
               </Grid>
             ))}
