@@ -12,13 +12,11 @@ import {
   IconButton,
   Card,
   CardHeader,
-  ButtonBase,
   CardActionArea,
-  List,
-  ListItem
 } from "@material-ui/core";
 import axios from "axios";
 import CloseIcon from "@material-ui/icons/Close";
+import DeleteIcon from "@material-ui/icons/DeleteForever"
 import { setLoreline } from "../actions/index";
 
 const useStyles = makeStyles(theme => ({
@@ -44,6 +42,7 @@ export default connect(
 )(function Lorelines(props) {
   const classes = useStyles();
   const [open, setFeedbackOpen] = React.useState(false);
+  const [deleteOpen, setDeleteFeedbackOpen] = React.useState(false);
   const [loreLineName, setloreLineName] = useState("");
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [submitFailed, setSubmitFailed] = useState(false);
@@ -76,6 +75,30 @@ export default connect(
     setFeedbackOpen(false);
   };
 
+  const handleDeleteFeedbackClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setDeleteFeedbackOpen(false);
+  };
+
+  const lorelneDelete = async (e, id) => {
+    e.preventDefault()
+    console.log("in delete")
+    console.log(id)
+    try {
+      const { data } = await axios.delete(
+        `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/lorelines/${id}`,
+      )
+      GetLorelines();
+      setDeleteFeedbackOpen(true);
+      return true
+    } catch (err) {
+      console.log(err.message)
+      return false
+    }
+  };
+
   const onSubmit = async e => {
     e.preventDefault();
     setSubmitAttempted(true);
@@ -84,8 +107,10 @@ export default connect(
       setloreLineName("");
       setSubmitAttempted(false);
       GetLorelines();
-      setFeedbackOpen(true);
-      if (!accept) setSubmitFailed(true);
+      if (!accept) {
+        setSubmitFailed(true);
+        setFeedbackOpen(true);
+      }
       return accept;
     } else {
       return false;
@@ -200,7 +225,7 @@ export default connect(
                   style={{
                     margin: 10,
                     width: 250,
-                    height: 140
+                    //height: 180
                   }}
                 >
                   <CardActionArea
@@ -213,6 +238,38 @@ export default connect(
                       subheader={`Last Modified: ${Date(elem.modified)}`}
                     />
                   </CardActionArea>
+                  <IconButton style=
+                    {{
+                      marginBottom: 2,
+                      marginLeft: 2
+                    }}
+                    onClick={(e) => { lorelneDelete(e, elem._id) }}>
+                    <DeleteIcon
+                      color="primary"
+                    />
+                  </IconButton>
+                  {/************************************Adds a small popup letting users know that a lorelines been added******************************/}
+              <Snackbar
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left"
+                }}
+                open={deleteOpen}
+                autoHideDuration={6000}
+                onClose={handleDeleteFeedbackClose}
+                message= {"Deleted loreline " + elem.name}
+                action={
+                  <React.Fragment>
+                    <IconButton
+                      size="small"
+                      aria-label="close"
+                      color="inherit"
+                      onClick={handleDeleteFeedbackClose}
+                    >
+                      <CloseIcon fontSize="small" />
+                    </IconButton>
+                  </React.Fragment>
+                }/>
                 </Card>
               </Grid>
             ))}
