@@ -68,7 +68,6 @@ class CreateInstance extends React.Component {
         const name = response.data.name;
         this.setState({ name });
       });
-    console.log(JSON.stringify(this.props.lorelineId));
   }
   // creates a dynamic display based on the designated custom entity
   render() {
@@ -118,45 +117,16 @@ class CreateInstance extends React.Component {
           >
             Submit
           </Button>
-          <Snackbar
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left"
-            }}
-            //open={open}
-            autoHideDuration={6000}
-            onClose={handleFeedbackClose}
-            message={this.state.name}
-            action={
-              <React.Fragment>
-                <IconButton
-                  size="small"
-                  aria-label="close"
-                  color="inherit"
-                  onClick={handleFeedbackClose}
-                >
-                  <CloseIcon fontSize="small" />
-                </IconButton>
-              </React.Fragment>
-            }
-          />
         </form>
       </ul>
     );
   }
 }
 
-const handleFeedbackClose = (event, reason) => {
-  if (reason === "clickaway") {
-    return;
-  }
-  //setFeedbackOpen(false);
-};
-
 function mapStatetoProps(state) {
   return {
     lorelineId: "5e44c8b56a5d003218847a9f",
-    customEntityId: "5e44ce096a5d003218847aa0"
+    customEntityId: "5e44cf2f6a5d003218847aa1"
   };
 }
 
