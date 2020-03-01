@@ -48,6 +48,8 @@ export default connect(
 )(function Lorelines(props) {
   const classes = useStyles();
   const [warningopen, setOpen] = React.useState(false);
+  const [deleteId, setDeleteId] = React.useState("");
+  const [deleteName, setDeleteName] = React.useState("");
   const [open, setFeedbackOpen] = React.useState(false);
   const [loreLineName, setloreLineName] = useState("");
   const [submitAttempted, setSubmitAttempted] = useState(false);
@@ -57,7 +59,9 @@ export default connect(
     loreLineName: ""
   });
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (id , name) => {
+    setDeleteId(id)
+    setDeleteName(name)
     setOpen(true);
   };
 
@@ -98,7 +102,7 @@ export default connect(
         `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/lorelines/${id}`,
       )
       GetLorelines();
-      //handleClose();
+      handleClose();
       return true
     } catch (err) {
       console.log(err.message)
@@ -232,7 +236,7 @@ export default connect(
                   style={{
                     margin: 10,
                     width: 250,
-                    height: 220
+                    //height: 220
                   }}
                 >
                   <CardActionArea
@@ -250,21 +254,22 @@ export default connect(
                       marginBottom: 2,
                       marginLeft: 2
                     }}
-                    onClick={handleClickOpen}>
+                    onClick={() =>handleClickOpen(elem._id, elem.name)}
+                    >
+                      
                     <DeleteIcon
                       color="primary"
                     />
                  </IconButton>
-                  <Dialog
+                 <Dialog
                     open={warningopen}
                     onClose={handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                   >
-                    <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete " + elem.name +"?"}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete \"" + deleteName +"\"?"}</DialogTitle>
                      <DialogContent>
                       <DialogContentText id="alert-dialog-description">
-                        console.log(elem.name)
                         This will permently delete this loreline, this is unreversible!
                       </DialogContentText>
                     </DialogContent>
@@ -272,7 +277,7 @@ export default connect(
                       <Button onClick={handleClose} color="primary">
                         Cancel
                       </Button>
-                      <Button onClick={(e) => { lorelneDelete(e, elem._id) }} color="primary" autoFocus>
+                      <Button onClick={(e) => { lorelneDelete(e, deleteId) }} color="primary" autoFocus>
                         Delete
                      </Button>
                     </DialogActions>
