@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { useEffect, useState } from "react"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
 import {
   makeStyles,
   Grid,
@@ -21,13 +21,12 @@ import {
   DialogContentText,
   DialogTitle,
   Fab
-
-} from "@material-ui/core";
-import axios from "axios";
-import CloseIcon from "@material-ui/icons/Close";
+} from "@material-ui/core"
+import axios from "axios"
+import CloseIcon from "@material-ui/icons/Close"
 import DeleteIcon from "@material-ui/icons/DeleteForever"
-import AddIcon from '@material-ui/icons/Add';
-import { setLoreline } from "../actions/index";
+import AddIcon from "@material-ui/icons/Add"
+import { setLoreline } from "../actions/index"
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -44,74 +43,72 @@ const useStyles = makeStyles(theme => ({
   error: {
     color: theme.palette.error.main
   }
-}));
+}))
 
 export default connect(
   mapStateToProps,
   matchDispatchToProps
 )(function Lorelines(props) {
-  const classes = useStyles();
-  const [deleteOpen, setDeleteOpen] = React.useState(false);
-  const [staticEnities, setStaticEntities] = React.useState(false);
-  const [addOpen, setAddOpen] = React.useState(false);
-  const [deleteId, setDeleteId] = React.useState("");
-  const [deleteName, setDeleteName] = React.useState("");
-  const [open, setFeedbackOpen] = React.useState(false);
-  const [loreLineName, setloreLineName] = useState("");
-  const [submitAttempted, setSubmitAttempted] = useState(false);
-  const [submitFailed, setSubmitFailed] = useState(false);
-  const [loreLineArray, setLoreLineArray] = useState([]);
+  const classes = useStyles()
+  const [deleteOpen, setDeleteOpen] = React.useState(false)
+  const [staticEnities, setStaticEntities] = React.useState(false)
+  const [addOpen, setAddOpen] = React.useState(false)
+  const [deleteId, setDeleteId] = React.useState("")
+  const [deleteName, setDeleteName] = React.useState("")
+  const [open, setFeedbackOpen] = React.useState(false)
+  const [loreLineName, setloreLineName] = useState("")
+  const [submitAttempted, setSubmitAttempted] = useState(false)
+  const [submitFailed, setSubmitFailed] = useState(false)
+  const [loreLineArray, setLoreLineArray] = useState([])
   const [values, setValues] = React.useState({
     loreLineName: ""
-  });
+  })
 
   const handleClickDeleteOpen = (id, name) => {
     setDeleteId(id)
     setDeleteName(name)
-    setDeleteOpen(true);
-  };
+    setDeleteOpen(true)
+  }
 
   const handleDeleteClose = () => {
-    setDeleteOpen(false);
-  };
+    setDeleteOpen(false)
+  }
 
   const handleClickAddOpen = (id, name) => {
     setAddOpen(true)
-  };
+  }
 
   const handleAddClose = () => {
-    setAddOpen(false);
-  };
- 
+    setAddOpen(false)
+  }
+
   const toggleStaticEntities = () => {
-    if(staticEnities === true)
-       setStaticEntities(false)
-    else
-       setStaticEntities(true)
+    if (staticEnities === true) setStaticEntities(false)
+    else setStaticEntities(true)
   }
   const GetLorelines = async () => {
     try {
       const response = await axios.get(
         `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/lorelines`
-      );
-      setLoreLineArray(response.data);
+      )
+      setLoreLineArray(response.data)
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
 
   useEffect(() => {
-    GetLorelines();
-  }, []);
+    GetLorelines()
+  }, [])
 
-  const onLoreLineChange = e => setloreLineName(e.target.value);
+  const onLoreLineChange = e => setloreLineName(e.target.value)
 
   const handleFeedbackClose = (event, reason) => {
     if (reason === "clickaway") {
-      return;
+      return
     }
-    setFeedbackOpen(false);
-  };
+    setFeedbackOpen(false)
+  }
 
   const lorelneDelete = async (e, id) => {
     e.preventDefault()
@@ -119,35 +116,35 @@ export default connect(
     console.log(id)
     try {
       const { data } = await axios.delete(
-        `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/lorelines/${id}`,
+        `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/lorelines/${id}`
       )
-      GetLorelines();
-      handleDeleteClose();
+      GetLorelines()
+      handleDeleteClose()
       return true
     } catch (err) {
       console.log(err.message)
       return false
     }
-  };
+  }
 
   const onLorelineAddSubmit = async e => {
-    e.preventDefault();
-    setSubmitAttempted(true);
+    e.preventDefault()
+    setSubmitAttempted(true)
     if (loreLineName !== "") {
-      let accept = await props.tryLorelineAdd(loreLineName);
-      setloreLineName("");
-      setSubmitAttempted(false);
-      setFeedbackOpen(true);
-      GetLorelines();
+      let accept = await props.tryLorelineAdd(loreLineName)
+      setloreLineName("")
+      setSubmitAttempted(false)
+      setFeedbackOpen(true)
+      GetLorelines()
       handleAddClose()
       if (!accept) {
-        setSubmitFailed(true);
+        setSubmitFailed(true)
       }
-      return accept;
+      return accept
     } else {
-      return false;
+      return false
     }
-  };
+  }
 
   return (
     <main className={classes.root}>
@@ -169,18 +166,16 @@ export default connect(
           >
             <AddIcon className={classes.extendedIcon} />
             Add Loreline
-        </Fab>
+          </Fab>
           {/*********************** Popup menu for FAB ****************************************/}
           <Dialog
             open={addOpen}
             onClose={handleAddClose}
             aria-labelledby="alert-dialog-title"
             fullWidth="md"
-
           >
-            <DialogTitle 
-             id="alert-dialog-title">
-               <span style={{color: "#f78d1e"}}>Add a loreline:</span>
+            <DialogTitle id="alert-dialog-title">
+              <span style={{ color: "#f78d1e" }}>Add a loreline:</span>
             </DialogTitle>
             <DialogContent>
               <TextField
@@ -202,23 +197,25 @@ export default connect(
               <FormGroup row>
                 <FormControlLabel
                   control={
-                    <Checkbox 
-                    checked={staticEnities} 
-                    onChange={toggleStaticEntities}
-                    color = "primary" />
+                    <Checkbox
+                      checked={staticEnities}
+                      onChange={toggleStaticEntities}
+                      color="primary"
+                    />
                   }
                   label="Import static entities"
                 />
               </FormGroup>
-
             </DialogContent>
             <DialogActions>
               <Button onClick={handleAddClose} color="primary">
                 Cancel
-                      </Button>
-              <Button onClick={async e => await onLorelineAddSubmit(e)}
+              </Button>
+              <Button
+                onClick={async e => await onLorelineAddSubmit(e)}
                 color="primary"
-                autoFocus>
+                autoFocus
+              >
                 Add Loreline
               </Button>
             </DialogActions>
@@ -253,7 +250,7 @@ export default connect(
             color="primary"
           >
             Select an existing loreline:
-        </Typography>
+          </Typography>
           <div className={classes.root}>
             {/*************************************Dynamically adding cards to screen***************/}
             <Grid
@@ -268,13 +265,13 @@ export default connect(
                   <Card
                     style={{
                       margin: 10,
-                      width: 250,
+                      width: 250
                       //height: 220
                     }}
                   >
                     <CardActionArea
                       onClick={() => {
-                        props.setLoreline(elem._id);
+                        props.setLoreline(elem._id)
                       }}
                     >
                       <CardHeader
@@ -282,17 +279,14 @@ export default connect(
                         subheader={`Last Modified: ${Date(elem.modified)}`}
                       />
                     </CardActionArea>
-                    <IconButton style=
-                      {{
+                    <IconButton
+                      style={{
                         marginBottom: 2,
                         marginLeft: 2
                       }}
                       onClick={() => handleClickDeleteOpen(elem._id, elem.name)}
                     >
-
-                      <DeleteIcon
-                        color="primary"
-                      />
+                      <DeleteIcon color="primary" />
                     </IconButton>
                     {/************************************Delete Loreline PopUp ********************************/}
                     <Dialog
@@ -301,22 +295,32 @@ export default connect(
                       aria-labelledby="alert-dialog-title"
                       aria-describedby="alert-dialog-description"
                     >
-                      <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete \"" + deleteName + "\"?"}</DialogTitle>
+                      <DialogTitle id="alert-dialog-title">
+                        {'Are you sure you want to delete "' +
+                          deleteName +
+                          '"?'}
+                      </DialogTitle>
                       <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                          This will permently delete this loreline, this is unreversible!
-                      </DialogContentText>
+                          This will permently delete this loreline, this is
+                          unreversible!
+                        </DialogContentText>
                       </DialogContent>
                       <DialogActions>
                         <Button onClick={handleDeleteClose} color="primary">
                           Cancel
-                      </Button>
-                        <Button onClick={(e) => { lorelneDelete(e, deleteId) }} color="primary" autoFocus>
+                        </Button>
+                        <Button
+                          onClick={e => {
+                            lorelneDelete(e, deleteId)
+                          }}
+                          color="primary"
+                          autoFocus
+                        >
                           Delete
-                     </Button>
+                        </Button>
                       </DialogActions>
                     </Dialog>
-
                   </Card>
                 </Grid>
               ))}
@@ -325,15 +329,15 @@ export default connect(
         </div>
       </form>
     </main>
-  );
-});
+  )
+})
 
 function mapStateToProps(state) {
   return {
     user: state.user
-  };
+  }
 }
 
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({ setLoreline: setLoreline }, dispatch);
+  return bindActionCreators({ setLoreline: setLoreline }, dispatch)
 }
