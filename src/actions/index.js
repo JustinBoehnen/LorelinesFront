@@ -75,3 +75,11 @@ export const setEntity = entityId => {
     payload: entityId
   }
 }
+
+export const setDirectory = directory => {
+  console.log ('set directory to: ', directory)
+  return {
+    type: 'DIRECTORY_CHANGED',
+    payload: directory
+  }
+}

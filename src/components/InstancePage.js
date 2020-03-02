@@ -16,14 +16,14 @@ class InstancePage extends Component {
     state = { open: {}, instance: [] }
 
     componentDidMount() {
-        axios
-          .get(
-            `https://lorelines-expressapi.herokuapp.com/api/lorelines/${this.props.lorelineId}/entities/${this.props.entityId}/instances/${this.props.instanceId}`
-          )
-          .then(res => {
-            const instance = res.data
-            this.setState({ instance })
-          })
+        // axios
+        //   .get(
+        //     `https://lorelines-expressapi.herokuapp.com/api/lorelines/${this.props.lorelineId}/entities/${this.props.entityId}/instances/${this.props.instanceId}`
+        //   )
+        //   .then(res => {
+        //     const instance = res.data
+        //     this.setState({ instance })
+        //   })
       }
 
     render() {
