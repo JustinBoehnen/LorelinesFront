@@ -1,6 +1,8 @@
 /** @format */
 import axios from 'axios'
 
+const apiUrl = 'https://lorelines-expressapi.herokuapp.com/api/lorelines';
+
 export const setUser = user => {
   console.log('set user to: ', user.name)
   return {
@@ -44,29 +46,35 @@ export const setWindowHeight = height => {
   }
 }
 
-export const setInstance = instanceId => {
-  console.log('set instance to: ', instanceId)
+// export const setInstance = instanceId => {
+//   console.log('set instance to: ', instanceId)
+//   return {
+//     type: 'INSTANCE_CHANGED',
+//     payload: instanceId
+//   }
+// }
+
+export const setInstance = ({ lorelineId, entityId, instanceId }) => {
+  return (dispatch) => {
+    return axios.get(`${apiUrl}/${lorelineId}/entities/${entityId}/instances/${instanceId}`)
+      .then(response => {
+        dispatch(setInstanceSuccess(response.data))
+      })
+      .catch(error => {
+        throw(error);
+      });
+  };
+};
+export const setInstanceSuccess = (data) => {
   return {
     type: 'INSTANCE_CHANGED',
-    payload: instanceId
+    payload: {
+      _id: data._id,
+      name: data.name,
+      content: data.content
+    }
   }
-}
-// export function setInstance(lorelineId, entityId, instanceId)
-// {
-//   axios
-//   .get(
-//     `https://lorelines-expressapi.herokuapp.com/api/lorelines/${lorelineId}/entities/${entityId}/instances/${instanceId}`
-//   )
-//   .then(res => {
-//     const instance = res.data
-//     console.log('set instance to: ', instance)
-//     return {
-//       type: 'INSTANCE_CHANGED',
-//       payload: instance
-//     }
-//   })
-  
-// }
+};
 
 export const setEntity = entityId => {
   console.log('set entity to: ', entityId)
