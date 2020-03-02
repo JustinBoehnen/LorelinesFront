@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import axios from "axios";
 import {
   makeStyles,
@@ -12,21 +13,40 @@ import {
   IconButton
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import { setLoreline } from "../actions/index";
 
 class CreateInstance extends React.Component {
   // This constructor binds state editing functions to this instance
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.SaveInstance = this.SaveInstance.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.handleFeedbackClose = this.handleFeedbackClose.bind(this);
+    this.setFeedbackOpen = this.setFeedbackOpen.bind(this);
+    this.state = {
+      fields: [],
+      name: [],
+      open: false,
+      lorelineId: "5e44c8b56a5d003218847a9f",
+      customEntityId: "5e44cf2f6a5d003218847aa1"
+    };
   }
-  state = {
-    fields: [],
-    name: []
+  
+  setFeedbackOpen = (bool) =>
+  {
+    this.state.open = bool;
+  }
+
+  handleFeedbackClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setFeedbackOpen(false);
   };
   // Creates a JSON from user input and saves it as an instance of
   // the custom entity designated by state
   SaveInstance(event) {
+    this.setFeedbackOpen(true);
     event.preventDefault();
     const e = event.nativeEvent;
     var save = {
@@ -48,7 +68,7 @@ class CreateInstance extends React.Component {
     });
     axios
       .post(
-        `http://localhost:8080/api/lorelines/${this.props.lorelineId}/entities/${this.props.customEntityId}/instances`,
+        `http://localhost:8080/api/lorelines/${this.state.lorelineId}/entities/${this.state.customEntityId}/instances`,
         save
       )
       .then(() => {
@@ -60,7 +80,7 @@ class CreateInstance extends React.Component {
   async componentDidMount() {
     axios
       .get(
-        `http://localhost:8080/api/lorelines/${this.props.lorelineId}/entities/${this.props.customEntityId}`
+        `http://localhost:8080/api/lorelines/${this.state.lorelineId}/entities/${this.state.customEntityId}`
       )
       .then(response => {
         const fields = response.data.content;
@@ -117,6 +137,28 @@ class CreateInstance extends React.Component {
           >
             Submit
           </Button>
+          <Snackbar
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left"
+                }}
+                open={this.state.open}
+                autoHideDuration={6000}
+                onClose={this.handleFeedbackClose}
+                message="Loreline Added"
+                action={
+                  <React.Fragment>
+                    <IconButton
+                      size="small"
+                      aria-label="close"
+                      color="inherit"
+                      onClick={this.handleFeedbackClose}
+                    >
+                      <CloseIcon fontSize="small" />
+                    </IconButton>
+                  </React.Fragment>
+                }
+              />
         </form>
       </ul>
     );
@@ -125,9 +167,13 @@ class CreateInstance extends React.Component {
 
 function mapStatetoProps(state) {
   return {
-    lorelineId: "5e44c8b56a5d003218847a9f",
-    customEntityId: "5e44cf2f6a5d003218847aa1"
+    lorelineId: state.lorelineId,
+    customEntityId: state.customEntityId
   };
 }
 
-export default connect(mapStatetoProps)(CreateInstance);
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({ setLoreLine: setLoreline }, dispatch);
+}
+
+export default connect(mapStatetoProps, matchDispatchToProps)(CreateInstance);
