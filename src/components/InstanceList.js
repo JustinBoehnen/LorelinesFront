@@ -2,15 +2,17 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import axios from 'axios'
+import { bindActionCreators } from "redux";
+import axios from 'axios';
 import {
   List,
   ListItem,
   ListItemText,
   Collapse,
   Typography
-} from '@material-ui/core'
-import { ExpandLess, ExpandMore } from '@material-ui/icons'
+} from '@material-ui/core';
+import { ExpandLess, ExpandMore } from '@material-ui/icons';
+import { setInstance } from "../actions/index";
 
 class InstanceList extends Component {
   state = { open: {}, entities: [] }
@@ -34,10 +36,10 @@ class InstanceList extends Component {
     return (
       <List>
         {this.state.entities.map(entity => {
-          const open = this.state[entity.id] || false
+          const open = this.state[entity._id] || false
           return (
-            <div key={entity.id}>
-              <ListItem button onClick={this.handleClick(entity.id)}>
+            <div key={entity._id}>
+              <ListItem button onClick={this.handleClick(entity._id)}>
                 <ListItemText primary={entity.name} />
                 {open ? <ExpandLess /> : <ExpandMore />}
               </ListItem>
@@ -45,7 +47,9 @@ class InstanceList extends Component {
                 <List component='div' disablePadding>
                   {entity.instances.map(instance => {
                     return (
-                      <ListItem key={instance.id} button>
+                      <ListItem key={instance._id} button onClick={() => {
+                        this.props.setInstance(instance._id);
+                      }}>
                         <Typography>{instance.name}</Typography>
                       </ListItem>
                     )
@@ -62,9 +66,12 @@ class InstanceList extends Component {
 
 function mapStatetoProps(state) {
   return {
-    entities: state.entities,
+    //entities: state.entities,
     lorelineId: state.lorelineId
   }
 }
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({ setInstance: setInstance }, dispatch);
+}
 
-export default connect(mapStatetoProps)(InstanceList)
+export default connect(mapStatetoProps, matchDispatchToProps)(InstanceList)

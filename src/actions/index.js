@@ -42,3 +42,10 @@ export const setWindowHeight = height => {
     payload: height
   }
 }
+
+export const setInstance = instanceId => {
+  return {
+    type: 'INSTANCE_CHANGED',
+    payload: instanceId
+  }
+}
