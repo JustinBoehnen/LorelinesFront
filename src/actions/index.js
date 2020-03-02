@@ -44,6 +44,7 @@ export const setWindowHeight = height => {
 }
 
 export const setInstance = instanceId => {
+  console.log('set instance to: ', instanceId)
   return {
     type: 'INSTANCE_CHANGED',
     payload: instanceId
@@ -51,6 +52,7 @@ export const setInstance = instanceId => {
 }
 
 export const setEntity = entityId => {
+  console.log('set entity to: ', entityId)
   return {
     type: 'ENTITY_CHANGED',
     payload: entityId

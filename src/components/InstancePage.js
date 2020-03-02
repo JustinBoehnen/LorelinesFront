@@ -17,13 +17,23 @@ class InstancePage extends Component {
 
     componentDidMount() {
         axios
-            .get()
-    }
+          .get(
+            `https://lorelines-expressapi.herokuapp.com/api/lorelines/${this.props.lorelineId}/entities/${this.props.entityId}/instances/${this.props.instanceId}`
+          )
+          .then(res => {
+            const instance = res.data
+            this.setState({ instance })
+          })
+      }
 
     render() {
         return (
             <List>
-
+                {this.state.instance.content.map(object => {
+                    return (
+                    <Typography>{object.name}</Typography>
+                    )
+                })}
             </List>
         )
     }

@@ -12,7 +12,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
-import { setInstance } from "../actions/index";
+import { setInstance, setEntity } from "../actions/index";
 
 class InstanceList extends Component {
   state = { open: {}, entities: [] }
@@ -39,10 +39,8 @@ class InstanceList extends Component {
           const open = this.state[entity._id] || false
           return (
             <div key={entity._id}>
-              <ListItem button onClick={() => {
-                this.handleClick(entity._id);
-                this.props.setEntity(entity._id);
-              }}>
+              <ListItem button onClick={
+                this.handleClick(entity._id) }>
                 <ListItemText primary={entity.name} />
                 {open ? <ExpandLess /> : <ExpandMore />}
               </ListItem>
@@ -51,6 +49,7 @@ class InstanceList extends Component {
                   {entity.instances.map(instance => {
                     return (
                       <ListItem key={instance._id} button onClick={() => {
+                        this.props.setEntity(entity._id);
                         this.props.setInstance(instance._id);
                       }}>
                         <Typography>{instance.name}</Typography>
