@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { makeStyles, Grid, Typography } from '@material-ui/core';
-import { orange } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
   root: {
