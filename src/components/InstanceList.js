@@ -39,7 +39,10 @@ class InstanceList extends Component {
           const open = this.state[entity._id] || false
           return (
             <div key={entity._id}>
-              <ListItem button onClick={this.handleClick(entity._id)}>
+              <ListItem button onClick={() => {
+                this.handleClick(entity._id);
+                this.props.setEntity(entity._id);
+              }}>
                 <ListItemText primary={entity.name} />
                 {open ? <ExpandLess /> : <ExpandMore />}
               </ListItem>
@@ -71,7 +74,8 @@ function mapStatetoProps(state) {
   }
 }
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({ setInstance: setInstance }, dispatch);
+  return bindActionCreators({ setInstance: setInstance, setEntity: setEntity }, 
+    dispatch);
 }
 
 export default connect(mapStatetoProps, matchDispatchToProps)(InstanceList)

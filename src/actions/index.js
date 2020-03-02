@@ -49,3 +49,10 @@ export const setInstance = instanceId => {
     payload: instanceId
   }
 }
+
+export const setEntity = entityId => {
+  return {
+    type: 'ENTITY_CHANGED',
+    payload: entityId
+  }
+}

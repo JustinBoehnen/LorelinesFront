@@ -7,6 +7,7 @@ import WindowReducer from './WindowReducer'
 import LoadingReducer from './LoadingReducer'
 import ThemeReducer from './ThemeReducer'
 import CurrentLorelineReducer from './CurrentLorelineReducer'
+import CurrentEntityReducer from './CurrentEntityReducer'
 import CurrentInstanceReducer from './CurrentInstanceReducer'
 
 const allReducers = combineReducers({
@@ -16,6 +17,7 @@ const allReducers = combineReducers({
   loading: LoadingReducer,
   colorTheme: ThemeReducer,
   lorelineId: CurrentLorelineReducer,
+  entityId: CurrentEntityReducer,
   instanceId: CurrentInstanceReducer
 })
 
