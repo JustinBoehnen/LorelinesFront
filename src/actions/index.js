@@ -1,4 +1,5 @@
 /** @format */
+import axios from 'axios'
 
 export const setUser = user => {
   console.log('set user to: ', user.name)
@@ -50,6 +51,22 @@ export const setInstance = instanceId => {
     payload: instanceId
   }
 }
+// export function setInstance(lorelineId, entityId, instanceId)
+// {
+//   axios
+//   .get(
+//     `https://lorelines-expressapi.herokuapp.com/api/lorelines/${lorelineId}/entities/${entityId}/instances/${instanceId}`
+//   )
+//   .then(res => {
+//     const instance = res.data
+//     console.log('set instance to: ', instance)
+//     return {
+//       type: 'INSTANCE_CHANGED',
+//       payload: instance
+//     }
+//   })
+  
+// }
 
 export const setEntity = entityId => {
   console.log('set entity to: ', entityId)
