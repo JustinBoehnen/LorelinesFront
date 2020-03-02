@@ -187,7 +187,7 @@ export default connect(
                 }
                 autoFocus
                 name="LorelineName"
-                label="Loreline Name:"
+                label="Loreline Name"
                 margin="dense"
                 autoComplete="off"
                 value={loreLineName}
@@ -265,7 +265,7 @@ export default connect(
                   <Card
                     style={{
                       margin: 10,
-                      width: 250
+                      width: 250,
                       //height: 220
                     }}
                   >
@@ -276,7 +276,7 @@ export default connect(
                     >
                       <CardHeader
                         title={`${elem.name}`}
-                        subheader={`Last Modified: ${Date(elem.modified)}`}
+                        subheader={`Last Modified: ${elem.modified}`}
                       />
                     </CardActionArea>
                     <IconButton
