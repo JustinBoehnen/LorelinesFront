@@ -29,11 +29,7 @@ class InstancePage extends Component {
     render() {
         return (
             <List>
-                {this.state.instance.content.map(object => {
-                    return (
-                    <Typography>{object.name}</Typography>
-                    )
-                })}
+                <Typography>{this.props.instanceId}</Typography>
             </List>
         )
     }
