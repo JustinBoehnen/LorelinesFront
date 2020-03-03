@@ -76,7 +76,6 @@ const styleClasses = theme => ({
     justifyContent: 'center'
   },
   backdrop: {
-    zIndex: 1000,
     color: '#fff'
   }
 })
@@ -168,12 +167,6 @@ class App extends Component {
         <CssBaseline />
         <Router>
           <div className={styleClasses.root}>
-            <Backdrop
-              className={styleClasses.backdrop}
-              open={this.props.loading}
-            >
-              <CircularProgress color='inherit' />
-            </Backdrop>
             {this.state.auth && <Redirect to='/app' />}
             <Route path='/app'>
               <Home logout={this.logout} auth={this.state.auth} />
@@ -189,6 +182,12 @@ class App extends Component {
               <RegisterForm createUser={this.createUser} />
             </Route>
             <Route path='/register/confirm' component={RegisterConfirmation} />
+            <Backdrop
+              className={styleClasses.backdrop}
+              open={this.props.loading}
+            >
+              <CircularProgress color='inherit' />
+            </Backdrop>
           </div>
         </Router>
       </MuiThemeProvider>
