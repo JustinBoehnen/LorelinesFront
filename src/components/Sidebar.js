@@ -116,7 +116,7 @@ export default connect(mapStateToProps)(function Sidebar(props) {
               <ListItemIcon>
                 <LibraryAdd color='secondary' />
               </ListItemIcon>
-              <ListItemText primary='Creeeeate' />
+              <ListItemText primary='Remove Me' />
             </ListItem>
           </Link>
         </List>
