@@ -1,10 +1,11 @@
 /** @format */
 
 import React from "react";
-import { makeStyles, Drawer } from "@material-ui/core";
+import { Grid, List, makeStyles, Drawer } from "@material-ui/core";
 
 //import AddBox from '@material-ui/icons/AddBoxOutlined';
 import InstanceList from "./InstanceList";
+import InstancePage from "./InstancePage";
 
 const drawerWidth = 120;
 
@@ -57,6 +58,15 @@ export default function Lorelines(props) {
   return (
     <main className={classes.root}>
       <div>
+        <List
+          container
+          //spacing={2}
+          direction="row"
+          justify="flex-start"
+          alignItems="center"
+        >
+          <InstancePage />
+        </List>
         <Drawer className={classes.drawer} variant="permanent" anchor="right">
           <div className={classes.toolbar}></div>
           <InstanceList />
