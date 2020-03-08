@@ -81,8 +81,9 @@ class CreateInstance extends React.Component {
         });
         this.setState({ snackBarOpen: true });
       });
-    document.getElementById("EntForm").reset();
+      document.getElementById("EntForm").reset();
     }
+    this.forceUpdate();
   }
   // When the component is linked to, it does this gets to initialize its state
   async componentDidMount() {
