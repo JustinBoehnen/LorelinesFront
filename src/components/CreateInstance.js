@@ -26,8 +26,9 @@ class CreateInstance extends React.Component {
       fields: [],
       name: [],
       snackBarOpen: false,
-      lorelineId: "5e44c8b56a5d003218847a9f",
-      customEntityId: "5e44cf2f6a5d003218847aa1"
+      snackBarMessage: String,
+      lorelineId: "5e64384078b19e2300adef1a",
+      customEntityId: "5e643bf24603171cb0670632"
     };
   }
 
@@ -39,7 +40,6 @@ class CreateInstance extends React.Component {
   // the custom entity designated by state
   handleSubmit(event) {
     event.preventDefault();
-    this.setState({ snackBarOpen: true });
     const e = event.nativeEvent;
     var save = {
       name: String,
@@ -64,7 +64,15 @@ class CreateInstance extends React.Component {
         save
       )
       .then(() => {
+        this.setState({ snackBarMessage: this.state.name.concat(" added!") });
+        this.setState({ snackBarOpen: true });
         console.log("Entity instance addded to database!");
+      })
+      .catch(() => {
+        this.setState({
+          snackBarMessage: "Error adding ".concat(this.state.name).concat(".")
+        });
+        this.setState({ snackBarOpen: true });
       });
     document.getElementById("EntForm").reset();
   }
@@ -100,7 +108,7 @@ class CreateInstance extends React.Component {
           Add {this.state.name}
         </Typography>
         <form id="EntForm" onSubmit={this.handleSubmit}>
-          <Typography>name</Typography>
+          <Typography>Name</Typography>
           <Input id="outlined-basic" varient="outlined" />
           {this.state.fields.map(function(field, index) {
             return (
@@ -137,7 +145,7 @@ class CreateInstance extends React.Component {
             open={this.state.snackBarOpen}
             autoHideDuration={6000}
             onClose={this.snackBarClose}
-            message={this.state.name.concat(" added!")}
+            message={this.state.snackBarMessage}
             action={
               <React.Fragment>
                 <IconButton
