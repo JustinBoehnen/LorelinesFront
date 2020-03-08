@@ -19,35 +19,27 @@ class CreateInstance extends React.Component {
   // This constructor binds state editing functions to this instance
   constructor(props) {
     super(props);
-    this.SaveInstance = this.SaveInstance.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
-    this.handleFeedbackClose = this.handleFeedbackClose.bind(this);
-    this.setFeedbackOpen = this.setFeedbackOpen.bind(this);
+    this.snackBarClose = this.snackBarClose.bind(this);
     this.state = {
       fields: [],
       name: [],
-      open: false,
+      snackBarOpen: false,
       lorelineId: "5e44c8b56a5d003218847a9f",
       customEntityId: "5e44cf2f6a5d003218847aa1"
     };
   }
-  
-  setFeedbackOpen = (bool) =>
-  {
-    this.state.open = bool;
-  }
 
-  handleFeedbackClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    this.setFeedbackOpen(false);
+  snackBarClose = event => {
+    this.setState({ snackBarOpen: false });
   };
+
   // Creates a JSON from user input and saves it as an instance of
   // the custom entity designated by state
-  SaveInstance(event) {
-    this.setFeedbackOpen(true);
+  handleSubmit(event) {
     event.preventDefault();
+    this.setState({ snackBarOpen: true });
     const e = event.nativeEvent;
     var save = {
       name: String,
@@ -107,7 +99,7 @@ class CreateInstance extends React.Component {
         >
           Add {this.state.name}
         </Typography>
-        <form id="EntForm" onSubmit={this.SaveInstance}>
+        <form id="EntForm" onSubmit={this.handleSubmit}>
           <Typography>name</Typography>
           <Input id="outlined-basic" varient="outlined" />
           {this.state.fields.map(function(field, index) {
@@ -138,27 +130,27 @@ class CreateInstance extends React.Component {
             Submit
           </Button>
           <Snackbar
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left"
-                }}
-                open={this.state.open}
-                autoHideDuration={6000}
-                onClose={this.handleFeedbackClose}
-                message="Loreline Added"
-                action={
-                  <React.Fragment>
-                    <IconButton
-                      size="small"
-                      aria-label="close"
-                      color="inherit"
-                      onClick={this.handleFeedbackClose}
-                    >
-                      <CloseIcon fontSize="small" />
-                    </IconButton>
-                  </React.Fragment>
-                }
-              />
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left"
+            }}
+            open={this.state.snackBarOpen}
+            autoHideDuration={6000}
+            onClose={this.snackBarClose}
+            message={this.state.name.concat(" added!")}
+            action={
+              <React.Fragment>
+                <IconButton
+                  size="small"
+                  aria-label="close"
+                  color="inherit"
+                  onClick={this.snackBarClose}
+                >
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </React.Fragment>
+            }
+          />
         </form>
       </ul>
     );
