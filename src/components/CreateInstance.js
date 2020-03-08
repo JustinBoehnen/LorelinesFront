@@ -22,13 +22,16 @@ class CreateInstance extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.snackBarClose = this.snackBarClose.bind(this);
+    this.onInstanceNameChange = this.onInstanceNameChange.bind(this);
     this.state = {
       fields: [],
       name: [],
       snackBarOpen: false,
-      snackBarMessage: String,
+      snackBarMessage: "",
       lorelineId: "5e64384078b19e2300adef1a",
-      customEntityId: "5e643bf24603171cb0670632"
+      customEntityId: "5e643bf24603171cb0670632",
+      instanceName: "",
+      submitAttempted: false
     };
   }
 
@@ -40,6 +43,10 @@ class CreateInstance extends React.Component {
   // the custom entity designated by state
   handleSubmit(event) {
     event.preventDefault();
+    this.state.submitAttempted = true;
+    if(this.state.instanceName !== "")
+    {
+      this.state.submitAttempted = false;
     const e = event.nativeEvent;
     var save = {
       name: String,
@@ -75,6 +82,7 @@ class CreateInstance extends React.Component {
         this.setState({ snackBarOpen: true });
       });
     document.getElementById("EntForm").reset();
+    }
   }
   // When the component is linked to, it does this gets to initialize its state
   async componentDidMount() {
@@ -88,6 +96,9 @@ class CreateInstance extends React.Component {
         const name = response.data.name;
         this.setState({ name });
       });
+  }
+  onInstanceNameChange = e => {
+    this.setState({instanceName: e.target.value});
   }
   // creates a dynamic display based on the designated custom entity
   render() {
@@ -108,13 +119,32 @@ class CreateInstance extends React.Component {
           Add {this.state.name}
         </Typography>
         <form id="EntForm" onSubmit={this.handleSubmit}>
-          <Typography>Name</Typography>
-          <Input id="outlined-basic" varient="outlined" />
+          <TextField
+                error={this.state.submitAttempted && this.state.instanceName === ""}
+                helperText={
+                  this.state.submitAttempted && this.state.instanceName === ""
+                    ? "This field cannot be empty!"
+                    : ""
+                }
+                autoFocus
+                name="InstanceName"
+                label="Name"
+                margin="dense"
+                autoComplete="off"
+                value={this.state.instanceName}
+                onChange={this.onInstanceNameChange}
+                fullWidth
+              />
           {this.state.fields.map(function(field, index) {
             return (
               <li key={index}>
-                <Typography> {field.name} </Typography>
-                <Input id="outlined-basic" varient="outlined" />
+                <TextField
+                name="InstanceName"
+                label={field.name}
+                margin="dense"
+                autoComplete="off"
+                fullWidth
+              />
               </li>
             );
           })}
