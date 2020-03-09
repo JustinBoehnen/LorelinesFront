@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function EntityField(props) {
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState(props.options);
 
   const classes = useStyles();
 
@@ -50,15 +50,17 @@ export default function EntityField(props) {
 
   const handleAddOption = () => {
     const newBoxes = options.concat({ label: '' });
-    console.log(options);
     updateOptions(newBoxes);
   };
 
   const handleRemoveOption = index => {
     const array = [...options];
-    array.splice(index, 1);
 
-    updateOptions(array);
+    if (array.length > 1) {
+      array.splice(index, 1);
+
+      updateOptions(array);
+    }
   };
 
   const handleOptionLabelChange = (index, label) => {
@@ -68,10 +70,22 @@ export default function EntityField(props) {
     updateOptions(data);
   };
 
+  const optionsNeedLabels = () => {
+    for (const option of options) {
+      if (option.label === '') return true;
+    }
+    return false;
+  };
+
+  if (props.validationFailed && (props.label === '' || optionsNeedLabels()))
+    var errorStyle = {
+      style: { border: '2px solid red' }
+    };
+
   return (
     <main className={classes.root}>
       <Tooltip title="The first option will be the default">
-        <Card className={classes.card}>
+        <Card className={classes.card} {...errorStyle}>
           <Grid container direction="column">
             <Grid xs item container direction="row">
               <Grid xs item>

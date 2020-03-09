@@ -38,9 +38,14 @@ export default function EntityField(props) {
     props.changeLabel(props.index, e.target.value);
   };
 
+  if (props.validationFailed && props.label === '')
+    var errorStyle = {
+      style: { border: '2px solid red' }
+    };
+
   return (
     <main className={classes.root}>
-      <Card className={classes.card}>
+      <Card className={classes.card} {...errorStyle}>
         <Grid container direction="column">
           <Grid xs item container direction="row">
             <Grid xs item>

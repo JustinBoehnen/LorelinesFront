@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+/** @format */
+
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
   makeStyles,
   Grid,
@@ -16,10 +18,10 @@ import {
   CardActionArea,
   List,
   ListItem
-} from "@material-ui/core";
-import axios from "axios";
-import CloseIcon from "@material-ui/icons/Close";
-import { setLoreline } from "../actions/index";
+} from '@material-ui/core';
+import axios from 'axios';
+import CloseIcon from '@material-ui/icons/Close';
+import { setLoreline } from '../actions/index';
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -27,11 +29,11 @@ const useStyles = makeStyles(theme => ({
   },
   link: {
     color: theme.palette.secondary.main,
-    textDecoration: "underline"
+    textDecoration: 'underline'
   },
   field: {
-    width: "20vw",
-    minWidth: "250px"
+    width: '20vw',
+    minWidth: '250px'
   },
   error: {
     color: theme.palette.error.main
@@ -44,12 +46,12 @@ export default connect(
 )(function Lorelines(props) {
   const classes = useStyles();
   const [open, setFeedbackOpen] = React.useState(false);
-  const [loreLineName, setloreLineName] = useState("");
+  const [loreLineName, setloreLineName] = useState('');
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [submitFailed, setSubmitFailed] = useState(false);
   const [loreLineArray, setLoreLineArray] = useState([]);
   const [values, setValues] = React.useState({
-    loreLineName: ""
+    loreLineName: ''
   });
 
   const GetLorelines = async () => {
@@ -58,9 +60,7 @@ export default connect(
         `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/lorelines`
       );
       setLoreLineArray(response.data);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export default connect(
   const onLoreLineChange = e => setloreLineName(e.target.value);
 
   const handleFeedbackClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     setFeedbackOpen(false);
@@ -79,9 +79,9 @@ export default connect(
   const onSubmit = async e => {
     e.preventDefault();
     setSubmitAttempted(true);
-    if (loreLineName !== "") {
+    if (loreLineName !== '') {
       let accept = await props.tryLorelineAdd(loreLineName);
-      setloreLineName("");
+      setloreLineName('');
       setSubmitAttempted(false);
       GetLorelines();
       setFeedbackOpen(true);
@@ -105,8 +105,8 @@ export default connect(
                   marginInlineStart: 20,
                   marginBottom: 25,
                   fontSize: 22,
-                  borderRadius: "50px",
-                  width: "150px"
+                  borderRadius: '50px',
+                  width: '150px'
                 }}
                 varient="contained"
                 color="primary"
@@ -116,11 +116,11 @@ export default connect(
             </Grid>
             <Grid item>
               <TextField
-                error={submitAttempted && loreLineName === ""}
+                error={submitAttempted && loreLineName === ''}
                 helperText={
-                  submitAttempted && loreLineName === ""
-                    ? "This field cannot be empty!"
-                    : ""
+                  submitAttempted && loreLineName === ''
+                    ? 'This field cannot be empty!'
+                    : ''
                 }
                 className={classes.field}
                 name="LorelineName"
@@ -135,15 +135,15 @@ export default connect(
             <Grid item>
               <Button
                 style={{
-                  maxWidth: "90px",
-                  maxHeight: "55px",
-                  minWidth: "90px",
-                  minHeight: "55px",
+                  maxWidth: '90px',
+                  maxHeight: '55px',
+                  minWidth: '90px',
+                  minHeight: '55px',
                   marginInlineStart: 10,
                   marginTop: 16,
                   padding: 5,
                   fontSize: 15,
-                  borderRadius: "50px"
+                  borderRadius: '50px'
                 }}
                 type="submit"
                 color="primary"
@@ -155,8 +155,8 @@ export default connect(
               {/************************************Adds a small popup letting users know that a lorelines been added******************************/}
               <Snackbar
                 anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left"
+                  vertical: 'bottom',
+                  horizontal: 'left'
                 }}
                 open={open}
                 autoHideDuration={6000}

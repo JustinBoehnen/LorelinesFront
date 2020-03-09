@@ -6,6 +6,8 @@ export default function(state = { width: 100, height: 100 }, action) {
       return { width: state.width, height: action.payload };
     case 'SET_WINDOW_WIDTH':
       return { width: action.payload, height: state.height };
+    default:
+      break;
   }
   return state;
 }
