@@ -9,6 +9,7 @@ import ThemeReducer from './ThemeReducer'
 import CurrentLorelineReducer from './CurrentLorelineReducer'
 import CurrentEntityReducer from './CurrentEntityReducer'
 import CurrentInstanceReducer from './CurrentInstanceReducer'
+import AxiosInstanceReducer from './AxiosInstanceReducer'
 
 const allReducers = combineReducers({
   user: UserReducer,
@@ -18,7 +19,8 @@ const allReducers = combineReducers({
   colorTheme: ThemeReducer,
   lorelineId: CurrentLorelineReducer,
   entityId: CurrentEntityReducer,
-  instanceId: CurrentInstanceReducer
+  instanceId: CurrentInstanceReducer,
+  instance: AxiosInstanceReducer
 })
 
 export default allReducers

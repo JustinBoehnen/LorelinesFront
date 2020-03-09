@@ -29,7 +29,7 @@ class InstancePage extends Component {
     render() {
         return (
             <List>
-                <Typography>{this.props.instanceId}</Typography>
+                <Typography>{this.props.instance}</Typography>
             </List>
         )
     }

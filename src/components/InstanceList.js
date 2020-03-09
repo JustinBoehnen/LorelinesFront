@@ -12,7 +12,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
-import { setInstance, setEntity } from "../actions/index";
+import { setInstanceId, setEntity, setInstance } from "../actions/index";
 
 class InstanceList extends Component {
   state = { open: {}, entities: [] }
@@ -32,6 +32,10 @@ class InstanceList extends Component {
     this.setState({ [key]: !this.state[key] })
   }
 
+  handleInstanceClick = (llid, eid, iid) => {
+    this.props.setInstance(llid, eid, iid);
+  };
+
   render() {
     return (
       <List>
@@ -50,7 +54,9 @@ class InstanceList extends Component {
                     return (
                       <ListItem key={instance._id} button onClick={() => {
                         this.props.setEntity(entity._id);
-                        this.props.setInstance(instance._id);
+                        this.props.setInstanceId(instance._id);
+                        //this.props.setInstance(this.props.lorelineId, entity._id, instance._id);
+                        this.handleInstanceClick(this.props.lorelineId, entity._id, instance._id);
                       }}>
                         <Typography>{instance.name}</Typography>
                       </ListItem>
@@ -73,8 +79,17 @@ function mapStatetoProps(state) {
   }
 }
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({ setInstance: setInstance, setEntity: setEntity }, 
+  return bindActionCreators({ setInstanceId: setInstanceId, setEntity: setEntity, 
+    setInstance: setInstance }, 
     dispatch);
 }
+
+// const matchDispatchToProps = dispatch => {
+//   return {
+//     onSetInstance: (lorelineId, entityId, instanceId) => {
+//       dispatch(setInstance(lorelineId, entityId, instanceId));
+//     }
+//   };
+// };
 
 export default connect(mapStatetoProps, matchDispatchToProps)(InstanceList)

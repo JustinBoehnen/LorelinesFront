@@ -46,13 +46,13 @@ export const setWindowHeight = height => {
   }
 }
 
-// export const setInstance = instanceId => {
-//   console.log('set instance to: ', instanceId)
-//   return {
-//     type: 'INSTANCE_CHANGED',
-//     payload: instanceId
-//   }
-// }
+export const setInstanceId = instanceId => {
+  console.log('set instance to: ', instanceId)
+  return {
+    type: 'INSTANCEID_CHANGED',
+    payload: instanceId
+  }
+}
 
 export const setInstance = ({ lorelineId, entityId, instanceId }) => {
   return (dispatch) => {
@@ -65,13 +65,13 @@ export const setInstance = ({ lorelineId, entityId, instanceId }) => {
       });
   };
 };
-export const setInstanceSuccess = (data) => {
+export const setInstanceSuccess = (instance) => {
   return {
     type: 'INSTANCE_CHANGED',
     payload: {
-      _id: data._id,
-      name: data.name,
-      content: data.content
+      _id: instance._id,
+      name: instance.name,
+      content: instance.content
     }
   }
 };
