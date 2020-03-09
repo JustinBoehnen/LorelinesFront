@@ -18,7 +18,8 @@ class InstanceList extends Component {
   state = { open: {}, entities: [] }
 
   componentDidMount() {
-    axios
+    if(this.props.lorelineId) {
+      axios
       .get(
         `https://lorelines-expressapi.herokuapp.com/api/lorelines/${this.props.lorelineId}/directory/`
       )
@@ -26,6 +27,8 @@ class InstanceList extends Component {
         const entities = res.data
         this.setState({ entities })
       })
+    }
+    
   }
 
   handleClick = key => () => {

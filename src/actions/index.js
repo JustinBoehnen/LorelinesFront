@@ -70,9 +70,10 @@ export const setInstanceSuccess = (instance) => {
   console.log('Should be instance object: ', instance)
   return {
     type: 'INSTANCE_CHANGED',
-    payload: {
-      ...instance
-    }
+    payload: instance
+    // payload: {
+    //   ...instance
+    // }
   }
 };
 

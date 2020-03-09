@@ -16,28 +16,27 @@ class InstancePage extends Component {
     state = { open: {}, instance: [] }
 
     componentDidMount() {
-        // axios
-        //   .get(
-        //     `https://lorelines-expressapi.herokuapp.com/api/lorelines/${this.props.lorelineId}/entities/${this.props.entityId}/instances/${this.props.instanceId}`
-        //   )
-        //   .then(res => {
-        //     const instance = res.data
-        //     this.setState({ instance })
-        //   })
+        
       }
 
     render() {
+
+        if(!this.props.instance) {
+            return <p>Sorry! Theres no instance yet</p>;
+        }
+
         return (
             <List>
-                {this.state.instance.map(field => {
-                    return(
-                        <div>
-                            <ListItem>
-                                <ListItemText primary={field} />
-                            </ListItem>
-                        </div>
-                    )
-                })}
+              {this.props.instance.content.map(field => {
+                return (
+                  <div key={field.content}>
+                    <ListItem button >
+                      <ListItemText primary={field.content} 
+                        secondary={field.name}/>
+                    </ListItem>
+                  </div>
+                )
+              })}
             </List>
         )
     }
