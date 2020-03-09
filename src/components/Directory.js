@@ -7,8 +7,6 @@ import {
   makeStyles,
   Drawer
 } from '@material-ui/core';
-
-//import AddBox from '@material-ui/icons/AddBoxOutlined';
 import InstanceList from './InstanceList';
 import InstancePage from './InstancePage';
 
@@ -32,33 +30,8 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
 }));
 
-export default function Lorelines(props) {
+export default function Directory(props) {
   const classes = useStyles();
-  //const [loreLineName, setloreLineName] = useState('');
-  // const [submitAttempted, setSubmitAttempted] = useState(false);
-  //const [submitFailed, setSubmitFailed] = useState(false);
-  // const [values, setValues] = React.useState({
-  //   loreLineName: ''
-  // });
-
-  // const onLoreLineChange = e => setloreLineName(e.target.value);
-
-  // const handleChange = prop => event => {
-  //   setValues({ ...values, [prop]: event.target.value });
-  // };
-
-  // const onSubmit = async e => {
-  //   e.preventDefault();
-  //   setSubmitAttempted(true);
-
-  //   if (loreLineName !== '') {
-  //     let accept = await props.tryLorelineAdd(loreLineName);
-  //     if (!accept) setSubmitFailed(true);
-  //     return accept;
-  //   } else {
-  //     return false;
-  //   }
-  // };
 
   return (
       <main className={classes.root}>

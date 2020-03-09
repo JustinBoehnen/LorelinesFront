@@ -10,7 +10,6 @@ import {
   Collapse,
   Typography
 } from '@material-ui/core'
-import { ExpandLess, ExpandMore } from '@material-ui/icons'
 
 class InstancePage extends Component {
     state = { open: {}, instance: [] }
@@ -44,9 +43,6 @@ class InstancePage extends Component {
 
 function mapStatetoProps(state) {
     return {
-        lorelineId: state.lorelineId,
-        entityId: state.entityId,
-        instanceId: state.instanceId,
         instance: state.instance
     }
   }

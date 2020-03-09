@@ -71,13 +71,10 @@ export const setInstanceSuccess = (instance) => {
   return {
     type: 'INSTANCE_CHANGED',
     payload: instance
-    // payload: {
-    //   ...instance
-    // }
   }
 };
 
-export const setEntity = entityId => {
+export const setEntityId = entityId => {
   console.log('set entity to: ', entityId)
   return {
     type: 'ENTITY_CHANGED',
