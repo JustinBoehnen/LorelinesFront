@@ -54,7 +54,8 @@ export const setInstanceId = instanceId => {
   }
 }
 
-export const setInstance = ({ lorelineId, entityId, instanceId }) => {
+export const setInstance = ( lorelineId, entityId, instanceId ) => {
+  console.log('Passed in values are: ', (lorelineId, entityId, instanceId))
   return (dispatch) => {
     return axios.get(`${apiUrl}/${lorelineId}/entities/${entityId}/instances/${instanceId}`)
       .then(response => {
@@ -66,12 +67,11 @@ export const setInstance = ({ lorelineId, entityId, instanceId }) => {
   };
 };
 export const setInstanceSuccess = (instance) => {
+  console.log('Should be instance object: ', instance)
   return {
     type: 'INSTANCE_CHANGED',
     payload: {
-      _id: instance._id,
-      name: instance.name,
-      content: instance.content
+      ...instance
     }
   }
 };

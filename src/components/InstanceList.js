@@ -32,10 +32,6 @@ class InstanceList extends Component {
     this.setState({ [key]: !this.state[key] })
   }
 
-  handleInstanceClick = (llid, eid, iid) => {
-    this.props.setInstance(llid, eid, iid);
-  };
-
   render() {
     return (
       <List>
@@ -55,8 +51,7 @@ class InstanceList extends Component {
                       <ListItem key={instance._id} button onClick={() => {
                         this.props.setEntity(entity._id);
                         this.props.setInstanceId(instance._id);
-                        //this.props.setInstance(this.props.lorelineId, entity._id, instance._id);
-                        this.handleInstanceClick(this.props.lorelineId, entity._id, instance._id);
+                        this.props.setInstance(this.props.lorelineId, entity._id, instance._id);
                       }}>
                         <Typography>{instance.name}</Typography>
                       </ListItem>

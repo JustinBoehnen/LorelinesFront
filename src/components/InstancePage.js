@@ -29,7 +29,15 @@ class InstancePage extends Component {
     render() {
         return (
             <List>
-                <Typography>{this.props.instance}</Typography>
+                {this.state.instance.map(field => {
+                    return(
+                        <div>
+                            <ListItem>
+                                <ListItemText primary={field} />
+                            </ListItem>
+                        </div>
+                    )
+                })}
             </List>
         )
     }
@@ -39,7 +47,8 @@ function mapStatetoProps(state) {
     return {
         lorelineId: state.lorelineId,
         entityId: state.entityId,
-        instanceId: state.instanceId
+        instanceId: state.instanceId,
+        instance: state.instance
     }
   }
   
