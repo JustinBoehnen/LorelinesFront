@@ -104,13 +104,12 @@ class Home extends Component {
             setDrawerOpen={this.toggleDrawer}
           />
           <div
-            width={this.props.window.width / 3}
-            height={this.props.window.height / 3}
+            width={this.props.window.width}
+            height={this.props.window.height}
             style={{
               marginLeft: this.state.drawerOpen
                 ? drawerOpenWidth
-                : drawerClosedWidth,
-              marginTop: topBarHeight
+                : drawerClosedWidth
             }}
           >
             <Route path="/app/account">

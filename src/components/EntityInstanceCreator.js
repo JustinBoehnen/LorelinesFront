@@ -59,7 +59,7 @@ class CustomEntityCreator extends Component {
   render() {
     return (
       <Grid
-        style={{ textAlign: 'center' }}
+        style={{ textAlign: 'center', marginTop: 20 }}
         container
         direction="column"
         justify="center"
