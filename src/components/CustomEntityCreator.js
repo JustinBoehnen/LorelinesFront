@@ -1,8 +1,8 @@
 /** @format */
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import axios from 'axios'
 import {
   List,
   ListItem,
@@ -13,23 +13,23 @@ import {
   MenuItem,
   Tooltip,
   Typography
-} from '@material-ui/core';
-import { Add, Save } from '@material-ui/icons';
-import EntityField from './custom_entity_fields/EntityField';
-import SectionDivider from './custom_entity_fields/SectionDivider.js';
-import RadioListEntityField from './custom_entity_fields/RadioListEntityField';
-import { BlockPicker } from 'react-color';
+} from '@material-ui/core'
+import { Add, Save } from '@material-ui/icons'
+import EntityField from './custom_entity_fields/EntityField'
+import SectionDivider from './custom_entity_fields/SectionDivider.js'
+import RadioListEntityField from './custom_entity_fields/RadioListEntityField'
+import { BlockPicker } from 'react-color'
 
 class CustomEntityCreator extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       name: '',
       color: '#f78d1e',
       fields: [],
       anchorEl: null,
       validationFailed: false
-    };
+    }
   }
 
   addEntityToDB = async entity => {
@@ -41,9 +41,9 @@ class CustomEntityCreator extends Component {
           color: entity.color,
           content: entity.content
         }
-      );
+      )
     } catch (err) {}
-  };
+  }
 
   handleAddItem = (commonName, actualName) => {
     this.setState({
@@ -51,79 +51,79 @@ class CustomEntityCreator extends Component {
         ...this.state.fields,
         { commonName: commonName, actualName: actualName, label: '' }
       ]
-    });
-    this.handleMenuClose();
-  };
+    })
+    this.handleMenuClose()
+  }
 
   handleRemoveItem = index => {
-    const array = [...this.state.fields];
-    array.splice(index, 1);
-    this.setState({ fields: array });
-  };
+    const array = [...this.state.fields]
+    array.splice(index, 1)
+    this.setState({ fields: array })
+  }
 
   handleMenuClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
+    this.setState({ anchorEl: event.currentTarget })
+  }
 
   handleFieldLabelChange = (index, label) => {
-    const data = this.state.fields;
-    data[index].label = label;
+    const data = this.state.fields
+    data[index].label = label
 
-    this.setState({ fields: data });
-  };
+    this.setState({ fields: data })
+  }
 
   handleMenuClose = () => {
-    this.setState({ anchorEl: null });
-  };
+    this.setState({ anchorEl: null })
+  }
 
-  handleNameChange = e => this.setState({ name: e.target.value });
+  handleNameChange = e => this.setState({ name: e.target.value })
 
-  handleColorChange = color => this.setState({ color: color.hex });
+  handleColorChange = color => this.setState({ color: color.hex })
 
   handleSetRadioOptions = (index, options) => {
-    const data = this.state.fields;
-    data[index].options = options;
+    const data = this.state.fields
+    data[index].options = options
 
-    this.setState({ fields: data });
-  };
+    this.setState({ fields: data })
+  }
 
   handleCreateEntity = () => {
-    let error = false;
+    let error = false
 
-    if (this.state.name === '' || this.state.fields.length === 0) error = true;
+    if (this.state.name === '' || this.state.fields.length === 0) error = true
     else {
-      var content = [];
+      var content = []
 
-      this.state.fields.foreach((field, i) => {
-        if (field.actualName === 'SECTION_DIVIDER') field.label = 'divider';
-        if (field.label === '') error = true;
+      this.state.fields.forEach((field, i) => {
+        if (field.actualName === 'SECTION_DIVIDER') field.label = 'divider'
+        if (field.label === '') error = true
 
-        content = content.concat({ type: field.actualName, name: field.label });
+        content = content.concat({ type: field.actualName, name: field.label })
 
         if (field.actualName === 'RADIOLIST_FIELD') {
-          content[i].content = [];
+          content[i].content = []
 
           for (const option of field.options) {
-            if (option.label === '') error = true;
+            if (option.label === '') error = true
 
             content[i].content = content[i].content.concat({
               name: option.label
-            });
+            })
           }
         }
-      });
+      })
     }
 
-    this.setState({ validationFailed: error });
+    this.setState({ validationFailed: error })
 
     const entity = {
       name: this.state.name,
       color: this.state.color,
       content: content
-    };
+    }
 
-    if (!error) this.addEntityToDB(entity);
-  };
+    if (!error) this.addEntityToDB(entity)
+  }
 
   errorMessage = () => {
     return (
@@ -136,17 +136,17 @@ class CustomEntityCreator extends Component {
           <Typography>custom entity must have at least one field</Typography>
         )}
       </div>
-    );
-  };
+    )
+  }
 
   render() {
     return (
       <Grid
         style={{ textAlign: 'center', marginTop: 20 }}
         container
-        direction="column"
-        justify="center"
-        alignItems="center"
+        direction='column'
+        justify='center'
+        alignItems='center'
         spacing={2}
       >
         <Grid item>
@@ -157,18 +157,18 @@ class CustomEntityCreator extends Component {
                 ? 'this field cannot be empty'
                 : ''
             }
-            label="Custom Entity Name"
+            label='Custom Entity Name'
             value={this.state.name}
             onChange={this.handleNameChange}
             inputProps={{ style: { color: this.state.color } }}
           />
         </Grid>
         <Grid item>
-          <Tooltip title="Select a color for your custom entity">
+          <Tooltip title='Select a color for your custom entity'>
             <BlockPicker
               color={this.state.color}
               onChangeComplete={this.handleColorChange}
-              width="300"
+              width='300'
             />
           </Tooltip>
         </Grid>
@@ -184,7 +184,7 @@ class CustomEntityCreator extends Component {
                       label={field.label}
                     />
                   </ListItem>
-                );
+                )
               else if (field.actualName === 'RADIOLIST_FIELD')
                 return (
                   <ListItem key={field + i}>
@@ -198,7 +198,7 @@ class CustomEntityCreator extends Component {
                       validationFailed={this.state.validationFailed}
                     />
                   </ListItem>
-                );
+                )
               else
                 return (
                   <ListItem key={field + i}>
@@ -211,7 +211,7 @@ class CustomEntityCreator extends Component {
                       validationFailed={this.state.validationFailed}
                     />
                   </ListItem>
-                );
+                )
             })}
           </List>
         </Grid>
@@ -222,7 +222,7 @@ class CustomEntityCreator extends Component {
                 padding: 5,
                 fontSize: 16
               }}
-              color="error"
+              color='error'
             >
               {this.errorMessage()}
             </Typography>
@@ -231,15 +231,15 @@ class CustomEntityCreator extends Component {
         <Grid item>
           <Button
             startIcon={<Add />}
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             style={{ width: 150 }}
             onClick={this.handleMenuClick}
           >
             Add Field
           </Button>
           <Menu
-            id="simple-menu"
+            id='simple-menu'
             anchorEl={this.state.anchorEl}
             keepMounted
             open={Boolean(this.state.anchorEl)}
@@ -254,8 +254,8 @@ class CustomEntityCreator extends Component {
               Number
             </MenuItem>
             <Tooltip
-              title="A list of references to other instances"
-              placement="right"
+              title='A list of references to other instances'
+              placement='right'
             >
               <MenuItem
                 onClick={() => this.handleAddItem('list', 'LIST_FIELD')}
@@ -264,8 +264,8 @@ class CustomEntityCreator extends Component {
               </MenuItem>
             </Tooltip>
             <Tooltip
-              title="A single reference to another instance"
-              placement="right"
+              title='A single reference to another instance'
+              placement='right'
             >
               <MenuItem
                 onClick={() =>
@@ -281,8 +281,8 @@ class CustomEntityCreator extends Component {
               Checkbox
             </MenuItem>
             <Tooltip
-              title="A list of options in which only one can be true"
-              placement="right"
+              title='A list of options in which only one can be true'
+              placement='right'
             >
               <MenuItem
                 onClick={() =>
@@ -297,7 +297,7 @@ class CustomEntityCreator extends Component {
             >
               Image
             </MenuItem>
-            <Tooltip title="A bold header for organization" placement="right">
+            <Tooltip title='A bold header for organization' placement='right'>
               <MenuItem
                 onClick={() => this.handleAddItem('header', 'SECTION_HEADER')}
               >
@@ -305,8 +305,8 @@ class CustomEntityCreator extends Component {
               </MenuItem>
             </Tooltip>
             <Tooltip
-              title="A vertical line to break up your sections"
-              placement="right"
+              title='A vertical line to break up your sections'
+              placement='right'
             >
               <MenuItem
                 onClick={() => this.handleAddItem('divider', 'SECTION_DIVIDER')}
@@ -319,8 +319,8 @@ class CustomEntityCreator extends Component {
         <Grid item>
           <Button
             startIcon={<Save />}
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             style={{ width: 150 }}
             onClick={this.handleCreateEntity}
           >
@@ -328,14 +328,14 @@ class CustomEntityCreator extends Component {
           </Button>
         </Grid>
       </Grid>
-    );
+    )
   }
 }
 
 function mapStatetoProps(state) {
   return {
     lorelineId: state.lorelineId
-  };
+  }
 }
 
-export default connect(mapStatetoProps)(CustomEntityCreator);
+export default connect(mapStatetoProps)(CustomEntityCreator)

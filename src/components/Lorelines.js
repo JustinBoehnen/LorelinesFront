@@ -50,7 +50,8 @@ const useStyles = makeStyles(theme => ({
     textOverflow: 'ellipsis',
     width: 350,
     margin: 10,
-    border: '2px solid #f78d1e'
+    border: '2px solid #f78d1e',
+    backgroundColor: '#666'
   },
   cardimage: {
     height: 140
@@ -117,6 +118,7 @@ export default connect(
   const handleNewDialogClose = (id, name) => {
     setNewDialogOpen(false)
     setLorelineName('')
+    setNewLorelineImage(null)
     setUsingStaticEntities(true)
     setSubmitAttempted(false)
   }
@@ -225,7 +227,7 @@ export default connect(
       setLorelineName('')
       setNewLorelineImage(null)
       setSubmitAttempted(false)
-      //setCreationFeedbackOpen(true)
+      setCreationFeedbackOpen(true)
       handleNewDialogClose()
       createNewLoreline(lorelineName, newLorelineImage)
     } else {
@@ -245,10 +247,10 @@ export default connect(
               right: 20,
               zIndex: 1900
             }}
-            variant="extended"
-            size="large"
-            color="primary"
-            aria-label="add"
+            variant='extended'
+            size='large'
+            color='primary'
+            aria-label='add'
             className={classes.margin}
             onClick={() => handleNewDialogOpen()}
           >
@@ -277,23 +279,23 @@ export default connect(
             open={creationFeedbackOpen}
             autoHideDuration={6000}
             onClose={handleFeedbackClose}
-            message="Loreline Added"
+            message='Loreline Added'
             action={
               <React.Fragment>
                 <IconButton
-                  size="small"
-                  aria-label="close"
-                  color="inherit"
+                  size='small'
+                  aria-label='close'
+                  color='inherit'
                   onClick={handleFeedbackClose}
                 >
-                  <CloseIcon fontSize="small" />
+                  <CloseIcon fontSize='small' />
                 </IconButton>
               </React.Fragment>
             }
           />
 
           {/***************************************Display of the main screen**********************/}
-          <Typography style={{ marginLeft: 20, marginBottom: 20 }} variant="h4">
+          <Typography style={{ marginLeft: 20, marginBottom: 20 }} variant='h4'>
             Select a Loreline
           </Typography>
           <Divider />
@@ -302,9 +304,9 @@ export default connect(
             <Grid
               container
               //spacing={2}
-              direction="row"
-              justify="flex-start"
-              alignItems="center"
+              direction='row'
+              justify='flex-start'
+              alignItems='center'
             >
               {props.lorelineArray.map(loreline => (
                 <Grid item key={props.lorelineArray.indexOf(loreline)}>
@@ -315,7 +317,7 @@ export default connect(
                         : classes.card
                     }
                   >
-                    <Tooltip title="Select this loreline">
+                    <Tooltip title='Select this loreline'>
                       <CardActionArea
                         onClick={() => {
                           handleSelectLoreline(loreline._id)
@@ -331,7 +333,7 @@ export default connect(
                         <CardHeader
                           title={
                             <Typography
-                              variant="h5"
+                              variant='h5'
                               className={classes.cardheader}
                             >
                               {loreline.name}
@@ -346,7 +348,7 @@ export default connect(
                     </Tooltip>
                     <Divider />
                     <CardActions>
-                      <Tooltip title="Delete">
+                      <Tooltip title='Delete'>
                         <IconButton
                           onClick={() =>
                             handleDeleteDialogOpen(loreline._id, loreline.name)
@@ -356,7 +358,7 @@ export default connect(
                           <Delete />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title="Duplicate">
+                      <Tooltip title='Duplicate'>
                         <IconButton
                           onClick={() =>
                             handleDeleteDialogOpen(loreline._id, loreline.name)
