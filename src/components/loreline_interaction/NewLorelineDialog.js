@@ -18,18 +18,21 @@ import {
 export default function NewLorelineDialog(props) {
   const handleFileChange = files => {
     const sizeInMB = 2
+    var failed = false
 
     if (
       files[0].type !== 'image/png' &&
       files[0].type !== 'image/jpg' &&
       files[0].type !== 'image/jpeg'
-    )
+    ) {
       alert(
         files[0].name +
           ' is not an accepted image format! Accepted formats are:\n.png .jpg .jpeg'
       )
+      failed = true
+    }
 
-    if (files[0].size > 1048576 * sizeInMB)
+    if (files[0].size > 1048576 * sizeInMB) {
       alert(
         'File size exceeds ' +
           sizeInMB +
@@ -37,13 +40,15 @@ export default function NewLorelineDialog(props) {
           (files[0].size / 1048576).toFixed(2) +
           'MB'
       )
+      failed = true
+    }
+
+    if (!failed) props.setNewLorelineImage(files[0])
   }
 
   return (
     <Dialog open={props.isOpen} onClose={props.handleNewDialogClose} fullWidth>
-      <DialogTitle>
-        <Typography variant="h5">Create a new loreline:</Typography>
-      </DialogTitle>
+      <DialogTitle>Create a new loreline:</DialogTitle>
       <DialogContent>
         <TextField
           error={props.submitAttempted && props.lorelineName === ''}
@@ -66,12 +71,14 @@ export default function NewLorelineDialog(props) {
             Upload Image
             <input
               type="file"
-              multiple="false"
               accept=".jpg, .jpeg, .png"
               onChange={e => handleFileChange(e.target.files)}
               style={{ display: 'none' }}
             />
           </Button>
+          <Typography align="center">
+            {props.newLorelineImage !== null ? props.newLorelineImage.name : ''}
+          </Typography>
           <Tooltip
             arrow
             placement="left"

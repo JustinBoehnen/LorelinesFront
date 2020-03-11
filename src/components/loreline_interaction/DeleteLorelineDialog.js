@@ -4,6 +4,7 @@ import React from 'react'
 import {
   Typography,
   Button,
+  makeStyles,
   Dialog,
   DialogActions,
   DialogContent,
@@ -11,20 +12,34 @@ import {
   DialogTitle
 } from '@material-ui/core'
 
+const useStyles = makeStyles(theme => ({
+  deletebutton: {
+    color: '#ea4b35',
+    '&:hover': {
+      color: '#000',
+      backgroundColor: '#ea4b35',
+      fontWeight: 'bolder'
+    }
+  }
+}))
+
 export default function DeleteLorelineDialog(props) {
+  const classes = useStyles()
+
   return (
     <Dialog
       open={props.deleteDialogOpen}
       onClose={props.handleDeleteDialogClose}
     >
-      <DialogTitle>
-        <Typography variant="h5">Are you sure you want to delete:</Typography>
+      <DialogTitle>Are you sure you want to delete:</DialogTitle>
+      <DialogContent>
         <Typography
           variant="h4"
           style={{
             overflow: 'hidden',
             textOverflow: 'clip',
             marginTop: 16,
+            marginBottom: 22,
             textAlign: 'center',
             width: 400
           }}
@@ -32,8 +47,6 @@ export default function DeleteLorelineDialog(props) {
         >
           {props.deleteLorelineName}
         </Typography>
-      </DialogTitle>
-      <DialogContent>
         <DialogContentText
           style={{
             textAlign: 'center',
@@ -48,9 +61,7 @@ export default function DeleteLorelineDialog(props) {
           onClick={e => {
             props.deleteLorelineFromDB(e, props.deleteLorelineId)
           }}
-          style={{
-            color: '#ea4b35'
-          }}
+          className={classes.deletebutton}
           autoFocus
         >
           Delete

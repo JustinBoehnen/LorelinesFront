@@ -1,24 +1,24 @@
 /** @format */
 
-import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import axios from 'axios';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component } from 'react'
+import { Route, Redirect } from 'react-router-dom'
+import axios from 'axios'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { setWindowWidth, setWindowHeight } from '../actions/index';
+import { setWindowWidth, setWindowHeight, setLoading } from '../actions/index'
 
-import Topbar from './Topbar';
-import Sidebar from './Sidebar';
+import Topbar from './Topbar'
+import Sidebar from './Sidebar'
 
-import Timeline from './Timeline';
-import Account from './Account';
-import Directory from './Directory';
+import Timeline from './Timeline'
+import Account from './Account'
+import Directory from './Directory'
 //import About from './About';
-import Lorelines from './Lorelines';
+import Lorelines from './Lorelines'
 //import CreateInstance from './CreateInstance';
-import EntityInstanceCreator from './EntityInstanceCreator';
-import CustomEntityCreator from './CustomEntityCreator';
+import EntityInstanceCreator from './EntityInstanceCreator'
+import CustomEntityCreator from './CustomEntityCreator'
 
 const styleClasses = () => ({
   root: {
@@ -38,57 +38,44 @@ const styleClasses = () => ({
   topBar: {
     height: 64
   }
-});
+})
 
-const drawerOpenWidth = 240;
-const drawerClosedWidth = 58;
-const topBarHeight = 64;
+const drawerOpenWidth = 240
+const drawerClosedWidth = 58
+const topBarHeight = 64
 
 class Home extends Component {
   constructor(props) {
-    super(props);
-    this.state = { drawerOpen: false, width: 0, height: 0 };
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    super(props)
+    this.state = { drawerOpen: false, width: 0, height: 0 }
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
   }
 
   componentDidMount() {
-    this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
+    this.updateWindowDimensions()
+    window.addEventListener('resize', this.updateWindowDimensions)
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
+    window.removeEventListener('resize', this.updateWindowDimensions)
   }
 
   updateWindowDimensions() {
     if (this.state.drawerOpen)
-      this.setState({ width: window.innerWidth - drawerOpenWidth });
-    else this.setState({ width: window.innerWidth - drawerClosedWidth });
+      this.setState({ width: window.innerWidth - drawerOpenWidth })
+    else this.setState({ width: window.innerWidth - drawerClosedWidth })
 
-    this.setState({ height: window.innerHeight - 64 });
+    this.setState({ height: window.innerHeight - 64 })
 
-    this.props.setWindowWidth(this.state.width);
-    this.props.setWindowHeight(this.state.height);
+    this.props.setWindowWidth(this.state.width)
+    this.props.setWindowHeight(this.state.height)
   }
 
   toggleDrawer = open => {
-    this.setState({ drawerOpen: open });
-    this.updateWindowDimensions();
-  };
+    this.setState({ drawerOpen: open })
+    this.updateWindowDimensions()
+  }
 
-  tryLorelineAdd = async name => {
-    try {
-      await axios.post(
-        `https://lorelines-expressapi.herokuapp.com/api/users/${this.props.user.id}/lorelines`,
-        {
-          name
-        }
-      );
-      return true;
-    } catch (err) {
-      return false;
-    }
-  };
   render() {
     return (
       <div>
@@ -117,7 +104,7 @@ class Home extends Component {
             </Route>
 
             <Route path="/app/lorelines">
-              <Lorelines tryLorelineAdd={this.tryLorelineAdd} />
+              <Lorelines />
             </Route>
 
             <Route path="/app/new">
@@ -142,7 +129,7 @@ class Home extends Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -150,14 +137,18 @@ function mapStateToProps(state) {
   return {
     user: state.user,
     window: state.window
-  };
+  }
 }
 
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
-    { setWindowWidth: setWindowWidth, setWindowHeight: setWindowHeight },
+    {
+      setWindowWidth: setWindowWidth,
+      setWindowHeight: setWindowHeight,
+      setLoading: setLoading
+    },
     dispatch
-  );
+  )
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(Home);
+export default connect(mapStateToProps, matchDispatchToProps)(Home)

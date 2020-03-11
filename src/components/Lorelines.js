@@ -22,7 +22,7 @@ import axios from 'axios'
 import CloseIcon from '@material-ui/icons/Close'
 import { Delete, FileCopy } from '@material-ui/icons'
 import AddIcon from '@material-ui/icons/Add'
-import { setLoreline } from '../actions/index'
+import { setLoreline, setLoading, setLorelineArray } from '../actions/index'
 import NewLorelineDialog from './loreline_interaction/NewLorelineDialog'
 import DeleteLorelineDialog from './loreline_interaction/DeleteLorelineDialog'
 
@@ -60,6 +60,11 @@ const useStyles = makeStyles(theme => ({
     textOverflow: 'ellipsis',
     height: 35,
     width: 320
+  },
+  deletebutton: {
+    '&:hover': {
+      color: '#ea4b35'
+    }
   }
 }))
 
@@ -75,8 +80,25 @@ export default connect(
   const [deleteLorelineName, setDeleteLorelineName] = React.useState('')
   const [creationFeedbackOpen, setCreationFeedbackOpen] = React.useState(false)
   const [lorelineName, setLorelineName] = useState('')
+  const [newLorelineImage, setNewLorelineImage] = useState(null)
   const [submitAttempted, setSubmitAttempted] = useState(false)
-  const [lorelineArray, setLorelineArray] = useState([])
+
+  useEffect(() => {
+    GetLorelines()
+  }, [])
+
+  const GetLorelines = async () => {
+    props.setLoading(true) // LOADING START: GET LORELINES
+    try {
+      const response = await axios.get(
+        `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/lorelines`
+      )
+      props.setLorelineArray(response.data)
+      props.setLoading(false) // LOADING END: GET LORELINES
+    } catch (err) {
+      props.setLoading(false)
+    }
+  }
 
   const handleDeleteDialogOpen = (id, name) => {
     setDeleteLorelineId(id)
@@ -103,60 +125,109 @@ export default connect(
     setUsingStaticEntities(!usingStaticEnities)
   }
 
-  const GetLorelines = async () => {
-    try {
-      const response = await axios.get(
-        `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/lorelines`
-      )
-      setLorelineArray(response.data)
-    } catch (err) {
-      console.log(err)
+  const onLorelineNameChange = e => setLorelineName(e.target.value)
+
+  const handleSelectLoreline = id => {
+    console.log(id)
+    props.setLoreline(id)
+    GetLorelines()
+  }
+
+  const handleFeedbackClose = (event, reason) => {
+    if (reason !== 'clickaway') {
+      setCreationFeedbackOpen(false)
     }
   }
 
-  useEffect(() => {
-    GetLorelines()
-  }, [])
+  const createNewLoreline = async (name, file) => {
+    var imagePath = ''
 
-  const onLorelineNameChange = e => setLorelineName(e.target.value)
+    if (file !== null) {
+      const data = new FormData()
+      data.append('image', file, file.name)
 
-  const handleFeedbackClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return
+      try {
+        await axios
+          .post(
+            `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/images`,
+            data,
+            {
+              headers: {
+                accept: 'application/json',
+                'Accept-Language': 'en-US,en;q=0.8',
+                'Content-Type': `multipart/form-data; boundary=${data._boundary}`
+              }
+            }
+          )
+          .then(res => {
+            imagePath = res.data ?? ''
+          })
+      } catch (err) {}
     }
-    setCreationFeedbackOpen(false)
+
+    //default image
+    if (imagePath === '')
+      imagePath =
+        'https://lorelines-image-library.s3-us-west-2.amazonaws.com/default_loreline_image.png'
+
+    try {
+      await axios
+        .post(
+          `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/lorelines`,
+          {
+            name: name,
+            image: imagePath
+          }
+        )
+        .then(res => {
+          //const array = props.lorelineArray
+          //const newElem = {
+          //  _id: res.data,
+          //  name: name,
+          //  image: imagePath,
+          //  modified: Date.now()
+          //}
+          //array.unshift(newElem)
+          //props.setLorelineArray(array)
+          GetLorelines()
+          props.setLoading(false) // LOADING END: NEW LORELINE
+        })
+    } catch (err) {}
+    GetLorelines()
   }
 
   const deleteLorelineFromDB = async (e, id) => {
     e.preventDefault()
-    console.log('in delete')
-    console.log(id)
+    props.setLoading(true) // LOADING START: DELETE LORELINE
+    handleDeleteDialogClose()
     try {
-      const { data } = await axios.delete(
-        `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/lorelines/${id}`
-      )
-      GetLorelines()
-      handleDeleteDialogClose()
-      return true
-    } catch (err) {
-      console.log(err.message)
-      return false
-    }
+      await axios
+        .delete(
+          `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/lorelines/${id}`
+        )
+        .then(() => {
+          const array = [...props.lorelineArray]
+          array.forEach(loreline => {
+            if (loreline._id === id) array.splice(array.indexOf(loreline), 1)
+          })
+          props.setLorelineArray(array)
+          //GetLorelines()
+          props.setLoading(false) // LOADING END: DELETE LORELINE
+        })
+    } catch (err) {}
   }
 
   const onNewLorelineSubmit = async e => {
     e.preventDefault()
     setSubmitAttempted(true)
     if (lorelineName !== '') {
-      let accept = await props.tryLorelineAdd(lorelineName)
+      props.setLoading(true) // LOADING START: NEW LORELINE
       setLorelineName('')
+      setNewLorelineImage(null)
       setSubmitAttempted(false)
-      setCreationFeedbackOpen(true)
-      GetLorelines()
+      //setCreationFeedbackOpen(true)
       handleNewDialogClose()
-      if (!accept) {
-      }
-      return accept
+      createNewLoreline(lorelineName, newLorelineImage)
     } else {
       return false
     }
@@ -169,9 +240,10 @@ export default connect(
           {/************************************Button that opens add loreline dialog******************************/}
           <Fab
             style={{
-              position: 'absolute',
+              position: 'fixed',
               bottom: 20,
-              right: 20
+              right: 20,
+              zIndex: 1900
             }}
             variant="extended"
             size="large"
@@ -180,7 +252,7 @@ export default connect(
             className={classes.margin}
             onClick={() => handleNewDialogOpen()}
           >
-            <AddIcon className={classes.extendedIcon} />
+            <AddIcon />
             New Loreline
           </Fab>
           {/*********************** Popup menu for FAB ****************************************/}
@@ -193,6 +265,8 @@ export default connect(
             usingStaticEnities={usingStaticEnities}
             toggleUsingStaticEntities={toggleUsingStaticEntities}
             onNewLorelineSubmit={onNewLorelineSubmit}
+            setNewLorelineImage={setNewLorelineImage}
+            newLorelineImage={newLorelineImage}
           />
           {/*********************Small FeedBack to when a lorelines added*******************************/}
           <Snackbar
@@ -219,12 +293,10 @@ export default connect(
           />
 
           {/***************************************Display of the main screen**********************/}
-          <Typography
-            style={{ marginInlineStart: 20, fontSize: 20 }}
-            color="primary"
-          >
-            Select an existing loreline:
+          <Typography style={{ marginLeft: 20, marginBottom: 20 }} variant="h4">
+            Select a Loreline
           </Typography>
+          <Divider />
           <div className={classes.root}>
             {/*************************************Dynamically adding cards to screen***************/}
             <Grid
@@ -234,8 +306,8 @@ export default connect(
               justify="flex-start"
               alignItems="center"
             >
-              {lorelineArray.map(loreline => (
-                <Grid item key={lorelineArray.indexOf(loreline)}>
+              {props.lorelineArray.map(loreline => (
+                <Grid item key={props.lorelineArray.indexOf(loreline)}>
                   <Card
                     className={
                       props.loreline === loreline._id
@@ -246,12 +318,15 @@ export default connect(
                     <Tooltip title="Select this loreline">
                       <CardActionArea
                         onClick={() => {
-                          props.setLoreline(loreline._id)
+                          handleSelectLoreline(loreline._id)
                         }}
                       >
                         <CardMedia
                           className={classes.cardimage}
-                          image="https://cdn.mos.cms.futurecdn.net/YdAaqJNxhLZ66zmRZ3T58D.jpg"
+                          image={
+                            loreline.image ??
+                            'https://lorelines-image-library.s3-us-west-2.amazonaws.com/default_loreline_image.png'
+                          }
                         />
                         <CardHeader
                           title={
@@ -276,6 +351,7 @@ export default connect(
                           onClick={() =>
                             handleDeleteDialogOpen(loreline._id, loreline.name)
                           }
+                          className={classes.deletebutton}
                         >
                           <Delete />
                         </IconButton>
@@ -312,10 +388,18 @@ export default connect(
 function mapStateToProps(state) {
   return {
     user: state.user,
-    loreline: state.lorelineId
+    loreline: state.lorelineId,
+    lorelineArray: state.lorelineArray
   }
 }
 
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({ setLoreline: setLoreline }, dispatch)
+  return bindActionCreators(
+    {
+      setLoreline: setLoreline,
+      setLoading: setLoading,
+      setLorelineArray: setLorelineArray
+    },
+    dispatch
+  )
 }

@@ -1,8 +1,8 @@
 /** @format */
 
-export default function(state = false, action) {
+export default function(state = [], action) {
   switch (action.type) {
-    case 'SET_LOADING':
+    case 'SET_LORELINE_ARRAY':
       return action.payload
     default:
       break
