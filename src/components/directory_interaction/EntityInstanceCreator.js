@@ -39,19 +39,19 @@ class CustomEntityCreator extends Component {
     this.retreiveEntityFromDB()
   }
 
-  addInstanceToDB = async entity => {
+  addInstanceToDB = async instance => {
     this.props.setLoading(true)
     try {
       await axios
         .post(
           `https://lorelines-expressapi.herokuapp.com/api/lorelines/${this.props.lorelineId}/entities/${this.props.entityId}/instances`,
           {
-            name: entity.name,
-            content: entity.content
+            name: instance.name,
+            content: instance.content
           }
         )
         .then(() => {
-          this.props.updateList()
+          //this.props.updateList()
           this.props.setLoading(false)
         })
     } catch (err) {
@@ -63,20 +63,62 @@ class CustomEntityCreator extends Component {
     this.setState({ instanceName: e.target.value })
   }
 
-  retreiveEntityFromDB = async entity => {
-    console.log(this.props.lorelineId, this.props.entityId)
+  retreiveEntityFromDB = async () => {
     this.props.setLoading(true)
     try {
-      const data = await axios.get(
-        `https://lorelines-expressapi.herokuapp.com/api/lorelines/${this.props.lorelineId}/entities/${this.props.entityId}`
+      const { data } = await axios.get(
+        `https://lorelines-expressapi.herokuapp.com/api/lorelines/${this.props.lorelineId}/entities/${this.props.entityId}`,
+        {}
       )
       this.setState({
+        entityName: data.name,
+        color: data.color,
         fields: data.content
       })
       this.props.setLoading(false)
     } catch (err) {
       this.props.setLoading(false)
     }
+  }
+
+  handleCreateInstance = () => {
+    console.log('WORK IN PROGRESS!')
+    /*var error = false
+
+    if (this.state.instanceName === '') error = true
+    else {
+      var content = []
+
+      this.state.fields.forEach((field, i) => {
+        content = content.concat({
+          type: field.actualName,
+          name: field.label,
+          content: field.content
+        })
+
+        if (field.actualName === 'RADIOLIST_FIELD') {
+          content[i].content = []
+
+          for (const option of field.options) {
+            if (option.label === '') error = true
+
+            content[i].content = content[i].content.concat({
+              name: option.label
+            })
+          }
+        }
+      })
+    }
+
+    this.setState({ validationFailed: error })
+
+    const entity = {
+      name: this.state.name,
+      color: this.state.color,
+      content: content
+    }
+
+    if (!error) this.addEntityToDB(entity)*/
   }
 
   render() {
@@ -170,7 +212,7 @@ class CustomEntityCreator extends Component {
             variant='contained'
             color='primary'
             style={{ width: 150 }}
-            onClick={this.handleCreateEntity}
+            onClick={this.handleCreateInstance}
           >
             Create
           </Button>

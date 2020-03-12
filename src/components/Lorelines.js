@@ -19,8 +19,7 @@ import {
   CardActions
 } from '@material-ui/core'
 import axios from 'axios'
-import CloseIcon from '@material-ui/icons/Close'
-import { Delete, FileCopy, Add } from '@material-ui/icons'
+import { Delete, FileCopy, Add, Close as CloseIcon } from '@material-ui/icons'
 import { setLoreline, setLoading, setLorelineArray } from '../actions/index'
 import NewLorelineDialog from './loreline_interaction/NewLorelineDialog'
 import DeleteLorelineDialog from './loreline_interaction/DeleteLorelineDialog'
@@ -190,6 +189,7 @@ export default connect(
           //props.setLorelineArray(array)
           GetLorelines()
           props.setLoading(false) // LOADING END: NEW LORELINE
+          setCreationFeedbackOpen(true)
         })
     } catch (err) {}
     GetLorelines()
@@ -224,7 +224,6 @@ export default connect(
       setLorelineName('')
       setNewLorelineImage(null)
       setSubmitAttempted(false)
-      setCreationFeedbackOpen(true)
       handleNewDialogClose()
       createNewLoreline(lorelineName, newLorelineImage)
     } else {

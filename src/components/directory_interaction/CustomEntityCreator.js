@@ -14,9 +14,11 @@ import {
   Menu,
   MenuItem,
   Tooltip,
-  Typography
+  Typography,
+  Snackbar,
+  IconButton
 } from '@material-ui/core'
-import { Add, Save } from '@material-ui/icons'
+import { Add, Save, Close } from '@material-ui/icons'
 import EntityField from '../custom_entity_fields/EntityField'
 import SectionDivider from '../custom_entity_fields/SectionDivider.js'
 import RadioListEntityField from '../custom_entity_fields/RadioListEntityField'
@@ -30,7 +32,14 @@ class CustomEntityCreator extends Component {
       color: '#f78d1e',
       fields: [],
       anchorEl: null,
-      validationFailed: false
+      validationFailed: false,
+      creationFeedbackOpen: false
+    }
+  }
+
+  handleFeedbackClose = (event, reason) => {
+    if (reason !== 'clickaway') {
+      this.setState({ creationFeedbackOpen: false })
     }
   }
 
@@ -47,8 +56,9 @@ class CustomEntityCreator extends Component {
           }
         )
         .then(() => {
-          this.props.updateList()
           this.props.setLoading(false)
+          this.setState({ creationFeedbackOpen: true })
+          this.props.addEntityToList(entity)
         })
     } catch (err) {
       this.props.setLoading(false)
@@ -98,7 +108,7 @@ class CustomEntityCreator extends Component {
   }
 
   handleCreateEntity = () => {
-    let error = false
+    var error = false
 
     if (this.state.name === '' || this.state.fields.length === 0) error = true
     else {
@@ -337,6 +347,28 @@ class CustomEntityCreator extends Component {
             Create
           </Button>
         </Grid>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+          open={this.state.creationFeedbackOpen}
+          autoHideDuration={6000}
+          onClose={this.handleFeedbackClose}
+          message='Custom Entity Added'
+          action={
+            <React.Fragment>
+              <IconButton
+                size='small'
+                aria-label='close'
+                color='inherit'
+                onClick={this.handleFeedbackClose}
+              >
+                <Close fontSize='small' />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
       </Grid>
     )
   }

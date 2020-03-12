@@ -37,7 +37,7 @@ export default connect(
   matchDispatchToProps
 )(function Directory(props) {
   const [mode, setMode] = React.useState(0)
-  const [entites, setEntites] = React.useState([])
+  const [entities, setEntites] = React.useState([])
 
   const classes = useStyles()
   const modes = {
@@ -45,6 +45,10 @@ export default connect(
     ENTITY_CREATION: 1,
     INSTANCE_CREATION: 2,
     INSTANCE_VIEWER: 3
+  }
+
+  const addEntityToList = entity => {
+    setEntites(entities.concat(entity))
   }
 
   const getDirectoryList = async () => {
@@ -56,7 +60,7 @@ export default connect(
             `https://lorelines-expressapi.herokuapp.com/api/lorelines/${props.lorelineId}/directory/`
           )
           .then(res => {
-            console.log(res.data)
+            console.log('NEW DATA: ', res.data)
             setEntites(res.data)
             props.setLoading(false)
           })
@@ -73,9 +77,9 @@ export default connect(
   const ModeComponent = () => {
     switch (mode) {
       case modes.ENTITY_CREATION:
-        return <CustomEntityCreator updateList={getDirectoryList} />
+        return <CustomEntityCreator addEntityToList={addEntityToList} />
       case modes.INSTANCE_CREATION:
-        return <EntityInstanceCreator updateList={getDirectoryList} />
+        return <EntityInstanceCreator />
       case modes.INSTANCE_VIEWER:
         return <InstanceViewer />
       default:
@@ -104,7 +108,7 @@ export default connect(
         <DirectoryList
           modes={modes}
           setMode={setMode}
-          entites={entites}
+          entites={entities}
           updateList={getDirectoryList}
         />
       </Drawer>
