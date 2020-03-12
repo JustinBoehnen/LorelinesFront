@@ -8,6 +8,9 @@ import LoadingReducer from './LoadingReducer'
 import ThemeReducer from './ThemeReducer'
 import CurrentLorelineReducer from './CurrentLorelineReducer'
 import LorelineArrayReducer from './LorelineArrayReducer'
+import CurrentEntityReducer from './CurrentEntityReducer'
+import CurrentInstanceReducer from './CurrentInstanceReducer'
+import AxiosInstanceReducer from './AxiosInstanceReducer'
 
 const allReducers = combineReducers({
   user: UserReducer,
@@ -16,7 +19,10 @@ const allReducers = combineReducers({
   loading: LoadingReducer,
   colorTheme: ThemeReducer,
   lorelineId: CurrentLorelineReducer,
-  lorelineArray: LorelineArrayReducer
+  lorelineArray: LorelineArrayReducer,
+  entityId: CurrentEntityReducer,
+  instanceId: CurrentInstanceReducer,
+  instance: AxiosInstanceReducer
 })
 
 export default allReducers
