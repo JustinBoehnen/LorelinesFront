@@ -26,7 +26,8 @@ class InstanceList extends Component {
     })
   }
 
-  handleEntityDropdown = key => () => {
+  handleEntityDropdown = key => {
+    console.log(this.state.open)
     this.setState({ [key]: !this.state[key] })
   }
 
