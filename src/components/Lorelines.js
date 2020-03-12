@@ -20,8 +20,7 @@ import {
 } from '@material-ui/core'
 import axios from 'axios'
 import CloseIcon from '@material-ui/icons/Close'
-import { Delete, FileCopy } from '@material-ui/icons'
-import AddIcon from '@material-ui/icons/Add'
+import { Delete, FileCopy, Add } from '@material-ui/icons'
 import { setLoreline, setLoading, setLorelineArray } from '../actions/index'
 import NewLorelineDialog from './loreline_interaction/NewLorelineDialog'
 import DeleteLorelineDialog from './loreline_interaction/DeleteLorelineDialog'
@@ -130,9 +129,7 @@ export default connect(
   const onLorelineNameChange = e => setLorelineName(e.target.value)
 
   const handleSelectLoreline = id => {
-    console.log(id)
     props.setLoreline(id)
-    GetLorelines()
   }
 
   const handleFeedbackClose = (event, reason) => {
@@ -254,7 +251,7 @@ export default connect(
             className={classes.margin}
             onClick={() => handleNewDialogOpen()}
           >
-            <AddIcon />
+            <Add />
             New Loreline
           </Fab>
           {/*********************** Popup menu for FAB ****************************************/}

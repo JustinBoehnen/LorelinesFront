@@ -2,14 +2,7 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import axios from 'axios'
-import {
-  List,
-  ListItem,
-  ListItemText,
-  Collapse,
-  Typography
-} from '@material-ui/core'
+import { List, ListItem, ListItemText } from '@material-ui/core'
 
 class InstancePage extends Component {
   state = { open: {}, instance: [] }

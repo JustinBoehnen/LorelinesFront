@@ -1,8 +1,8 @@
 /** @format */
 
-import React from 'react';
-import { connect } from 'react-redux';
-import { makeStyles, Grid, Typography } from '@material-ui/core';
+import React from 'react'
+import { connect } from 'react-redux'
+import { makeStyles, Grid, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,21 +12,21 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.secondary.main,
     textDecoration: 'underline'
   }
-}));
+}))
 
 export default connect(mapStateToProps)(function Account(props) {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <main className={classes.root}>
       <Grid
         style={{
-          height: '70vh',
+          height: props.window.height,
           textAlign: 'left'
         }}
-        direction="column"
-        justify="center"
-        alignItems="center"
+        direction='column'
+        justify='center'
+        alignItems='center'
         container
       >
         <Grid item>
@@ -43,12 +43,12 @@ export default connect(mapStateToProps)(function Account(props) {
         </Grid>
       </Grid>
     </main>
-  );
-});
+  )
+})
 
 function mapStateToProps(state) {
   return {
     user: state.user,
     window: state.window
-  };
+  }
 }

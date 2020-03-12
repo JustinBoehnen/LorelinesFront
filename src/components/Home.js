@@ -14,11 +14,11 @@ import Sidebar from './Sidebar'
 import Timeline from './Timeline'
 import Account from './Account'
 import Directory from './Directory'
-//import About from './About';
+import About from './About'
 import Lorelines from './Lorelines'
 //import CreateInstance from './CreateInstance';
-import EntityInstanceCreator from './EntityInstanceCreator'
-import CustomEntityCreator from './CustomEntityCreator'
+import EntityInstanceCreator from './directory_interaction/EntityInstanceCreator'
+import CustomEntityCreator from './directory_interaction/CustomEntityCreator'
 
 const styleClasses = () => ({
   root: {
@@ -79,7 +79,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        {!this.props.auth && <Redirect to="/" />}
+        {!this.props.auth && <Redirect to='/' />}
         <Topbar
           logout={this.props.logout}
           drawerOpen={this.state.drawerOpen}
@@ -99,32 +99,28 @@ class Home extends Component {
                 : drawerClosedWidth
             }}
           >
-            <Route path="/app/account">
+            <Route path='/app/account'>
               <Account />
             </Route>
 
-            <Route path="/app/lorelines">
+            <Route path='/app/lorelines'>
               <Lorelines />
             </Route>
 
-            <Route path="/app/new">
+            <Route path='/app/new'>
               <h1>Hello, World</h1>
             </Route>
 
-            <Route path="/app/timeline">
+            <Route path='/app/timeline'>
               <Timeline />
             </Route>
 
-            <Route path="/app/directory">
-              <Directory />
+            <Route path='/app/directory'>
+              <Directory style={{}} />
             </Route>
 
-            <Route path="/app/about">
-              <EntityInstanceCreator />
-            </Route>
-
-            <Route path="/app/directory/createinstance">
-              <CustomEntityCreator />
+            <Route path='/app/about'>
+              <About />
             </Route>
           </div>
         </div>

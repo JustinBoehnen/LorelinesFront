@@ -1,7 +1,14 @@
 /** @format */
 
-import React from 'react';
-import { makeStyles, Grid, Typography } from '@material-ui/core';
+import React from 'react'
+import { connect } from 'react-redux'
+import {
+  makeStyles,
+  Grid,
+  Typography,
+  Card,
+  CardContent
+} from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -11,59 +18,71 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.secondary.main,
     textDecoration: 'underline'
   }
-}));
+}))
 
-export default function About() {
-  const classes = useStyles();
+export default connect(mapStateToProps)(function About(props) {
+  const classes = useStyles()
 
   return (
     <main>
       <Grid
         className={classes.root}
-        style={{ textAlign: 'center' }}
+        style={{
+          textAlign: 'center',
+          height: props.window.height
+        }}
         container
-        direction="column"
-        justify="center"
-        alignItems="center"
+        direction='column'
+        justify='center'
+        alignItems='center'
       >
-        <Grid item xs={3}></Grid>
-        <Grid item xs={6}>
-          <Typography
-            style={{
-              fontSize: 14
-            }}
-          >
-            Lorelines.com is the junior project of the Oregon Institute of
-            Technology students:
-          </Typography>
-          <Typography
-            style={{
-              fontWeight: 500,
-              fontSize: 20,
-              color: '#f78d1e'
-            }}
-          >
-            Justin Boehnen, Evan Clark, Seth Ray, and Isaac Medlin
-          </Typography>
-          <Typography
-            style={{
-              fontSize: 14
-            }}
-          >
-            Also Known As...
-          </Typography>
-          <Typography
-            style={{
-              padding: 20,
-              fontWeight: 600,
-              fontSize: 80
-            }}
-          >
-            JESI
-          </Typography>
+        <Grid item>
+          <Card width='500'>
+            <CardContent>
+              <Typography
+                style={{
+                  fontSize: 14
+                }}
+              >
+                Lorelines.com is the junior project of the Oregon Institute of
+                Technology students:
+              </Typography>
+              <Typography
+                style={{
+                  fontWeight: 500,
+                  fontSize: 20,
+                  color: '#f78d1e'
+                }}
+              >
+                Justin Boehnen, Evan Clark, Seth Ray, and Isaac Medlin
+              </Typography>
+              <Typography
+                style={{
+                  fontSize: 14
+                }}
+              >
+                Also Known As...
+              </Typography>
+              <Typography
+                style={{
+                  padding: 20,
+                  fontWeight: 600,
+                  fontSize: 80,
+                  marginBottom: -50
+                }}
+              >
+                JESI
+              </Typography>
+            </CardContent>
+          </Card>
         </Grid>
-        <Grid item xs={3}></Grid>
       </Grid>
     </main>
-  );
+  )
+})
+
+function mapStateToProps(state) {
+  return {
+    window: state.window
+  }
 }

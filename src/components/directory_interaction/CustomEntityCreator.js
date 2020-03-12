@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { setLoading } from '../../actions/index'
 import axios from 'axios'
 import {
   List,
@@ -15,9 +17,9 @@ import {
   Typography
 } from '@material-ui/core'
 import { Add, Save } from '@material-ui/icons'
-import EntityField from './custom_entity_fields/EntityField'
-import SectionDivider from './custom_entity_fields/SectionDivider.js'
-import RadioListEntityField from './custom_entity_fields/RadioListEntityField'
+import EntityField from '../custom_entity_fields/EntityField'
+import SectionDivider from '../custom_entity_fields/SectionDivider.js'
+import RadioListEntityField from '../custom_entity_fields/RadioListEntityField'
 import { BlockPicker } from 'react-color'
 
 class CustomEntityCreator extends Component {
@@ -33,16 +35,24 @@ class CustomEntityCreator extends Component {
   }
 
   addEntityToDB = async entity => {
+    this.props.setLoading(true)
     try {
-      await axios.post(
-        `https://lorelines-expressapi.herokuapp.com/api/lorelines/${this.props.lorelineId}/entities`,
-        {
-          name: entity.name,
-          color: entity.color,
-          content: entity.content
-        }
-      )
-    } catch (err) {}
+      await axios
+        .post(
+          `https://lorelines-expressapi.herokuapp.com/api/lorelines/${this.props.lorelineId}/entities`,
+          {
+            name: entity.name,
+            color: entity.color,
+            content: entity.content
+          }
+        )
+        .then(() => {
+          this.props.updateList()
+          this.props.setLoading(false)
+        })
+    } catch (err) {
+      this.props.setLoading(false)
+    }
   }
 
   handleAddItem = (commonName, actualName) => {
@@ -338,4 +348,16 @@ function mapStatetoProps(state) {
   }
 }
 
-export default connect(mapStatetoProps)(CustomEntityCreator)
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      setLoading: setLoading
+    },
+    dispatch
+  )
+}
+
+export default connect(
+  mapStatetoProps,
+  matchDispatchToProps
+)(CustomEntityCreator)
