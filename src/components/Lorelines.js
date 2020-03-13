@@ -197,6 +197,7 @@ export default connect(
 
   const deleteLorelineFromDB = async (e, id) => {
     e.preventDefault()
+    if (props.loreline == id) props.setLoreline(null)
     props.setLoading(true) // LOADING START: DELETE LORELINE
     handleDeleteDialogClose()
     try {

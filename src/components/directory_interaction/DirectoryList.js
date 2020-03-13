@@ -14,7 +14,7 @@ import {
 import { ExpandLess, ExpandMore, AddCircle, Delete } from '@material-ui/icons'
 import { setInstanceId, setEntityId, setInstance } from '../../actions/index'
 
-class InstanceList extends Component {
+class DirectoryList extends Component {
   constructor(props) {
     super(props)
     this.state = { open: {}, entities: [] }
@@ -24,6 +24,11 @@ class InstanceList extends Component {
     this.props.updateList().then(() => {
       this.setState({ entities: this.props.entites })
     })
+  }
+
+  handleInstanceSelect = (instanceId, entityId) => {
+    this.props.setInstanceId(instance._id)
+    this.props.setInstance(this.props.lorelineId, entity._id, instance._id)
   }
 
   handleEntityDropdown = key => {
@@ -98,13 +103,7 @@ class InstanceList extends Component {
                         key={instance._id}
                         button
                         onClick={() => {
-                          this.props.setEntityId(entity._id)
-                          this.props.setInstanceId(instance._id)
-                          this.props.setInstance(
-                            this.props.lorelineId,
-                            entity._id,
-                            instance._id
-                          )
+                          this.handleInstanceSelect(instance._id, entity._id)
                         }}
                       >
                         <Typography>{instance.name}</Typography>
@@ -138,4 +137,4 @@ function matchDispatchToProps(dispatch) {
   )
 }
 
-export default connect(mapStatetoProps, matchDispatchToProps)(InstanceList)
+export default connect(mapStatetoProps, matchDispatchToProps)(DirectoryList)

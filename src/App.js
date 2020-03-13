@@ -14,7 +14,7 @@ import { bindActionCreators } from 'redux'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 
 import './App.css'
-import { setUser, setLoading } from './actions/index'
+import { setUser, setLoading, setLoreline } from './actions/index'
 import LoginForm from './components/LoginForm'
 import Home from './components/Home'
 import RegisterForm from './components/RegisterForm'
@@ -147,6 +147,7 @@ class App extends Component {
   }
 
   logout = () => {
+    this.props.setLoreline(null)
     localStorage.removeItem('token')
     this.setState({ auth: false, userData: null })
   }
@@ -155,26 +156,26 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={themes[this.props.colorTheme]}>
         <Backdrop style={{ zIndex: 2000 }} open={this.props.loading}>
-          <CircularProgress color="inherit" />
+          <CircularProgress color='inherit' />
         </Backdrop>
         <CssBaseline />
         <div className={styleClasses.root}>
           <Router>
-            {this.state.auth && <Redirect to="/app" />}
-            <Route path="/app">
+            {this.state.auth && <Redirect to='/app' />}
+            <Route path='/app'>
               <Home logout={this.logout} auth={this.state.auth} />
             </Route>
-            <Route exact path="/">
+            <Route exact path='/'>
               <LoginForm
                 className={styleClasses.center}
                 tryLogin={this.tryLogin}
               />
             </Route>
-            <Route path="/forgot" component={ForgotPassword} />
-            <Route exact path="/register">
+            <Route path='/forgot' component={ForgotPassword} />
+            <Route exact path='/register'>
               <RegisterForm createUser={this.createUser} />
             </Route>
-            <Route path="/register/confirm" component={RegisterConfirmation} />
+            <Route path='/register/confirm' component={RegisterConfirmation} />
           </Router>
         </div>
       </MuiThemeProvider>
@@ -192,7 +193,7 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
-    { setUser: setUser, setLoading: setLoading },
+    { setUser: setUser, setLoading: setLoading, setLoreline: setLoreline },
     dispatch
   )
 }

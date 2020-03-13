@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { List, ListItem, ListItemText } from '@material-ui/core'
 
-class InstancePage extends Component {
+class InstanceViewer extends Component {
   state = { open: {}, instance: [] }
 
   componentDidMount() {}
@@ -36,4 +36,4 @@ function mapStatetoProps(state) {
   }
 }
 
-export default connect(mapStatetoProps)(InstancePage)
+export default connect(mapStatetoProps)(InstanceViewer)
