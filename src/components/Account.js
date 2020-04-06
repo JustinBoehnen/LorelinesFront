@@ -16,13 +16,18 @@ const useStyles = makeStyles(theme => ({
 
 export default connect(mapStateToProps)(function Account(props) {
   const classes = useStyles()
-
+  if(!props.user.id){
+    return <p></p>
+  }
+  
+  var timestamp = props.user.id.toString().substring(0,8);
+  var date = new Date(parseInt(timestamp, 16) * 1000);
   return (
     <main className={classes.root}>
       <Grid
         style={{
           height: props.window.height,
-          textAlign: 'left'
+          textAlign: 'center'
         }}
         direction='column'
         justify='center'
@@ -43,7 +48,7 @@ export default connect(mapStateToProps)(function Account(props) {
             <b>/100</b>
           </Typography>
           <Typography variant="h5" gutterBottom>
-            Member Since: 12/02/19
+            Member Since: {date.toString() || 'null'}
           </Typography>
         </Grid>
       </Grid>
