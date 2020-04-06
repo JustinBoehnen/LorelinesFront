@@ -28,7 +28,7 @@ export default connect(mapStateToProps)(function Account(props) {
         justify='center'
         alignItems='center'
         container
-      >
+      > 
         <Grid item>
           <Typography>
             Hello, {props.user.name || 'null'}, this is your account view
