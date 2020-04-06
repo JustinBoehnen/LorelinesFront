@@ -30,16 +30,21 @@ export default connect(mapStateToProps)(function Account(props) {
         container
       > 
         <Grid item>
-          <Typography>
+          <Typography variant="h2" gutterBottom>
             Hello, {props.user.name || 'null'}, this is your account view
           </Typography>
         </Grid>
         <Grid item>
-          <Typography>Email: {props.user.email || 'null'}</Typography>
-          <Typography>
-            Lorelines: <b>3/5</b>
+          <Typography variant="h5" gutterBottom>
+            Email: {props.user.email || 'null'}
+            </Typography>
+          <Typography variant="h5" gutterBottom>
+            Lorelines: {props.lorelineArray.length || 'null'}
+            <b>/100</b>
           </Typography>
-          <Typography>Member Since: 12/02/19</Typography>
+          <Typography variant="h5" gutterBottom>
+            Member Since: 12/02/19
+          </Typography>
         </Grid>
       </Grid>
     </main>
@@ -49,6 +54,7 @@ export default connect(mapStateToProps)(function Account(props) {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    window: state.window
+    window: state.window,
+    lorelineArray: state.lorelineArray
   }
 }
