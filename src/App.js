@@ -19,7 +19,7 @@ import LoginForm from './components/LoginForm'
 import Home from './components/Home'
 import RegisterForm from './components/RegisterForm'
 import RegisterConfirmation from './components/RegisterConfirmation'
-import ForgotPassword from './components/ForgotPassword'
+import ForgotPassword from './components/PasswordRecovery/ForgotPassword'
 
 const jwtDecode = require('jwt-decode')
 
