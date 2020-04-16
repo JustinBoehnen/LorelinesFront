@@ -1,39 +1,32 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Grid, Typography, TextField, Button, Input } from "@material-ui/core";
+import { Grid, Typography, makeStyles, TextField, Button, Input } from "@material-ui/core";
+const useStyles = makeStyles((theme) => ({
+	root: {
+	  flexGrow: 1,
+	},
+	field: {
+	  width: "23vw",
+	  minWidth: "250px",
+	},
+	link: {
+	  color: theme.palette.secondary.main,
+	  textDecoration: "underline",
+	},
+	error: {
+	  color: theme.palette.error.main,
+	},
+  }));
 
-
-export default connect(
-  mapStateToProps,
-  matchDispatchToProps
-)(function securityQ(props) {
-
-  const [newPassword, setNewPassword] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
-
+export default function SecurityQ(props) {
+	const classes = useStyles();
+   const [answer, setAnswer] = useState("")
   return (
       <main className={classes.root}>
           
       </main>
   )
-})
-
-
-function mapStateToProps(state) {
-	return {
-		user: state.user,
-		loreline: state.lorelineId,
-		lorelineArray: state.lorelineArray,
-	}
 }
 
-function matchDispatchToProps(dispatch) {
-	return bindActionCreators(
-		{
-			setLoreline: setLoreline,
-			setLoading: setLoading,
-			setLorelineArray: setLorelineArray,
-		},
-		dispatch
-	)
-}
+
+

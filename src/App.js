@@ -20,6 +20,8 @@ import Home from './components/Home'
 import RegisterForm from './components/RegisterForm'
 import RegisterConfirmation from './components/RegisterConfirmation'
 import ForgotPassword from './components/PasswordRecovery/ForgotPassword'
+import ChangePassword from './components/PasswordRecovery/ChangePassword'
+import SecurityQ from './components/PasswordRecovery/SecurityQ'
 
 const jwtDecode = require('jwt-decode')
 
@@ -171,7 +173,12 @@ class App extends Component {
                 tryLogin={this.tryLogin}
               />
             </Route>
-            <Route path='/forgot' component={ForgotPassword} />
+            <Route exact path='/forgot' >
+                <ForgotPassword></ForgotPassword>
+            </Route>
+            <Route path='/forgot/changePassword' component={ChangePassword}>
+             
+            </Route>
             <Route exact path='/register'>
               <RegisterForm createUser={this.createUser} />
             </Route>

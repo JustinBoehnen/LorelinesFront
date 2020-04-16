@@ -21,12 +21,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function RegisterForm() {
+export default function ForgotPassword() {
   const classes = useStyles();
   const [email, setEmail] = useState("")
   const [submitAttempted, setSubmitAttempt] = useState(false)
 
   const onEmailChange = e => setEmail(e.target.value);
+
   const onSubmit = (e) => {
     setSubmitAttempt(true)
     
