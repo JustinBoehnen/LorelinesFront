@@ -16,17 +16,17 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function handleDark(e) {
-  this.props.setTheme('dark');
-  console.log("DARK THEME >.<");
-}
-
-function handleLight(e) {
-  this.props.setTheme('light');
-  console.log("LIGHT THEME 0_0");
-}
-
 export default connect(mapStateToProps, matchDispatchToProps)(function Account(props) {
+  function handleDark(e) {
+    props.setTheme('dark');
+    console.log("DARK THEME >.<");
+  }
+  
+  function handleLight(e) {
+    props.setTheme('light');
+    console.log("LIGHT THEME 0_0");
+  }
+  
   const classes = useStyles()
   if(!props.user.id){
     return <p></p>
