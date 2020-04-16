@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { makeStyles, Grid, Typography } from '@material-ui/core'
+import { makeStyles, Grid, Typography, Button } from '@material-ui/core'
 import { bindActionCreators } from 'redux'
 import { setTheme } from '../actions/index'
 
@@ -65,12 +65,12 @@ export default connect(mapStateToProps, matchDispatchToProps)(function Account(p
           <Typography variant="h5" gutterBottom>
             Website Theme
           </Typography>
-          <button onClick={handleDark}>
+          <Button onClick={handleDark} variant="contained" color="default">
             Dark
-          </button>
-          <button onClick={handleLight}>
+          </Button>
+          <Button onClick={handleLight} variant="contained" color ="default">
             Light
-          </button>
+          </Button>
         </Grid>
       </Grid>
     </main>
