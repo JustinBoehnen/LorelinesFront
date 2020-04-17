@@ -1,7 +1,7 @@
 /** @format */
-
-import React from 'react';
-import { Link } from 'react-router-dom';
+import Recaptcha from "react-recaptcha";
+import React from "react";
+import { Link } from "react-router-dom";
 import {
   makeStyles,
   TextField,
@@ -9,43 +9,51 @@ import {
   Typography,
   InputAdornment,
   IconButton,
-  Button
-} from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
-import Validator from 'email-validator';
+  Button,
+} from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
+import Validator from "email-validator";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   field: {
-    width: '23vw',
-    minWidth: '250px'
+    width: "30vw",
+    minWidth: "250px",
   },
   link: {
     color: theme.palette.secondary.main,
-    textDecoration: 'underline'
+    textDecoration: "underline",
   },
   error: {
-    color: theme.palette.error.main
-  }
+    color: theme.palette.error.main,
+  },
 }));
 
 export default function RegisterForm(props) {
   const classes = useStyles();
+  const [verified, setVerified] = React.useState(false);
   const [values, setValues] = React.useState({
-    name: '',
-    email: '',
-    confirmEmail: '',
-    password: '',
-    confirmPassword: '',
+    name: "",
+    email: "",
+    confirmEmail: "",
+    password: "",
+    confirmPassword: "",
     showPassword: false,
     showConfirmPassword: false,
     submitAttempted: false,
-    emailExists: false
+    emailExists: false,
   });
 
-  const handleChange = prop => event => {
+  const recaptchaLoaded =() => {
+     console.log("RecaptchLoaded")
+  }
+  const verifiedCallback = (response) => {
+    if(response)
+       setVerified(true)
+ }
+  const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
@@ -57,32 +65,35 @@ export default function RegisterForm(props) {
     setValues({ ...values, showConfirmPassword: !values.showConfirmPassword });
   };
 
-  const handleMouseDownPassword = event => {
+  const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     setValues({ ...values, submitAttempted: true });
-
-    if (Validator.validate(values.email) === true)
-      if (values.email === values.confirmEmail)
-        if (values.password !== '')
-          if (values.password === values.confirmPassword) {
-            let exists = !props.createUser(
-              values.name,
-              values.email,
-              values.password
-            );
-            setValues({ ...values, emailExists: exists });
-          }
+    if (verified === false) {
+      alert("Please verify that you are a human!");
+    } else {
+      if (Validator.validate(values.email) === true)
+        if (values.email === values.confirmEmail)
+          if (values.password !== "")
+            if (values.password === values.confirmPassword) {
+              let exists = !props.createUser(
+                values.name,
+                values.email,
+                values.password
+              );
+              setValues({ ...values, emailExists: exists });
+            }
+    }
   };
 
   return (
     <main className={classes.root}>
       <form>
         <Grid
-          style={{ minHeight: '100vh', textAlign: 'center' }}
+          style={{ minHeight: "100vh", textAlign: "center" }}
           direction="column"
           justify="center"
           alignItems="center"
@@ -92,8 +103,8 @@ export default function RegisterForm(props) {
             <Typography
               style={{
                 padding: 2,
-                fontWeight: 'bold',
-                fontSize: 42
+                fontWeight: "bold",
+                fontSize: 42,
               }}
             >
               Create a new Lorelines account
@@ -116,12 +127,12 @@ export default function RegisterForm(props) {
               label="Name"
               margin="normal"
               value={values.name}
-              onChange={handleChange('name')}
-              error={values.submitAttempted && values.name === ''}
+              onChange={handleChange("name")}
+              error={values.submitAttempted && values.name === ""}
               helperText={
-                values.submitAttempted && values.name === ''
-                  ? 'this field cannot be empty'
-                  : ''
+                values.submitAttempted && values.name === ""
+                  ? "this field cannot be empty"
+                  : ""
               }
             />
           </Grid>
@@ -132,20 +143,20 @@ export default function RegisterForm(props) {
               label="Email"
               margin="normal"
               value={values.email}
-              onChange={handleChange('email')}
+              onChange={handleChange("email")}
               error={
-                (values.submitAttempted && values.email === '') ||
+                (values.submitAttempted && values.email === "") ||
                 (values.submitAttempted &&
                   Validator.validate(values.email) === false)
               }
               helperText={
-                values.submitAttempted && values.email === ''
-                  ? 'this field cannot be empty'
-                  : '' ||
+                values.submitAttempted && values.email === ""
+                  ? "this field cannot be empty"
+                  : "" ||
                     (values.submitAttempted &&
                       Validator.validate(values.email) === false)
-                  ? 'invalid email address'
-                  : ''
+                  ? "invalid email address"
+                  : ""
               }
             />
           </Grid>
@@ -156,17 +167,17 @@ export default function RegisterForm(props) {
               label="Confirm Email"
               margin="normal"
               value={values.confirmEmail}
-              onChange={handleChange('confirmEmail')}
+              onChange={handleChange("confirmEmail")}
               error={
                 values.email !== values.confirmEmail ||
-                (values.submitAttempted && values.confirmEmail === '')
+                (values.submitAttempted && values.confirmEmail === "")
               }
               helperText={
-                values.submitAttempted && values.confirmEmail === ''
-                  ? 'this field cannot be empty'
-                  : '' || values.email !== values.confirmEmail
-                  ? 'emails do not match'
-                  : ''
+                values.submitAttempted && values.confirmEmail === ""
+                  ? "this field cannot be empty"
+                  : "" || values.email !== values.confirmEmail
+                  ? "emails do not match"
+                  : ""
               }
             />
           </Grid>
@@ -176,14 +187,14 @@ export default function RegisterForm(props) {
               name="pass"
               label="Password"
               margin="normal"
-              type={values.showPassword ? 'text' : 'password'}
+              type={values.showPassword ? "text" : "password"}
               value={values.password}
-              onChange={handleChange('password')}
-              error={values.submitAttempted && values.password === ''}
+              onChange={handleChange("password")}
+              error={values.submitAttempted && values.password === ""}
               helperText={
-                values.submitAttempted && values.password === ''
-                  ? 'this field cannot be empty'
-                  : ''
+                values.submitAttempted && values.password === ""
+                  ? "this field cannot be empty"
+                  : ""
               }
               InputProps={{
                 endAdornment: (
@@ -196,7 +207,7 @@ export default function RegisterForm(props) {
                       {values.showPassword ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
                   </InputAdornment>
-                )
+                ),
               }}
             />
           </Grid>
@@ -206,19 +217,19 @@ export default function RegisterForm(props) {
               name="confirmpass"
               label="Confirm Password"
               margin="normal"
-              type={values.showConfirmPassword ? 'text' : 'password'}
+              type={values.showConfirmPassword ? "text" : "password"}
               value={values.confirmpassword}
-              onChange={handleChange('confirmPassword')}
+              onChange={handleChange("confirmPassword")}
               error={
                 values.password !== values.confirmPassword ||
-                (values.submitAttempted && values.confirmPassword === '')
+                (values.submitAttempted && values.confirmPassword === "")
               }
               helperText={
-                values.submitAttempted && values.confirmPassword === ''
-                  ? 'this field cannot be empty'
-                  : '' || values.password !== values.confirmPassword
-                  ? 'passwords do not match'
-                  : ''
+                values.submitAttempted && values.confirmPassword === ""
+                  ? "this field cannot be empty"
+                  : "" || values.password !== values.confirmPassword
+                  ? "passwords do not match"
+                  : ""
               }
               InputProps={{
                 endAdornment: (
@@ -235,8 +246,17 @@ export default function RegisterForm(props) {
                       )}
                     </IconButton>
                   </InputAdornment>
-                )
+                ),
               }}
+            />
+          </Grid>
+          <Grid item>
+            <Recaptcha
+              sitekey="6LeRQ-oUAAAAAP4frfdbHtXO80ADJe1kD3tAF-k2"
+              render="explicit"
+              verifyCallback={verifiedCallback}
+              onloadCallback={recaptchaLoaded}
+              theme="dark"
             />
           </Grid>
           <Grid item>
@@ -245,8 +265,8 @@ export default function RegisterForm(props) {
                 marginTop: 16,
                 padding: 5,
                 fontSize: 22,
-                borderRadius: '50px',
-                width: '260px'
+                borderRadius: "50px",
+                width: "260px",
               }}
               type="submit"
               color="primary"
