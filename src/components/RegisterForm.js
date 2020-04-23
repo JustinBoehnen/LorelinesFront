@@ -10,6 +10,10 @@ import {
   InputAdornment,
   IconButton,
   Button,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import Validator from "email-validator";
@@ -29,42 +33,58 @@ const useStyles = makeStyles((theme) => ({
   error: {
     color: theme.palette.error.main,
   },
+  formControl: {
+    width: "30vw",
+    minWidth: "250px",
+  }
 }));
 
 export default function RegisterForm(props) {
   const classes = useStyles();
   const [verified, setVerified] = React.useState(false);
+  const [securityOpen, setSecurityOpen] = React.useState(false)
   const [values, setValues] = React.useState({
     name: "",
     email: "",
     confirmEmail: "",
     password: "",
     confirmPassword: "",
+    securityQ: "",
+    securityAnswer: "",
     showPassword: false,
     showConfirmPassword: false,
+    showSecurityAnswer: false,
     submitAttempted: false,
     emailExists: false,
   });
 
-  const recaptchaLoaded =() => {
-     console.log("RecaptchLoaded")
-  }
+  const recaptchaLoaded = () => {
+    console.log("RecaptchLoaded");
+  };
   const verifiedCallback = (response) => {
-    if(response)
-       setVerified(true)
- }
+    if (response) setVerified(true);
+  };
   const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
+    setValues({ ...values, [prop]: event.target.value })
   };
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
 
+  const handleSecurityOpen = () => {
+    setSecurityOpen(true);
+  };
+
+  const handleSecurityClose = () => {
+    setSecurityOpen(false);
+  };
   const handleClickShowConfirmPassword = () => {
     setValues({ ...values, showConfirmPassword: !values.showConfirmPassword });
   };
-
+  const handleClickShowSecurityAnswer = () => {
+    setValues({ ...values, showSecurityAnswer: !values.showSecurityAnswer });
+  };
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -240,6 +260,76 @@ export default function RegisterForm(props) {
                       onMouseDown={handleMouseDownPassword}
                     >
                       {values.showConfirmPassword ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+          <Grid item>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="demo-controlled-open-select-label">
+                Security Question
+              </InputLabel>
+              <Select
+                labelId="demo-controlled-open-select-label"
+                id="demo-controlled-open-select"
+                open={securityOpen}
+                onClose={handleSecurityClose}
+                onOpen={handleSecurityOpen}
+                value={values.securityQ}
+                onChange={handleChange("securityQ")}
+                error={
+                  values.submitAttempted && values.securityQ === ""
+                }
+                helperText={
+                  values.submitAttempted && values.securityQ === ""
+                    ? "this field cannot be empty"
+                    : ""
+                }
+              >
+                <MenuItem value={'What was the model of your first car?'}>What was the model of your first car?</MenuItem>
+                <MenuItem value={'What\'s your favorite pets name?'}>What's your favorite pets name?</MenuItem>
+                <MenuItem value={'What was your childhood nickname?'}>What was your childhood nickname?</MenuItem>
+                <MenuItem value={'What school did you attend during the sixth grade?'}>What school did you attend during the sixth grade?</MenuItem>
+                <MenuItem value={'What town was your first job in?'}>What town was your first job in?</MenuItem>
+                <MenuItem value={'Who was your favorite teacher in highschool?'}>Who was your favorite teacher in highschool?</MenuItem>
+                <MenuItem value={'What is the first name of the boy or girl that you first kissed?'}>What is the first name of the boy or girl that you first kissed?</MenuItem>
+                <MenuItem value={'What is your oldest sibling\'s middle name?'}>What is your oldest sibling's middle name?</MenuItem>
+                <MenuItem value={'Who was your childhood hero?'}>Who was your childhood hero?</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid Item>
+            <TextField
+              className={classes.field}
+              name="SecurityAnswer"
+              label="Security Question Answer"
+              margin="normal"
+              type={values.showSecurityAnswer ? "text" : "password"}
+              value={values.confirmpassword}
+              onChange={handleChange("securityAnswer")}
+              error={
+                values.submitAttempted && values.securityAnswer === ""
+              }
+              helperText={
+                values.submitAttempted && values.securityAnswer === ""
+                  ? "this field cannot be empty"
+                  : ""
+              }
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle answer visibility"
+                      onClick={handleClickShowSecurityAnswer}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {values.showSecurityAnswer ? (
                         <Visibility />
                       ) : (
                         <VisibilityOff />
