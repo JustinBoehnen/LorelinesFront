@@ -127,7 +127,7 @@ class App extends Component {
     }
   }
 
-  createUser = async (name, email, password) => {
+  createUser = async (name, email, password, securityQuestion, securityPassword) => {
     try {
       this.setState.loading = true
       const { data } = await axios.post(
@@ -135,7 +135,9 @@ class App extends Component {
         {
           name,
           email,
-          password
+          password,
+          securityQuestion,
+          securityPassword
         }
       )
       localStorage.setItem('token', data)
@@ -177,7 +179,9 @@ class App extends Component {
             <Route exact path='/register'>
               <RegisterForm createUser={this.createUser} />
             </Route>
-            <Route path='/register/confirm' component={RegisterConfirmation} />
+            <Route exact path='/register/confirm'>
+              <RegisterConfirmation></RegisterConfirmation>
+            </Route>
           </Router>
         </div>
       </MuiThemeProvider>

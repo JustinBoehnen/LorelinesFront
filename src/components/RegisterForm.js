@@ -1,7 +1,8 @@
 /** @format */
 import Recaptcha from "react-recaptcha";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import  { browserHistory } from "react-router";
 import {
   makeStyles,
   TextField,
@@ -13,9 +14,9 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel
+  InputLabel,
 } from "@material-ui/core";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { Visibility, VisibilityOff, Router } from "@material-ui/icons";
 import Validator from "email-validator";
 
 const useStyles = makeStyles((theme) => ({
@@ -36,13 +37,15 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     width: "30vw",
     minWidth: "250px",
-  }
+  },
 }));
 
 export default function RegisterForm(props) {
   const classes = useStyles();
   const [verified, setVerified] = React.useState(false);
-  const [securityOpen, setSecurityOpen] = React.useState(false)
+  const [securityOpen, setSecurityOpen] = React.useState(false);
+  const [accountCreated, setAccountCreated] = React.useState(false);
+  const [directory, setDirectory] = React.useState('/register')
   const [values, setValues] = React.useState({
     name: "",
     email: "",
@@ -57,7 +60,19 @@ export default function RegisterForm(props) {
     submitAttempted: false,
     emailExists: false,
   });
-
+  useEffect(() => {
+    console.log("useEffect Called")
+		if (Validator.validate(values.email) === true)
+        if (values.email === values.confirmEmail)
+          if (values.password !== "")
+            if (values.password === values.confirmPassword)
+              if (values.securityQ !== "")
+                if (values.securityAnswer !== "") {
+                  console.log('changing router path')
+                  setDirectory('/register/confirm')
+                  console.log(directory)
+                }
+	})
   const recaptchaLoaded = () => {
     console.log("RecaptchLoaded");
   };
@@ -65,7 +80,7 @@ export default function RegisterForm(props) {
     if (response) setVerified(true);
   };
   const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value })
+    setValues({ ...values, [prop]: event.target.value });
   };
 
   const handleClickShowPassword = () => {
@@ -98,14 +113,19 @@ export default function RegisterForm(props) {
       if (Validator.validate(values.email) === true)
         if (values.email === values.confirmEmail)
           if (values.password !== "")
-            if (values.password === values.confirmPassword) {
-              let exists = !props.createUser(
-                values.name,
-                values.email,
-                values.password
-              );
-              setValues({ ...values, emailExists: exists });
-            }
+            if (values.password === values.confirmPassword)
+              if (values.securityQ !== "")
+                if (values.securityAnswer !== "") {
+                  let exists = !props.createUser(
+                    values.name,
+                    values.email,
+                    values.password,
+                    values.securityQ,
+                    values.securityAnswer
+                  );
+                  setAccountCreated(true)
+                  setValues({ ...values, emailExists: exists })
+                }
     }
   };
 
@@ -283,24 +303,49 @@ export default function RegisterForm(props) {
                 onOpen={handleSecurityOpen}
                 value={values.securityQ}
                 onChange={handleChange("securityQ")}
-                error={
-                  values.submitAttempted && values.securityQ === ""
-                }
+                error={values.submitAttempted && values.securityQ === ""}
                 helperText={
                   values.submitAttempted && values.securityQ === ""
                     ? "this field cannot be empty"
                     : ""
                 }
               >
-                <MenuItem value={'What was the model of your first car?'}>What was the model of your first car?</MenuItem>
-                <MenuItem value={'What\'s your favorite pets name?'}>What's your favorite pets name?</MenuItem>
-                <MenuItem value={'What was your childhood nickname?'}>What was your childhood nickname?</MenuItem>
-                <MenuItem value={'What school did you attend during the sixth grade?'}>What school did you attend during the sixth grade?</MenuItem>
-                <MenuItem value={'What town was your first job in?'}>What town was your first job in?</MenuItem>
-                <MenuItem value={'Who was your favorite teacher in highschool?'}>Who was your favorite teacher in highschool?</MenuItem>
-                <MenuItem value={'What is the first name of the boy or girl that you first kissed?'}>What is the first name of the boy or girl that you first kissed?</MenuItem>
-                <MenuItem value={'What is your oldest sibling\'s middle name?'}>What is your oldest sibling's middle name?</MenuItem>
-                <MenuItem value={'Who was your childhood hero?'}>Who was your childhood hero?</MenuItem>
+                <MenuItem value={"What was the model of your first car?"}>
+                  What was the model of your first car?
+                </MenuItem>
+                <MenuItem value={"What's your favorite pets name?"}>
+                  What's your favorite pets name?
+                </MenuItem>
+                <MenuItem value={"What was your childhood nickname?"}>
+                  What was your childhood nickname?
+                </MenuItem>
+                <MenuItem
+                  value={"What school did you attend during the sixth grade?"}
+                >
+                  What school did you attend during the sixth grade?
+                </MenuItem>
+                <MenuItem value={"What town was your first job in?"}>
+                  What town was your first job in?
+                </MenuItem>
+                <MenuItem
+                  value={"Who was your favorite teacher in highschool?"}
+                >
+                  Who was your favorite teacher in highschool?
+                </MenuItem>
+                <MenuItem
+                  value={
+                    "What is the first name of the boy or girl that you first kissed?"
+                  }
+                >
+                  What is the first name of the boy or girl that you first
+                  kissed?
+                </MenuItem>
+                <MenuItem value={"What is your oldest sibling's middle name?"}>
+                  What is your oldest sibling's middle name?
+                </MenuItem>
+                <MenuItem value={"Who was your childhood hero?"}>
+                  Who was your childhood hero?
+                </MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -313,9 +358,7 @@ export default function RegisterForm(props) {
               type={values.showSecurityAnswer ? "text" : "password"}
               value={values.confirmpassword}
               onChange={handleChange("securityAnswer")}
-              error={
-                values.submitAttempted && values.securityAnswer === ""
-              }
+              error={values.submitAttempted && values.securityAnswer === ""}
               helperText={
                 values.submitAttempted && values.securityAnswer === ""
                   ? "this field cannot be empty"
@@ -349,23 +392,30 @@ export default function RegisterForm(props) {
               theme="dark"
             />
           </Grid>
-          <Grid item>
-            <Button
-              style={{
-                marginTop: 16,
-                padding: 5,
-                fontSize: 22,
-                borderRadius: "50px",
-                width: "260px",
-              }}
-              type="submit"
-              color="primary"
-              variant="contained"
-              onClick={onSubmit}
-            >
-              Submit
-            </Button>
-          </Grid>
+            <Grid item>
+              <Button
+                style={{
+                  marginTop: 16,
+                  padding: 5,
+                  fontSize: 22,
+                  borderRadius: "50px",
+                  width: "260px",
+                }}
+                type="submit"
+                color="primary"
+                variant="contained"
+                onClick={onSubmit}
+                
+              >
+                <Link style ={{
+                  color: 'inherit',
+                  textDecoration: 'none'
+                }} to={directory}>
+                Submit     
+                </Link>         
+              </Button>
+            </Grid>
+
           <Grid item>
             <Typography style={{ padding: 5, fontSize: 16 }}>
               <Link className={classes.link} to="/">
