@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react'
-import { makeStyles, Grid, Card, InputBase } from '@material-ui/core'
+import { makeStyles, CardContent, Typography, Card, InputBase } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -9,7 +9,6 @@ const useStyles = makeStyles(theme => ({
 	},
 	card: {
 		minWidth: 300,
-		padding: 10,
 	},
 	input: {
 		flex: 1,
@@ -26,26 +25,20 @@ export default function InstanceTextField(props) {
 	return (
 		<main className={classes.root}>
 			<Card className={classes.card}>
-				<Grid container direction="column">
-					<Grid xs item container direction="row">
-						<Grid xs item>
-							<InputBase className={classes.input} value={props.label} readOnly />
-						</Grid>
-					</Grid>
-					<Grid item>
-						<Grid item>
-							<InputBase
-								multiline
-								rowsMax="4"
-								value={props.content}
-								onChange={handleChange}
-								className={classes.input}
-								placeholder="Content"
-								fullWidth
-							/>
-						</Grid>
-					</Grid>
-				</Grid>
+				<CardContent>
+					<Typography color="textSecondary" gutterBottom>
+						{props.label}
+					</Typography>
+					<InputBase
+						multiline
+						rowsMax="4"
+						value={props.content}
+						onChange={handleChange}
+						className={classes.input}
+						placeholder="Content"
+						fullWidth
+					/>
+				</CardContent>
 			</Card>
 		</main>
 	)

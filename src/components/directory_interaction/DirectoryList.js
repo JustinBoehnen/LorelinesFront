@@ -10,13 +10,11 @@ import { setInstanceId, setEntityId, setInstance } from '../../actions/index'
 class DirectoryList extends Component {
 	constructor(props) {
 		super(props)
-		this.state = { open: {}, entities: [] }
+		this.state = { open: {} }
 	}
 
 	componentDidMount() {
-		this.props.updateList().then(() => {
-			this.setState({ entities: this.props.entites })
-		})
+		this.props.updateDirectoryList()
 	}
 
 	handleInstanceSelect = (instanceId, entityId) => {
@@ -26,13 +24,10 @@ class DirectoryList extends Component {
 	}
 
 	handleEntityDropdown = key => {
-		console.log(this.state.open)
 		this.setState({ [key]: !this.state[key] })
 	}
 
-	handleEntityDelete = id => {
-		//this.props.deleteEntity(id)
-	}
+	handleEntityDelete = id => {}
 
 	handleEntityInstantiation = id => {
 		this.props.setEntityId(id)
@@ -41,8 +36,8 @@ class DirectoryList extends Component {
 
 	render() {
 		return (
-			<List style={{ width: 300 }}>
-				{this.state.entities.map(entity => {
+			<List style={{ width: 300, marginBottom: 76 }}>
+				{Array.from(this.props.directory).map(entity => {
 					const open = this.state[entity._id] || false
 					return (
 						<div
@@ -124,6 +119,7 @@ class DirectoryList extends Component {
 function mapStatetoProps(state) {
 	return {
 		lorelineId: state.lorelineId,
+		directory: state.directory,
 	}
 }
 

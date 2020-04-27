@@ -20,7 +20,6 @@ const useStyles = makeStyles(theme => ({
 	},
 	card: {
 		minWidth: 300,
-		padding: 10,
 	},
 }))
 

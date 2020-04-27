@@ -14,6 +14,7 @@ import InstanceNumberField from '../instance_fields/InstanceNumberField'
 import InstanceHeader from '../instance_fields/InstanceHeader'
 import InstanceRadioListField from '../instance_fields/InstanceRadioListField'
 import InstanceDivider from '../instance_fields/InstanceDivider'
+import InstanceImageField from '../instance_fields/InstanceImageField'
 
 class CustomEntityCreator extends Component {
 	constructor(props) {
@@ -44,8 +45,9 @@ class CustomEntityCreator extends Component {
 					}
 				)
 				.then(() => {
-					//this.props.updateList()
-					this.props.setLoading(false)
+					this.props.updateDirectoryList().then(() => {
+						this.props.setLoading(false)
+					})
 				})
 		} catch (err) {
 			this.props.setLoading(false)
@@ -98,26 +100,32 @@ class CustomEntityCreator extends Component {
 	handleCreateInstance = () => {
 		var error = false
 
-		if (this.state.instanceName === '') error = true
-		else {
+		if (this.state.instanceName === '') {
+			error = true
+			console.log('no name')
+		} else {
 			var content = []
 
 			this.state.fields.forEach((field, i) => {
-				console.log('field[', i, ']: ', field)
-				content = content.concat({
-					type: field.actualName,
-					name: field.label,
-					content: field.content,
-				})
-
-				if (field.actualName === 'RADIOLIST_FIELD') {
-					content[i].content = []
-
-					for (const option of field.options) {
-						if (option.label === '') error = true
-
-						content[i].content = content[i].content.concat({
-							name: option.label,
+				if (
+					field.type !== 'SECTION_HEADER' &&
+					field.type !== 'RADIOLIST_FIELD' &&
+					field.type !== 'SECTION_DIVIDER'
+				) {
+					if (field.content.length === 0) error = true
+				} else {
+					if (field.type === 'RADIOLIST_FIELD')
+						content = content.concat({
+							name: field.name,
+							type: field.type,
+							content: field.content,
+							value: field.value,
+						})
+					else {
+						content = content.concat({
+							name: field.name,
+							type: field.type,
+							content: field.content,
 						})
 					}
 				}
@@ -131,7 +139,10 @@ class CustomEntityCreator extends Component {
 			content: content,
 		}
 
-		//if (!error) this.addInstanceoDB(instance)
+		if (error) console.log('Encountered an error')
+		console.log('instance: ', instance)
+
+		if (!error) this.addInstanceToDB(instance)
 	}
 
 	render() {
@@ -152,7 +163,6 @@ class CustomEntityCreator extends Component {
 						variant="h4"
 						style={{
 							color: this.state.color ?? '#ea4b35',
-							textTransform: 'uppercase',
 						}}
 					>
 						{this.state.entityName ?? 'undefined'}
@@ -166,7 +176,7 @@ class CustomEntityCreator extends Component {
 								? 'this field cannot be empty'
 								: ''
 						}
-						label="Custom Entity Name"
+						label="Instance Name"
 						value={this.state.instanceName}
 						onChange={this.handleInstanceNameChange}
 						inputProps={{ style: { color: this.state.color } }}
@@ -219,6 +229,17 @@ class CustomEntityCreator extends Component {
 											options={field.content}
 											content={field.value}
 											setValue={this.handleRadioChange}
+										/>
+									</ListItem>
+								)
+							} else if (field.type === 'IMAGE_FIELD') {
+								return (
+									<ListItem key={field + i}>
+										<InstanceImageField
+											index={i}
+											label={field.name}
+											imageURL={field.content}
+											setContent={this.handleContentChange}
 										/>
 									</ListItem>
 								)

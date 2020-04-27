@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 		//outlineStyle: 'solid',
 		//outlineColor: '#f78d1e',
 		//outlineWidth: 4,
-		boxShadow: '0 0 0 5px #f78d1e',
+		boxShadow: '0 0 8px 5px #f78d1e',
 		borderRadius: 5,
 		backgroundColor: '#666',
 	},

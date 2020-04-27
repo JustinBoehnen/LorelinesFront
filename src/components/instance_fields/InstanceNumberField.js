@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react'
-import { makeStyles, Grid, Card, InputBase, Tooltip } from '@material-ui/core'
+import { makeStyles, CardContent, Typography, Card, InputBase, Tooltip } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -9,7 +9,6 @@ const useStyles = makeStyles(theme => ({
 	},
 	card: {
 		minWidth: 300,
-		padding: 10,
 	},
 	input: {
 		flex: 1,
@@ -27,25 +26,19 @@ export default function InstanceNumberField(props) {
 		<main className={classes.root}>
 			<Tooltip title="This is a number field">
 				<Card className={classes.card}>
-					<Grid container direction="column">
-						<Grid xs item container direction="row">
-							<Grid xs item>
-								<InputBase className={classes.input} value={props.label} readOnly />
-							</Grid>
-						</Grid>
-						<Grid item>
-							<Grid item>
-								<InputBase
-									type="number"
-									value={props.content}
-									onChange={handleChange}
-									className={classes.input}
-									placeholder="Content"
-									fullWidth
-								/>
-							</Grid>
-						</Grid>
-					</Grid>
+					<CardContent>
+						<Typography color="textSecondary" gutterBottom>
+							{props.label}
+						</Typography>
+						<InputBase
+							type="number"
+							value={props.content}
+							onChange={handleChange}
+							className={classes.input}
+							placeholder="Content"
+							fullWidth
+						/>
+					</CardContent>
 				</Card>
 			</Tooltip>
 		</main>
