@@ -1,5 +1,8 @@
 /** @format */
-
+// **************************************************
+// App.js file for Lorelines front end
+//
+// Authors: JESI
 import React, { Component } from 'react'
 import {
   createMuiTheme,
@@ -76,6 +79,11 @@ const styleClasses = theme => ({
   }
 })
 
+//************************************
+// App class
+// Main class that initializes other components
+// and begins the front end.
+// 
 class App extends Component {
   constructor(props) {
     super(props)
