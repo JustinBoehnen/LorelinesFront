@@ -1,5 +1,10 @@
 /** @format */
 
+//******************************************************************************
+// Account.js
+// Account page function that shows user info and theme toggling
+//
+//
 import React from 'react'
 import { connect } from 'react-redux'
 import { makeStyles, Grid, Typography, Button } from '@material-ui/core'
@@ -16,15 +21,18 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+//******************************************************************************
+// Account Function
+// File(s) Used: Home.js
 export default connect(mapStateToProps, matchDispatchToProps)(function Account(props) {
   function handleDark(e) {
     props.setTheme('dark');
-    console.log("DARK THEME >.<");
+    console.log("DARK THEME  0_0");
   }
   
   function handleLight(e) {
     props.setTheme('light');
-    console.log("LIGHT THEME 0_0");
+    console.log("LIGHT THEME >.<");
   }
   
   const classes = useStyles()
@@ -48,7 +56,7 @@ export default connect(mapStateToProps, matchDispatchToProps)(function Account(p
       > 
         <Grid item>
           <Typography variant="h2" gutterBottom>
-            Hello, {props.user.name || 'null'}, this is your account view
+            Hello {props.user.name || 'null'}, this is your account view
           </Typography>
         </Grid>
         <Grid item>
@@ -60,6 +68,14 @@ export default connect(mapStateToProps, matchDispatchToProps)(function Account(p
             </Typography>
           <Typography variant="h5" gutterBottom>
             Lorelines: {props.lorelineArray.length || 'null'}
+            <b>/50</b>
+          </Typography>
+          <Typography variant="h5" gutterBottom>
+            Entities: {props.directory.length || 'null'}
+            <b>/50</b>
+          </Typography>
+          <Typography variant="h5" gutterBottom>
+            Instances:
             <b>/50</b>
           </Typography>
           <Typography variant="h5" gutterBottom>
@@ -82,7 +98,8 @@ function mapStateToProps(state) {
     user: state.user,
     window: state.window,
     lorelineArray: state.lorelineArray,
-    theme: state.theme
+    theme: state.theme,
+    directory: state.directory
   }
 }
 
