@@ -72,11 +72,11 @@ export default connect(mapStateToProps, matchDispatchToProps)(function Account(p
           </Typography>
           <Typography variant="h5" gutterBottom>
             Entities: {props.directory.length || 'null'}
-            <b>/50</b>
+            <b>/500</b>
           </Typography>
           <Typography variant="h5" gutterBottom>
-            Instances:
-            <b>/50</b>
+            Instances: {props.directory.length || 'null'}
+            <b>/1000</b>
           </Typography>
           <Typography variant="h5" gutterBottom>
             Website Theme
