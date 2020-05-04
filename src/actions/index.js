@@ -1,8 +1,16 @@
 /** @format */
+//******************************************************************************
+// index.js
+// Holds all the Redux functions that are used to set global Redux variables
+//
+//
 import axios from 'axios'
 
 const apiUrl = 'https://lorelines-expressapi.herokuapp.com/api/lorelines';
 
+//******************************************************************************
+// Set User Redux Function
+// File(s) Used: App.js
 export const setUser = user => {
   return {
     type: 'USER_SET',
@@ -10,6 +18,9 @@ export const setUser = user => {
   }
 }
 
+//******************************************************************************
+// Set Loreline Redux Function
+// File(s) Used: App.js, Lorelines.js
 export const setLoreline = lorelineId => {
   return {
     type: 'LORELINE_CHANGED',
@@ -17,6 +28,9 @@ export const setLoreline = lorelineId => {
   }
 }
 
+//******************************************************************************
+// Set Loreline Array Redux Function
+// File(s) Used: Lorelines.js
 export const setLorelineArray = lorelineArray => {
   return {
     type: 'SET_LORELINE_ARRAY',
@@ -24,6 +38,9 @@ export const setLorelineArray = lorelineArray => {
   }
 }
 
+//******************************************************************************
+// Set Loading Redux Function
+// File(s) Used: App.js, Lorelines.js, Home.js, Directory.js
 export const setLoading = isLoading => {
   return {
     type: 'SET_LOADING',
@@ -31,6 +48,9 @@ export const setLoading = isLoading => {
   }
 }
 
+//******************************************************************************
+// Set Theme Redux Function
+// File(s) Used: Account.js
 export const setTheme = theme => {
   return {
     type: 'SET_THEME',
@@ -38,6 +58,9 @@ export const setTheme = theme => {
   }
 }
 
+//******************************************************************************
+// Set Window Width Redux Function
+// File(s) Used: Home.js
 export const setWindowWidth = width => {
   return {
     type: 'SET_WINDOW_WIDTH',
@@ -45,6 +68,9 @@ export const setWindowWidth = width => {
   }
 }
 
+//******************************************************************************
+// Set Window Height Redux Function
+// File(s) Used: Home.js
 export const setWindowHeight = height => {
   return {
     type: 'SET_WINDOW_HEIGHT',
@@ -52,6 +78,10 @@ export const setWindowHeight = height => {
   }
 }
 
+//******************************************************************************
+// Set Instance Id Redux Function
+// Set's instance id global variable to current Id
+// File(s) Used: DirectoryList.js
 export const setInstanceId = instanceId => {
   console.log('set instance to: ', instanceId)
   return {
@@ -60,6 +90,10 @@ export const setInstanceId = instanceId => {
   }
 }
 
+//******************************************************************************
+// Set Instance Redux Function
+// Set's instance object global variable to current instance
+// File(s) Used: DirectoryList.js
 export const setInstance = ( lorelineId, entityId, instanceId ) => {
   console.log('Passed in values are: ', (lorelineId, entityId, instanceId))
   return (dispatch) => {
@@ -72,6 +106,12 @@ export const setInstance = ( lorelineId, entityId, instanceId ) => {
       });
   };
 };
+
+//******************************************************************************
+// Set Instance Success Redux Function
+// A function only called in dispatch to avoid sync problems
+// Catches the instance from the setInstance function
+// File(s) Used: N/A
 export const setInstanceSuccess = (instance) => {
   console.log('Should be instance object: ', instance)
   return {
@@ -80,6 +120,9 @@ export const setInstanceSuccess = (instance) => {
   }
 };
 
+//******************************************************************************
+// Set Entity Id Redux Function
+// File(s) Used: DirectoryList.js
 export const setEntityId = entityId => {
   console.log('set entity to: ', entityId)
   return {
@@ -88,6 +131,9 @@ export const setEntityId = entityId => {
   }
 }
 
+//******************************************************************************
+// Set Directory Redux Function
+// File(s) Used: ???
 export const setDirectory = directory => {
   console.log ('set directory to: ', directory)
   return {
