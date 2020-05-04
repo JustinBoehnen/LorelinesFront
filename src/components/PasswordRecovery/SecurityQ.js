@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import axios from "axios";
 import {
   Grid,
@@ -46,7 +48,6 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      setLoading: setLoading,
     },
     dispatch
   );

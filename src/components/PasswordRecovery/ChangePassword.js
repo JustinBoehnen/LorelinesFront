@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { Link } from "react-router-dom";
 import {
   Grid,
@@ -11,6 +13,7 @@ import {
   InputAdornment
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+//import { setLoading } from '../actions/index'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -187,7 +190,6 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{
-			setLoading: setLoading,
 		},
 		dispatch
 	)

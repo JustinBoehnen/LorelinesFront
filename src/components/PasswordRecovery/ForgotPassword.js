@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { makeStyles, Grid, Typography, TextField, Button, InputAdornment } from "@material-ui/core";
 import Mail from '@material-ui/icons/Mail'
 
@@ -120,7 +122,6 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{
-			setLoading: setLoading,
 		},
 		dispatch
 	)
