@@ -20,8 +20,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-
-export default function ForgotPassword() {
+export default connect(
+	mapStateToProps,
+	matchDispatchToProps
+)(function ForgotPassword(props) {
   const classes = useStyles();
   const [email, setEmail] = useState("")
   const [submitAttempted, setSubmitAttempt] = useState(false)
@@ -107,4 +109,19 @@ export default function ForgotPassword() {
       </Grid>
     </main>
   );
+})
+
+function mapStateToProps(state) {
+	return {
+		user: state.user,
+	}
+}
+
+function matchDispatchToProps(dispatch) {
+	return bindActionCreators(
+		{
+			setLoading: setLoading,
+		},
+		dispatch
+	)
 }

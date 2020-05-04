@@ -29,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ChangePassword(props) {
+export default connect(
+	mapStateToProps,
+	matchDispatchToProps
+)(function ChangePassword(props) {
   const classes = useStyles();
   const [newPassword, setNewPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
@@ -173,4 +176,20 @@ export default function ChangePassword(props) {
       </form>
     </main>
   );
+})
+
+function mapStateToProps(state) {
+	return {
+		user: state.user,
+	}
 }
+
+function matchDispatchToProps(dispatch) {
+	return bindActionCreators(
+		{
+			setLoading: setLoading,
+		},
+		dispatch
+	)
+}
+
