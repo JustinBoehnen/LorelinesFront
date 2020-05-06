@@ -1,6 +1,6 @@
 /** @format */
 //******************************************************************************
-// index.js
+// src/actions/index.js
 // Holds all the Redux functions that are used to set global Redux variables
 //
 //

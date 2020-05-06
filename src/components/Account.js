@@ -1,5 +1,4 @@
 /** @format */
-
 //******************************************************************************
 // Account.js
 // Account page function that shows user info and theme toggling
@@ -93,6 +92,8 @@ export default connect(mapStateToProps, matchDispatchToProps)(function Account(p
   )
 })
 
+//******************************************************************************
+// Redux Incoming Variables Function
 function mapStateToProps(state) {
   return {
     user: state.user,
@@ -103,6 +104,8 @@ function mapStateToProps(state) {
   }
 }
 
+//******************************************************************************
+// Redux Outgoing Variables Function
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {

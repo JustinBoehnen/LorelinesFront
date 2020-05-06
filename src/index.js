@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// src/index.js
+// Main index.js file, combines reducers to make the store variable 
+//
+//
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
