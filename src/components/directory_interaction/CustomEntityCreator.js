@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// src/directory_interaction/CustomEntityCreator.js
+// Contains the class component to create a custom entity
+//
+//
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -24,6 +28,8 @@ import SectionDivider from '../custom_entity_fields/SectionDivider.js'
 import RadioListEntityField from '../custom_entity_fields/RadioListEntityField'
 import { BlockPicker } from 'react-color'
 
+//******************************************************************************
+// Custom Entity Creator Class
 class CustomEntityCreator extends Component {
   constructor(props) {
     super(props)
@@ -374,12 +380,16 @@ class CustomEntityCreator extends Component {
   }
 }
 
+//******************************************************************************
+// Redux Incoming Variables Function
 function mapStatetoProps(state) {
   return {
     lorelineId: state.lorelineId
   }
 }
 
+//******************************************************************************
+// Redux Outgoing Variables Function
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
