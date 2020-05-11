@@ -76,6 +76,7 @@ export default connect(
   const onEmailChange = (e) => setEmail(e.target.value);
 
   const onSubmit = (e) => {
+    e.preventDefault();
     setSubmitAttempt(true);
     GetUserId();
   };
