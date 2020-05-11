@@ -1,42 +1,84 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { makeStyles, Grid, Typography, TextField, Button, InputAdornment } from "@material-ui/core";
-import Mail from '@material-ui/icons/Mail'
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import axios from "axios";
+import {
+  makeStyles,
+  Grid,
+  Typography,
+  TextField,
+  Button,
+  InputAdornment,
+} from "@material-ui/core";
+import Mail from "@material-ui/icons/Mail";
+import { setLoading } from "../../actions/index";
+import SelectInput from "@material-ui/core/Select/SelectInput";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   content: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   link: {
     color: theme.palette.secondary.main,
-    textDecoration: 'underline'
+    textDecoration: "underline",
   },
   field: {
-    width: '20vw',
-    minWidth: '250px'
+    width: "20vw",
+    minWidth: "250px",
   },
   error: {
-    color: theme.palette.error.main
-  }
+    color: theme.palette.error.main,
+  },
 }));
 
 export default connect(
-	mapStateToProps,
-	matchDispatchToProps
+  mapStateToProps,
+  matchDispatchToProps
 )(function ForgotPassword(props) {
   const classes = useStyles();
-  const [email, setEmail] = useState("")
-  const [submitAttempted, setSubmitAttempt] = useState(false)
+  const [email, setEmail] = useState("");
+  const [submitAttempted, setSubmitAttempt] = useState(false);
+  const [id, setID] = useState("");
+  const [idObj, setIdObj] = useState("");
+  const [notFound, setNotFound] = useState(false);
+  const [respnse, setResponse] = useState(false);
 
-  const onEmailChange = e => setEmail(e.target.value);
+  const GetUserId = async () => {
+    props.setLoading(true);
+    try {
+      let response = await axios.get(
+        `https://lorelines-expressapi.herokuapp.com/api/users/${email}/getuser`
+      );
+      console.log(response.data);
+      setIdObj(await response.data);
+      console.log(idObj);
+      idObj.map((res) => {
+        setID(res._id);
+      });
+
+      props.user.id = id;
+      console.log(id);
+      if (props.user.id === "") {
+        setNotFound(true);
+      } else {
+        setNotFound(false);
+      }
+      if (idObj != "") {
+        props.setLoading(false);
+      } else {
+      }
+    } catch (err) {
+      props.setLoading(false);
+    }
+  };
+
+  const onEmailChange = (e) => setEmail(e.target.value);
 
   const onSubmit = (e) => {
-    setSubmitAttempt(true)
-    
+    setSubmitAttempt(true);
+    GetUserId();
   };
-  
 
   return (
     <main className={classes.root}>
@@ -73,14 +115,13 @@ export default connect(
                 <InputAdornment position="start">
                   <Mail color="secondary" />
                 </InputAdornment>
-              )
+              ),
             }}
-            error={
-              (submitAttempted && email === '')
-            }
+            error={(submitAttempted && email === "") || notFound === true}
             helperText={
-              submitAttempted && email === ''
-                ? 'this field cannot be empty' : ''
+              (submitAttempted && email === ""
+                ? "this field cannot be empty"
+                : "") || (notFound === true ? "Email not found" : "")
             }
           ></TextField>
         </Grid>
@@ -111,18 +152,19 @@ export default connect(
       </Grid>
     </main>
   );
-})
+});
 
 function mapStateToProps(state) {
-	return {
-		user: state.user,
-	}
+  return {
+    user: state.user,
+  };
 }
 
 function matchDispatchToProps(dispatch) {
-	return bindActionCreators(
-		{
-		},
-		dispatch
-	)
+  return bindActionCreators(
+    {
+      setLoading: setLoading,
+    },
+    dispatch
+  );
 }
