@@ -37,8 +37,11 @@ export default connect(
   const classes = useStyles();
   const [question, setQuestion] = useState("");
   const [securityPassword, setSecurityPassword] = useState("");
-  const [submitAttempted, setSubmitAttempted] = useState(false)
-  
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+  const [directory, setDirectory] = useState("/forgot/security");
+  const [disableBut, setDisable] = useState(true);
+  const [wrongAnswer, setWrongAnswer] = useState(false);
+
   useEffect(() => {
     GetSeqQuestion();
   }, []);
@@ -57,21 +60,31 @@ export default connect(
 
   const CheckQuestion = async () => {
     try {
-      const response = await axios.get(
+      const response = await axios.post(
         `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/recover`,
         {
-          securityPassword
+          securityPassword,
         }
       );
       console.log(response.data);
-      setQuestion(response.data);
+      if(response.data ==="Security answers match")
+      {
+        console.log("Sucess")
+        setDirectory("/forgot/change")
+        setDisable(false)
+      }
+      else{
+        setWrongAnswer(true)
+        console.log("nope")
+      }
     } catch (err) {}
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-      setSubmitAttempted(true)
-  }
+    setSubmitAttempted(true);
+    CheckQuestion();
+  };
   return (
     <main className={classes.root}>
       <Grid
@@ -92,44 +105,76 @@ export default connect(
             {question}
           </Typography>
         </Grid>
-        <TextField
-          className={classes.field}
-          name="answer"
-          label="Answewr"
-          margin="normal"
-          variant="outlined"
-          autoComplete="off"
-          value={securityPassword}
-          onChange={onAnswerChange}
-          error={submitAttempted && securityPassword === ""}
-          helperText={
-            submitAttempted && securityPassword === "" ? "this field cannot be empty" : ""
-          }
-        ></TextField>
-      </Grid>
-      <Grid item>
-        <Button
-          style={{
-            marginTop: 16,
-            padding: 5,
-            fontSize: 22,
-            borderRadius: "50px",
-            width: "260px",
-          }}
-          type="submit"
-          color="primary"
-          variant="contained"
-          onClick={onSubmit}
-        >
-          Submit
-        </Button>
-      </Grid>
-      <Grid item>
-        <Typography>
-          <Link className={classes.link} to="/">
-            return to login
-          </Link>
-        </Typography>
+        <Grid item>
+          <TextField
+            className={classes.field}
+            name="answer"
+            label="Answer"
+            margin="normal"
+            variant="outlined"
+            autoComplete="off"
+            value={securityPassword}
+            onChange={onAnswerChange}
+            error={(submitAttempted && securityPassword === "") || wrongAnswer === true}
+            helperText={
+              (submitAttempted && securityPassword === ""
+                ? "this field cannot be empty"
+                : "") || (wrongAnswer === true ? "Wrong security answer" : "")
+            }
+          ></TextField>
+        </Grid>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item>
+            <Button
+              style={{
+                marginTop: 16,
+                padding: 5,
+                fontSize: 18,
+                borderRadius: "50px",
+                width: "130px"
+              }}
+              type="submit"
+              color="primary"
+              variant="contained"
+              onClick={onSubmit}
+            >
+              Submit
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              style={{
+                marginTop: 16,
+                marginLeft: 5,
+                padding: 5,
+                fontSize: 18,
+                borderRadius: "50px",
+                width: "130px",
+              }}
+              type="submit"
+              disabled={disableBut}
+              color="primary"
+              variant="contained"
+            >
+              <Link
+                style={{
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+                to={directory}
+              >
+                Next Page
+              </Link>
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Typography>
+            <Link className={classes.link} to="/">
+              return to login
+            </Link>
+          </Typography>
+        </Grid>
       </Grid>
     </main>
   );

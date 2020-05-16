@@ -183,7 +183,10 @@ class App extends Component {
                 tryLogin={this.tryLogin}
               />
             </Route>
-            <Route path='/forgot' component={ForgotPassword} />
+            <Route exact path='/forgot' component={ForgotPassword} />
+
+            <Route exact path='/forgot/security' component={SecurityQ} />
+            <Route exast path='/forgot/change' component={ChangePassword} />
             <Route exact path='/register'>
               <RegisterForm createUser={this.createUser} />
             </Route>

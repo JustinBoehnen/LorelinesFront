@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 import {
   Grid,
@@ -10,7 +10,7 @@ import {
   Button,
   makeStyles,
   IconButton,
-  InputAdornment
+  InputAdornment,
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 //import { setLoading } from '../actions/index'
@@ -33,19 +33,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default connect(
-	mapStateToProps,
-	matchDispatchToProps
+  mapStateToProps,
+  matchDispatchToProps
 )(function ChangePassword(props) {
   const classes = useStyles();
-  const [newPassword, setNewPassword] = React.useState("");
+  const [password, setNewPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const [submitAttempted, setSubmitAttempt] = React.useState(false);
 
   const onNewPasswordChange = (e) => setNewPassword(e.target.value);
-  const onConfirmPasswordChange = (e) =>
-    onConfirmPasswordChange(e.target.value);
+
+  const onConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
 
   const handleClickShowPassword = () => {
     if (showPassword === false) setShowPassword(true);
@@ -60,10 +60,26 @@ export default connect(
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const ChangePassword = async () => {
+    try {
+      if (password !== "") {
+        if (password === confirmPassword) {
+          const response = await axios.post(
+            `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/changePassword`,
+            {
+              password,
+            }
+          );
+          console.log(response.data);
+        }
+      }
+    } catch (err) {}
+  };
 
   const onSubmit = (e) => {
-	  e.preventDefault()
-    setSubmitAttempt(true)
+    e.preventDefault();
+    ChangePassword();
+    setSubmitAttempt(true);
   };
   return (
     <main className={classes.root}>
@@ -93,11 +109,11 @@ export default connect(
               label="New Password"
               margin="normal"
               type={showPassword ? "text" : "password"}
-              value={newPassword}
+              value={password}
               onChange={onNewPasswordChange}
-              error={submitAttempted && newPassword === ""}
+              error={submitAttempted && password === ""}
               helperText={
-                submitAttempted && newPassword === ""
+                submitAttempted && password === ""
                   ? "this field cannot be empty"
                   : ""
               }
@@ -126,13 +142,13 @@ export default connect(
               value={confirmPassword}
               onChange={onConfirmPasswordChange}
               error={
-                newPassword !== confirmPassword ||
+                password !== confirmPassword ||
                 (submitAttempted && confirmPassword === "")
               }
               helperText={
                 submitAttempted && confirmPassword === ""
                   ? "this field cannot be empty"
-                  : "" || newPassword !== confirmPassword
+                  : "" || password !== confirmPassword
                   ? "passwords do not match"
                   : ""
               }
@@ -179,19 +195,14 @@ export default connect(
       </form>
     </main>
   );
-})
+});
 
 function mapStateToProps(state) {
-	return {
-		user: state.user,
-	}
+  return {
+    user: state.user,
+  };
 }
 
 function matchDispatchToProps(dispatch) {
-	return bindActionCreators(
-		{
-		},
-		dispatch
-	)
+  return bindActionCreators({}, dispatch);
 }
-

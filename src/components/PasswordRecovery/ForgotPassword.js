@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -43,34 +43,46 @@ export default connect(
   const [idObj, setIdObj] = useState("");
   const [notFound, setNotFound] = useState(false);
   const [respnse, setResponse] = useState(false);
+  const [disableBut, setDisabled] = useState(true);
+  const [directory, setDirectory] = useState("/forgot");
+
+  useEffect(() => {
+    if (props.user.id !== undefined) {
+      setDisabled(false);
+      setDirectory("/forgot/security");
+      console.log("changing route", props.user.id);
+    } else {
+    }
+  });
 
   const GetUserId = async () => {
-    props.setLoading(true);
     try {
-      let response = await axios.get(
+      const response =  await axios.get(
         `https://lorelines-expressapi.herokuapp.com/api/users/${email}/getuser`
       );
       console.log(response.data);
-      setIdObj(await response.data);
-      console.log(idObj);
-      idObj.map((res) => {
-        setID(res._id);
-      });
+      SetPropId(response.data);
+    } catch (err) {}
+  };
 
-      props.user.id = id;
-      console.log(id);
-      if (props.user.id === "") {
-        setNotFound(true);
-      } else {
-        setNotFound(false);
-      }
-      if (idObj != "") {
-        props.setLoading(false);
-      } else {
-      }
-    } catch (err) {
-      props.setLoading(false);
+  const SetPropId = (resid) => {
+    setIdObj(resid);
+    console.log("object id:", idObj);
+    if(idObj == "")
+    { 
+      setNotFound(true)
     }
+    else
+    {
+      setNotFound(false)
+    }
+
+    idObj.map((res) => {
+      setID(res._id);
+    });
+
+    props.user.id = id;
+    console.log(id);
   };
 
   const onEmailChange = (e) => setEmail(e.target.value);
@@ -126,22 +138,50 @@ export default connect(
             }
           ></TextField>
         </Grid>
-        <Grid item>
-          <Button
-            style={{
-              marginTop: 16,
-              padding: 5,
-              fontSize: 22,
-              borderRadius: "50px",
-              width: "260px",
-            }}
-            type="submit"
-            color="primary"
-            variant="contained"
-            onClick={onSubmit}
-          >
-            Submit
-          </Button>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item>
+            <Button
+              style={{
+                marginTop: 16,
+                padding: 5,
+                fontSize: 18,
+                borderRadius: "50px",
+                width: "130px",
+              }}
+              type="submit"
+              color="primary"
+              variant="contained"
+              onClick={onSubmit}
+            >
+              Submit
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              style={{
+                marginTop: 16,
+                marginLeft: 5,
+                padding: 5,
+                fontSize: 18,
+                borderRadius: "50px",
+                width: "130px",
+              }}
+              type="submit"
+              disabled={disableBut}
+              color="primary"
+              variant="contained"
+            >
+              <Link
+                style={{
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+                to={directory}
+              >
+                Next Page
+              </Link>
+            </Button>
+          </Grid>
         </Grid>
         <Grid item>
           <Typography>
