@@ -1,6 +1,6 @@
 /** @format */
 
-import React from 'react'
+import React from "react";
 import {
   Typography,
   Button,
@@ -9,22 +9,22 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle
-} from '@material-ui/core'
+  DialogTitle,
+} from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   deletebutton: {
-    color: '#ea4b35',
-    '&:hover': {
-      color: '#000',
-      backgroundColor: '#ea4b35',
-      fontWeight: 'bolder'
-    }
-  }
-}))
+    color: "#ea4b35",
+    "&:hover": {
+      color: "#000",
+      backgroundColor: "#ea4b35",
+      fontWeight: "bolder",
+    },
+  },
+}));
 
 export default function DeleteLorelineDialog(props) {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <Dialog
@@ -36,12 +36,12 @@ export default function DeleteLorelineDialog(props) {
         <Typography
           variant="h4"
           style={{
-            overflow: 'hidden',
-            textOverflow: 'clip',
+            overflow: "hidden",
+            textOverflow: "clip",
             marginTop: 16,
             marginBottom: 22,
-            textAlign: 'center',
-            width: 400
+            textAlign: "center",
+            width: 400,
           }}
           color="primary"
         >
@@ -49,8 +49,8 @@ export default function DeleteLorelineDialog(props) {
         </Typography>
         <DialogContentText
           style={{
-            textAlign: 'center',
-            color: '#ea4b35'
+            textAlign: "center",
+            color: "#ea4b35",
           }}
         >
           This will permently delete this loreline, this is irreversible!
@@ -58,8 +58,9 @@ export default function DeleteLorelineDialog(props) {
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={e => {
-            props.deleteLorelineFromDB(e, props.deleteLorelineId)
+          dataTestId="confirmDelete"
+          onClick={(e) => {
+            props.deleteLorelineFromDB(e, props.deleteLorelineId);
           }}
           className={classes.deletebutton}
           autoFocus
@@ -69,5 +70,5 @@ export default function DeleteLorelineDialog(props) {
         <Button onClick={props.handleDeleteDialogClose}>Cancel</Button>
       </DialogActions>
     </Dialog>
-  )
+  );
 }
