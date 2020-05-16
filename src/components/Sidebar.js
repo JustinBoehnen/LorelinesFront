@@ -132,7 +132,11 @@ export default connect(mapStateToProps)(function Sidebar(props) {
             </ListItem>
           )}
           {props.loreline != null ? (
-            <Link className={classes.link} to="/app/directory">
+            <Link
+              dataTestId="directoryLink"
+              className={classes.link}
+              to="/app/directory"
+            >
               <ListItem button key="Directory">
                 <ListItemIcon>
                   <ListIcon color="secondary" />
