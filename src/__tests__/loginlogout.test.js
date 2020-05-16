@@ -6,20 +6,22 @@ const driver = cabbie("chromedriver", {
   debug: true,
 });
 
-driver.activeWindow.navigateTo("/");
-const input = driver.activeWindow.getElement('[datatestid="loginEmail"]');
-input.sendKeys("FakeEmail@email.com");
+it("logs in and out with dummy user", () => {
+  driver.activeWindow.navigateTo("/");
+  var input = driver.activeWindow.getElement('[dataTestId="loginEmail"]');
+  input.sendKeys("FakeEmail@email.com");
 
-input = driver.activeWindow.getElement('[data-test-id="loginPassword"]');
-input.sendKeys("end2endTesting");
+  input = driver.activeWindow.getElement('[dataTestId="loginPassword"]');
+  input.sendKeys("end2endTesting");
 
-input = driver.activeWindow.getElement('[data-test-id="loginSubmit"]');
-button.mouse.click();
+  input = driver.activeWindow.getElement('[dataTestId="loginSubmit"]');
+  input.mouse.click();
 
-input = driver.activeWindow.getElement('[data-test-id="logout"]');
-button.mouse.click();
+  input = driver.activeWindow.getElement('[dataTestId="logout"]');
+  input.mouse.click();
 
-input = driver.activeWindow.getElement('[data-test-id="loginEmail"]');
-assert.equal(input.getAttribute("value"), "");
+  input = driver.activeWindow.getElement('[dataTestId="loginEmail"]');
+  assert.equal(input.getAttribute("value"), "");
 
-driver.dispose();
+  driver.dispose();
+});

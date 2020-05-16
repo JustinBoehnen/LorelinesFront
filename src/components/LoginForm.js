@@ -118,7 +118,7 @@ export default function LoginForm(props) {
                 ),
               }}
               inputProps={{
-                datatestid: "loginEmail",
+                dataTestId: "loginEmail",
               }}
               value={email}
               onChange={onEmailChange}
@@ -126,7 +126,6 @@ export default function LoginForm(props) {
           </Grid>
           <Grid item>
             <TextField
-              data-test-id="loginPassword"
               className={classes.field}
               error={submitAttempted && password === ""}
               helperText={
@@ -158,6 +157,9 @@ export default function LoginForm(props) {
                   </InputAdornment>
                 ),
               }}
+              inputProps={{
+                dataTestId: "loginPassword",
+              }}
               value={password}
               onChange={onPasswordChange}
             />
@@ -176,7 +178,7 @@ export default function LoginForm(props) {
           )}
           <Grid item>
             <Button
-              data-test-id="loginSubmit"
+              dataTestId="loginSubmit"
               style={{
                 marginTop: 16,
                 padding: 5,

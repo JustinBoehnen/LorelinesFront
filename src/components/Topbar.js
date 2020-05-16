@@ -83,7 +83,7 @@ export default function Topbar(props) {
     if (widthAboveMd)
       return (
         <Button
-          data-test-id="logout"
+          dataTestId="logout"
           className={classes.logoutButton}
           onClick={props.logout}
         >
