@@ -1,7 +1,7 @@
 /** @format */
 
-import React, { useState } from 'react';
-import Logo from '../images/logo.svg';
+import React, { useState } from "react";
+import Logo from "../images/logo.svg";
 import {
   TextField,
   Typography,
@@ -9,33 +9,34 @@ import {
   InputAdornment,
   makeStyles,
   Grid,
-  IconButton
-} from '@material-ui/core';
+  IconButton,
+  Input,
+} from "@material-ui/core";
 
-import { Mail, Lock, Visibility, VisibilityOff } from '@material-ui/icons';
-import { Link } from 'react-router-dom';
-import Validator from 'email-validator';
+import { Mail, Lock, Visibility, VisibilityOff } from "@material-ui/icons";
+import { Link } from "react-router-dom";
+import Validator from "email-validator";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   content: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   link: {
     color: theme.palette.secondary.main,
-    textDecoration: 'underline'
+    textDecoration: "underline",
   },
   field: {
-    width: '20vw',
-    minWidth: '250px'
+    width: "20vw",
+    minWidth: "250px",
   },
   error: {
-    color: theme.palette.error.main
-  }
+    color: theme.palette.error.main,
+  },
 }));
 
 export default function LoginForm(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -45,15 +46,15 @@ export default function LoginForm(props) {
   //    e.preventDefault();
   //}
 
-  const onEmailChange = e => setEmail(e.target.value);
+  const onEmailChange = (e) => setEmail(e.target.value);
 
-  const onPasswordChange = e => setPassword(e.target.value);
+  const onPasswordChange = (e) => setPassword(e.target.value);
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setSubmitAttempted(true);
 
-    if (Validator.validate(email) && password !== '') {
+    if (Validator.validate(email) && password !== "") {
       let accept = await props.tryLogin(email, password);
       if (!accept) setLoginFailed(true);
       return accept;
@@ -64,13 +65,13 @@ export default function LoginForm(props) {
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
 
-  const handleMouseDownPassword = event => event.preventDefault();
+  const handleMouseDownPassword = (event) => event.preventDefault();
 
   return (
     <main className={classes.content}>
       <form>
         <Grid
-          style={{ minHeight: '100vh', textAlign: 'center' }}
+          style={{ minHeight: "100vh", textAlign: "center" }}
           container
           direction="column"
           justify="center"
@@ -83,7 +84,7 @@ export default function LoginForm(props) {
               style={{
                 padding: 2,
                 fontWeight: 900,
-                fontSize: 50
+                fontSize: 50,
               }}
             >
               Log in to Lorelines
@@ -93,15 +94,15 @@ export default function LoginForm(props) {
             <TextField
               className={classes.field}
               error={
-                (submitAttempted && email === '') ||
+                (submitAttempted && email === "") ||
                 (submitAttempted && !Validator.validate(email))
               }
               helperText={
-                submitAttempted && email === ''
-                  ? 'this field cannot be empty'
-                  : '' || (submitAttempted && !Validator.validate(email))
-                  ? 'invalid email address'
-                  : ''
+                submitAttempted && email === ""
+                  ? "this field cannot be empty"
+                  : "" || (submitAttempted && !Validator.validate(email))
+                  ? "invalid email address"
+                  : ""
               }
               name="email"
               label="Email"
@@ -114,7 +115,10 @@ export default function LoginForm(props) {
                   <InputAdornment position="start">
                     <Mail color="secondary" />
                   </InputAdornment>
-                )
+                ),
+              }}
+              inputProps={{
+                datatestid: "loginEmail",
               }}
               value={email}
               onChange={onEmailChange}
@@ -122,18 +126,19 @@ export default function LoginForm(props) {
           </Grid>
           <Grid item>
             <TextField
+              data-test-id="loginPassword"
               className={classes.field}
-              error={submitAttempted && password === ''}
+              error={submitAttempted && password === ""}
               helperText={
-                submitAttempted && password === ''
-                  ? 'this field cannot be empty'
-                  : ''
+                submitAttempted && password === ""
+                  ? "this field cannot be empty"
+                  : ""
               }
               name="password"
               label="Password"
               variant="outlined"
               margin="normal"
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               autoComplete="off"
               InputProps={{
                 startAdornment: (
@@ -151,7 +156,7 @@ export default function LoginForm(props) {
                       {showPassword ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
                   </InputAdornment>
-                )
+                ),
               }}
               value={password}
               onChange={onPasswordChange}
@@ -171,24 +176,25 @@ export default function LoginForm(props) {
           )}
           <Grid item>
             <Button
+              data-test-id="loginSubmit"
               style={{
                 marginTop: 16,
                 padding: 5,
                 fontSize: 22,
-                borderRadius: '50px',
-                width: '260px'
+                borderRadius: "50px",
+                width: "260px",
               }}
               type="submit"
               color="primary"
               variant="contained"
-              onClick={async e => await onSubmit(e)}
+              onClick={async (e) => await onSubmit(e)}
             >
               Log in
             </Button>
           </Grid>
           <Grid item>
             <Typography style={{ padding: 5, fontSize: 16 }}>
-              I forgot{' '}
+              I forgot{" "}
               <Link className={classes.link} to="/forgot">
                 my password
               </Link>
@@ -196,7 +202,7 @@ export default function LoginForm(props) {
           </Grid>
           <Grid item>
             <Typography style={{ padding: 30, fontSize: 20 }}>
-              Don't have a Lorelines account?{' '}
+              Don't have a Lorelines account?{" "}
               <Link className={classes.link} to="/register">
                 Click here
               </Link>
