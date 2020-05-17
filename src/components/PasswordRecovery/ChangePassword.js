@@ -1,3 +1,8 @@
+//******************************************************************************
+// src/PasswordRecovery/ChangePassword.js
+// Contains the function that provides the dialog to change a users
+// password
+//
 import React, { useState } from "react";
 import axios from "axios";
 import { connect } from 'react-redux'
@@ -13,7 +18,6 @@ import {
   InputAdornment
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
-//import { setLoading } from '../actions/index'
 
 const useStyles = makeStyles((theme) => ({
   root: {
