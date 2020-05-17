@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// src/instance_fields/InstanceNumberField.js
+// Contains the function to create the number field
+//
+//
 import React from 'react'
 import { makeStyles, Grid, Card, InputBase, Tooltip } from '@material-ui/core'
 
