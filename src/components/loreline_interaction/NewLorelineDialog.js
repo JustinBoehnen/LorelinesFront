@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// src/loreline_interaction/NewLorelineDialog.js
+// Contains the function that creats a popup when a user attempts
+// to create a new loreline
+//
 import React from 'react'
 import {
   Typography,
