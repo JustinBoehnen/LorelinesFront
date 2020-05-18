@@ -1,7 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { makeStyles, Grid, Typography } from '@material-ui/core'
-
+//******************************************************************************
+// RegisterConfirmation.js
+// Holds the RegisterConfirmation function that displays a message upon 
+// successfully creating a Lorelines account
+//
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1

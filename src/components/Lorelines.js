@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// Lorelines.js
+// Loreline page function that displays a users current lorelines, and allows
+// them to create and delete lorelines
+//
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -356,7 +360,8 @@ export default connect(
 		</main>
 	)
 })
-
+//******************************************************************************
+// Redux Incoming Variables Function
 function mapStateToProps(state) {
 	return {
 		user: state.user,
@@ -364,7 +369,8 @@ function mapStateToProps(state) {
 		lorelineArray: state.lorelineArray,
 	}
 }
-
+//******************************************************************************
+// Redux Outgoing Variables Function
 function matchDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{

@@ -1,4 +1,9 @@
 /** @format */
+//******************************************************************************
+// RegisterForm.js
+// Holds the RegisterForm function that handles taking a new users info
+// 
+//
 import Recaptcha from "react-recaptcha";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";

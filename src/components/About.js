@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// About.js
+// About page function that shows JESI creators and general Lorelines info
+//
+//
 import React from 'react'
 import { connect } from 'react-redux'
 import {
@@ -80,7 +84,8 @@ export default connect(mapStateToProps)(function About(props) {
     </main>
   )
 })
-
+//******************************************************************************
+// Redux Incoming Variables Function
 function mapStateToProps(state) {
   return {
     window: state.window

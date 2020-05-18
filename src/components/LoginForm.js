@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// LoginForm.js
+// Login Form function that appears to users who have not logged in to 
+// Lorelines.com
+//
 import React, { useState } from 'react';
 import Logo from '../images/logo.svg';
 import {

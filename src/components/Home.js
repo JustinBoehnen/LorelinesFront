@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// Home.js
+// Home page function that holds other page functions and is loaded from
+// app.js
+//
 import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import axios from 'axios'
@@ -119,14 +123,16 @@ class Home extends Component {
 		)
 	}
 }
-
+//******************************************************************************
+// Redux Incoming Variables Function
 function mapStateToProps(state) {
 	return {
 		user: state.user,
 		window: state.window,
 	}
 }
-
+//******************************************************************************
+// Redux Outgoing Variables Function
 function matchDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{
