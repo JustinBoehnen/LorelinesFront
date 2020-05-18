@@ -3,8 +3,7 @@
 // Contains the function that provides the dialog to change a users
 // password
 //
-import React, { useState } from "react";
-import axios from "axios";
+import React from "react";
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link } from "react-router-dom";

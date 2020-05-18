@@ -6,7 +6,6 @@
 //
 import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import axios from 'axios'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -20,9 +19,6 @@ import Account from './Account'
 import Directory from './Directory'
 import About from './About'
 import Lorelines from './Lorelines'
-//import CreateInstance from './CreateInstance';
-import EntityInstanceCreator from './directory_interaction/EntityInstanceCreator'
-import CustomEntityCreator from './directory_interaction/CustomEntityCreator'
 
 const styleClasses = () => ({
 	root: {

@@ -20,7 +20,6 @@ import {
 } from '@material-ui/core'
 import {
   AccountCircle,
-  LibraryAdd,
   Apps,
   Timeline,
   List as ListIcon,

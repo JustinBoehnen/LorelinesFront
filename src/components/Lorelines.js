@@ -23,7 +23,7 @@ import {
 	CardActions,
 } from '@material-ui/core'
 import axios from 'axios'
-import { Delete, FileCopy, Add, Close as CloseIcon, BorderColor } from '@material-ui/icons'
+import { Delete, FileCopy, Add, Close as CloseIcon } from '@material-ui/icons'
 import { setLoreline, setLoading, setLorelineArray } from '../actions/index'
 import NewLorelineDialog from './loreline_interaction/NewLorelineDialog'
 import DeleteLorelineDialog from './loreline_interaction/DeleteLorelineDialog'
@@ -198,7 +198,7 @@ export default connect(
 
 	const deleteLorelineFromDB = async (e, id) => {
 		e.preventDefault()
-		if (props.loreline == id) props.setLoreline(null)
+		if (props.loreline === id) props.setLoreline(null)
 		props.setLoading(true) // LOADING START: DELETE LORELINE
 		handleDeleteDialogClose()
 		try {

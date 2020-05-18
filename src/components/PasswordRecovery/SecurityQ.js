@@ -1,14 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import axios from "axios";
 import {
-  Grid,
-  Typography,
-  makeStyles,
-  TextField,
-  Button,
-  Input,
+  makeStyles
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +28,6 @@ export default connect(
 )(function SecurityQ(props) {
 
   const classes = useStyles()
-  const [answer, setAnswer] = useState("")
 
   return <main className={classes.root}></main>;
 });

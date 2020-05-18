@@ -132,10 +132,10 @@ class CustomEntityCreator extends Component {
 
 		this.setState({ validationFailed: error })
 
-		const instance = {
-			name: this.state.instanceName,
-			content: content,
-		}
+		// const instance = {
+		// 	name: this.state.instanceName,
+		// 	content: content,
+		// }
 
 		//if (!error) this.addInstanceoDB(instance)
 	}
@@ -204,7 +204,7 @@ class CustomEntityCreator extends Component {
 									</ListItem>
 								)
 							else if (field.type === 'CHECKBOX_FIELD') {
-								if (field.content.length == 0) field.content = false
+								if (field.content.length === 0) field.content = false
 								return (
 									<ListItem key={field + i}>
 										<InstanceCheckBoxField

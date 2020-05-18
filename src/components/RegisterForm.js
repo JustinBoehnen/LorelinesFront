@@ -5,9 +5,8 @@
 // 
 //
 import Recaptcha from "react-recaptcha";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import  { browserHistory } from "react-router";
 import {
   makeStyles,
   TextField,
@@ -21,7 +20,7 @@ import {
   FormControl,
   InputLabel,
 } from "@material-ui/core";
-import { Visibility, VisibilityOff, Router } from "@material-ui/icons";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 import Validator from "email-validator";
 
 const useStyles = makeStyles((theme) => ({
