@@ -42,7 +42,7 @@ export default connect(
   const [id, setID] = useState("");
   const [idObj, setIdObj] = useState("");
   const [notFound, setNotFound] = useState(false);
-  const [respnse, setResponse] = useState(false);
+  const [response, setResponse] = useState(false);
   const [disableBut, setDisabled] = useState(true);
   const [directory, setDirectory] = useState("/forgot");
 
@@ -52,6 +52,7 @@ export default connect(
       setDirectory("/forgot/security");
       console.log("changing route", props.user.id);
     } else {
+      setDisabled(true)
     }
   });
 
@@ -88,7 +89,6 @@ export default connect(
   const onEmailChange = (e) => setEmail(e.target.value);
 
   const onSubmit = (e) => {
-    e.preventDefault();
     setSubmitAttempt(true);
     GetUserId();
   };
