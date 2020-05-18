@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// src/directory_interaction/DirectoryList.js
+// Contains the class component to show the directory list
+//
+//
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -7,6 +11,8 @@ import { List, ListItem, Button, Collapse, Typography, ButtonGroup, Divider } fr
 import { ExpandLess, ExpandMore, AddCircle, Delete } from '@material-ui/icons'
 import { setInstanceId, setEntityId, setInstance } from '../../actions/index'
 
+//******************************************************************************
+// Directory List Class
 class DirectoryList extends Component {
 	constructor(props) {
 		super(props)
@@ -121,12 +127,16 @@ class DirectoryList extends Component {
 	}
 }
 
+//******************************************************************************
+// Redux Incoming Variables Function
 function mapStatetoProps(state) {
 	return {
 		lorelineId: state.lorelineId,
 	}
 }
 
+//******************************************************************************
+// Redux Outgoing Variables Function
 function matchDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{

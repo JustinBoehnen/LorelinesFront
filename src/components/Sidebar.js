@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// Sidebar.js
+// Holds the Sidebar function that controls the pullout sidebar on the left
+// side of the screen
+//
 import clsx from 'clsx'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -16,7 +20,6 @@ import {
 } from '@material-ui/core'
 import {
   AccountCircle,
-  LibraryAdd,
   Apps,
   Timeline,
   List as ListIcon,
@@ -160,7 +163,8 @@ export default connect(mapStateToProps)(function Sidebar(props) {
     </div>
   )
 })
-
+//******************************************************************************
+// Redux Incoming Variables Function
 function mapStateToProps(state) {
   return {
     loreline: state.lorelineId

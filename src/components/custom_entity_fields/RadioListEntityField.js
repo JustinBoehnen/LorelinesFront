@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// src/custom_entity_fields/RadioListEntityField.js
+// Contains Radio List Entity Field function, for use w/ the directory
+//
+//
 import React, { useState } from 'react';
 import {
   makeStyles,

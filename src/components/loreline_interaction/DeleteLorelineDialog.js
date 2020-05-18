@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// src/loreline_interaction/DeleteLorelineDialog.js
+// Contains the function that creats a popup when a user attempts
+// to delete a loreline
+//
 import React from 'react'
 import {
   Typography,

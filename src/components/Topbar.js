@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// Topbar.js
+// Holds the Topbar function that displays the bar at the top of the website
+// Contains the logout button
+//
 import clsx from 'clsx';
 import React from 'react';
 import {

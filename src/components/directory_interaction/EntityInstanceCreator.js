@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// src/directory_interaction/EntityInstanceCreator.js
+// Contains the class component to create a custom entity instance
+//
+//
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -15,6 +19,8 @@ import InstanceHeader from '../instance_fields/InstanceHeader'
 import InstanceRadioListField from '../instance_fields/InstanceRadioListField'
 import InstanceDivider from '../instance_fields/InstanceDivider'
 
+//******************************************************************************
+// Entity Instance Creator Class
 class CustomEntityCreator extends Component {
 	constructor(props) {
 		super(props)
@@ -126,10 +132,10 @@ class CustomEntityCreator extends Component {
 
 		this.setState({ validationFailed: error })
 
-		const instance = {
-			name: this.state.instanceName,
-			content: content,
-		}
+		// const instance = {
+		// 	name: this.state.instanceName,
+		// 	content: content,
+		// }
 
 		//if (!error) this.addInstanceoDB(instance)
 	}
@@ -198,7 +204,7 @@ class CustomEntityCreator extends Component {
 									</ListItem>
 								)
 							else if (field.type === 'CHECKBOX_FIELD') {
-								if (field.content.length == 0) field.content = false
+								if (field.content.length === 0) field.content = false
 								return (
 									<ListItem key={field + i}>
 										<InstanceCheckBoxField
@@ -254,6 +260,8 @@ class CustomEntityCreator extends Component {
 	}
 }
 
+//******************************************************************************
+// Redux Incoming Variables Function
 function mapStatetoProps(state) {
 	return {
 		lorelineId: state.lorelineId,
@@ -261,6 +269,8 @@ function mapStatetoProps(state) {
 	}
 }
 
+//******************************************************************************
+// Redux Outgoing Variables Function
 function matchDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{

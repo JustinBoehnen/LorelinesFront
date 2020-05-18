@@ -1,17 +1,18 @@
 /** @format */
-
+//******************************************************************************
+// src/instance_fields/InstanceRadioListField.js
+// Contains the function to create a radio list field
+//
+//
 import React from 'react'
 import {
 	makeStyles,
-	Grid,
 	Card,
-	InputBase,
 	RadioGroup,
 	FormControlLabel,
 	Radio,
 	CardContent,
 	CardHeader,
-	Typography,
 } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({

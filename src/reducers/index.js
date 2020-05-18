@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// src/reducers/index.js
+// Combines individual reducer files into allReducers variable
+//
+//
 import { combineReducers } from 'redux'
 import UserReducer from './UserReducer'
 import DirectoryReducer from './DirectoryReducer'

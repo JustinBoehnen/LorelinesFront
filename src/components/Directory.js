@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// Directory.js
+// Directory page function that combines different directory components
+//
+//
 import React from 'react'
 import axios from 'axios'
 import { bindActionCreators } from 'redux'
@@ -132,7 +136,8 @@ export default connect(
     </main>
   )
 })
-
+//******************************************************************************
+// Redux Incoming Variables Function
 function mapStateToProps(state) {
   return {
     window: state.window,
@@ -141,7 +146,8 @@ function mapStateToProps(state) {
     lorelineId: state.lorelineId
   }
 }
-
+//******************************************************************************
+// Redux Outgoing Variables Function
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {

@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// src/instance_fields/InstanceHeader.js
+// Contains the function to create the header for an instance
+//
+//
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 

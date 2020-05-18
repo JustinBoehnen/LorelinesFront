@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// src/instance_fields/InstanceCheckBoxField.js
+// Contains the function to create the check box fields
+//
+//
 import React from 'react'
 import { makeStyles, Card, Checkbox, FormControlLabel } from '@material-ui/core'
 

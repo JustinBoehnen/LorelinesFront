@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// src/custom_entity_fields/EntityField.js
+// Contains Entity Field function, for use w/ the directory
+//
+//
 import React from 'react';
 import {
   makeStyles,

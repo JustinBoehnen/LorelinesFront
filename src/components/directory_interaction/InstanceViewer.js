@@ -1,9 +1,15 @@
 /**@format */
-
+//******************************************************************************
+// src/directory_interaction/InstanceViewer.js
+// Contains the class component to show an instance
+//
+//
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { List, ListItem, ListItemText } from '@material-ui/core'
 
+//******************************************************************************
+// Instance Viewer Class
 class InstanceViewer extends Component {
 	state = { open: {}, instance: [] }
 
@@ -39,6 +45,8 @@ class InstanceViewer extends Component {
 	}
 }
 
+//******************************************************************************
+// Redux Incoming Variables Function
 function mapStatetoProps(state) {
 	return {
 		instance: state.instance,

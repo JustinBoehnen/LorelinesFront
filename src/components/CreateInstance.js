@@ -1,3 +1,8 @@
+//******************************************************************************
+// CreateInstance.js
+// Holds component that creates an Instance JSON object
+//
+//
 import React from "react";
 import axios from "axios";
 import {

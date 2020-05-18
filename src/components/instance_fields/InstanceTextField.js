@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// src/instance_fields/InstanceTextField.js
+// Contains the function to create instance text fields
+//
+//
 import React from 'react'
 import { makeStyles, Grid, Card, InputBase } from '@material-ui/core'
 

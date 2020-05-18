@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// Lorelines.js
+// Loreline page function that displays a users current lorelines, and allows
+// them to create and delete lorelines
+//
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -19,7 +23,7 @@ import {
 	CardActions,
 } from '@material-ui/core'
 import axios from 'axios'
-import { Delete, FileCopy, Add, Close as CloseIcon, BorderColor } from '@material-ui/icons'
+import { Delete, FileCopy, Add, Close as CloseIcon } from '@material-ui/icons'
 import { setLoreline, setLoading, setLorelineArray } from '../actions/index'
 import NewLorelineDialog from './loreline_interaction/NewLorelineDialog'
 import DeleteLorelineDialog from './loreline_interaction/DeleteLorelineDialog'
@@ -194,7 +198,7 @@ export default connect(
 
 	const deleteLorelineFromDB = async (e, id) => {
 		e.preventDefault()
-		if (props.loreline == id) props.setLoreline(null)
+		if (props.loreline === id) props.setLoreline(null)
 		props.setLoading(true) // LOADING START: DELETE LORELINE
 		handleDeleteDialogClose()
 		try {
@@ -356,7 +360,8 @@ export default connect(
 		</main>
 	)
 })
-
+//******************************************************************************
+// Redux Incoming Variables Function
 function mapStateToProps(state) {
 	return {
 		user: state.user,
@@ -364,7 +369,8 @@ function mapStateToProps(state) {
 		lorelineArray: state.lorelineArray,
 	}
 }
-
+//******************************************************************************
+// Redux Outgoing Variables Function
 function matchDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{

@@ -1,5 +1,9 @@
 /** @format */
-
+//******************************************************************************
+// src/custom_entity_fields/SectionDivider.js
+// Contains Section Divider function, for use w/ the directory
+//
+//
 import React from 'react';
 import {
   makeStyles,

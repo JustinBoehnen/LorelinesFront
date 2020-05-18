@@ -1,5 +1,8 @@
 /** @format */
-
+//******************************************************************************
+// src/instance_fields/InstanceDivider.js
+// Contains the function to create the divider between fields
+//
 import React from 'react';
 import { makeStyles, Divider } from '@material-ui/core';
 
