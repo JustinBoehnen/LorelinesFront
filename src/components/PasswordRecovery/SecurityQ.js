@@ -72,6 +72,7 @@ export default connect(
         console.log("Sucess")
         setDirectory("/forgot/change")
         setDisable(false)
+        setWrongAnswer(false)
       }
       else{
         setWrongAnswer(true)

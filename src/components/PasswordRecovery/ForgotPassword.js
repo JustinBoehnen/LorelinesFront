@@ -60,16 +60,17 @@ export default connect(
     try {
       const response =  await axios.get(
         `https://lorelines-expressapi.herokuapp.com/api/users/${email}/getuser`
-      );
-      console.log(response.data);
+      )
+      console.log(response.data)
       SetPropId(response.data);
+      setSubmitAttempt(true)
     } catch (err) {}
   };
 
   const SetPropId = (resid) => {
     setIdObj(resid);
     console.log("object id:", idObj);
-    if(idObj == "")
+    if(idObj === "")
     { 
       setNotFound(true)
     }

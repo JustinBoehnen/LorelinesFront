@@ -42,6 +42,8 @@ export default connect(
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const [submitAttempted, setSubmitAttempt] = React.useState(false);
+  const [disableBut, setDisabled] = useState(true);
+  const [directory, setDirectory] = React.useState("/forgot/change");
 
   const onNewPasswordChange = (e) => setNewPassword(e.target.value);
 
@@ -71,6 +73,11 @@ export default connect(
             }
           );
           console.log(response.data);
+          if(response.data === "OK")
+          {
+            setDirectory("/forgot/confirmation")
+            setDisabled(false)
+          }
         }
       }
     } catch (err) {}
@@ -167,29 +174,50 @@ export default connect(
               }}
             />
           </Grid>
-          <Grid item>
-            <Button
-              style={{
-                marginTop: 16,
-                padding: 5,
-                fontSize: 22,
-                borderRadius: "50px",
-                width: "260px",
-              }}
-              type="submit"
-              color="primary"
-              variant="contained"
-              onClick={onSubmit}
-            >
-              Submit
-            </Button>
-          </Grid>
-          <Grid item>
-            <Typography style={{ padding: 5, fontSize: 16 }}>
-              <Link className={classes.link} to="/">
-                Cancel
-              </Link>
-            </Typography>
+          <Grid container direction="row" justify="center" alignItems="center">
+            <Grid item>
+              <Button
+                style={{
+                  marginTop: 16,
+                  padding: 5,
+                  fontSize: 18,
+                  borderRadius: "50px",
+                  width: "130px",
+                }}
+                type="submit"
+                color="primary"
+                variant="contained"
+                onClick={onSubmit}
+              >
+                Submit
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                style={{
+                  marginTop: 16,
+                  marginLeft: 5,
+                  padding: 5,
+                  fontSize: 18,
+                  borderRadius: "50px",
+                  width: "130px",
+                }}
+                type="submit"
+                disabled={disableBut}
+                color="primary"
+                variant="contained"
+              >
+                <Link
+                  style={{
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                  to={directory}
+                >
+                  Next Page
+                </Link>
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </form>
