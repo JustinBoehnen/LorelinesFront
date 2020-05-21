@@ -25,6 +25,7 @@ import RegisterConfirmation from './components/RegisterConfirmation'
 import ForgotPassword from './components/PasswordRecovery/ForgotPassword'
 import ChangePassword from './components/PasswordRecovery/ChangePassword'
 import SecurityQ from './components/PasswordRecovery/SecurityQ'
+import PasswordConfirmation from './components/PasswordRecovery/PasswordConfirmation'
 
 const jwtDecode = require('jwt-decode')
 
@@ -183,7 +184,11 @@ class App extends Component {
                 tryLogin={this.tryLogin}
               />
             </Route>
-            <Route path='/forgot' component={ForgotPassword} />
+            <Route exact path='/forgot' component={ForgotPassword} />
+
+            <Route exact path='/forgot/security' component={SecurityQ} />
+            <Route exact path='/forgot/change' component={ChangePassword} />
+            <Route exact path='/forgot/confirmation' component={PasswordConfirmation} />
             <Route exact path='/register'>
               <RegisterForm createUser={this.createUser} />
             </Route>

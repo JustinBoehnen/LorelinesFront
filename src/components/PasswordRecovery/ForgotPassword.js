@@ -1,47 +1,107 @@
+<<<<<<< HEAD
 //******************************************************************************
 // src/PasswordRecovery/ForgotPassword.js
 // Contains the function that provides the dialog if a user forgets their 
 // password
 //
 import React, { useState } from "react";
+=======
+import React, { useState, useEffect } from "react";
+>>>>>>> passwordLink
 import { Link } from "react-router-dom";
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { makeStyles, Grid, Typography, TextField, Button, InputAdornment } from "@material-ui/core";
-import Mail from '@material-ui/icons/Mail'
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import axios from "axios";
+import {
+  makeStyles,
+  Grid,
+  Typography,
+  TextField,
+  Button,
+  InputAdornment,
+} from "@material-ui/core";
+import Mail from "@material-ui/icons/Mail";
+import { setLoading } from "../../actions/index";
+import SelectInput from "@material-ui/core/Select/SelectInput";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   content: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   link: {
     color: theme.palette.secondary.main,
-    textDecoration: 'underline'
+    textDecoration: "underline",
   },
   field: {
-    width: '20vw',
-    minWidth: '250px'
+    width: "20vw",
+    minWidth: "250px",
   },
   error: {
-    color: theme.palette.error.main
-  }
+    color: theme.palette.error.main,
+  },
 }));
 
 export default connect(
-	mapStateToProps,
-	matchDispatchToProps
+  mapStateToProps,
+  matchDispatchToProps
 )(function ForgotPassword(props) {
   const classes = useStyles();
-  const [email, setEmail] = useState("")
-  const [submitAttempted, setSubmitAttempt] = useState(false)
+  const [email, setEmail] = useState("");
+  const [submitAttempted, setSubmitAttempt] = useState(false);
+  const [id, setID] = useState("");
+  const [idObj, setIdObj] = useState("");
+  const [notFound, setNotFound] = useState(false);
+  const [response, setResponse] = useState(false);
+  const [disableBut, setDisabled] = useState(true);
+  const [directory, setDirectory] = useState("/forgot");
 
-  const onEmailChange = e => setEmail(e.target.value);
+  useEffect(() => {
+    if (props.user.id !== undefined) {
+      setDisabled(false);
+      setDirectory("/forgot/security");
+      console.log("changing route", props.user.id);
+    } else {
+      setDisabled(true)
+    }
+  });
+
+  const GetUserId = async () => {
+    try {
+      const response =  await axios.get(
+        `https://lorelines-expressapi.herokuapp.com/api/users/${email}/getuser`
+      )
+      console.log(response.data)
+      SetPropId(response.data);
+      setSubmitAttempt(true)
+    } catch (err) {}
+  };
+
+  const SetPropId = (resid) => {
+    setIdObj(resid);
+    console.log("object id:", idObj);
+    if(idObj === "")
+    { 
+      setNotFound(true)
+    }
+    else
+    {
+      setNotFound(false)
+    }
+
+    idObj.map((res) => {
+      setID(res._id);
+    });
+
+    props.user.id = id;
+    console.log(id);
+  };
+
+  const onEmailChange = (e) => setEmail(e.target.value);
 
   const onSubmit = (e) => {
-    setSubmitAttempt(true)
-    
+    setSubmitAttempt(true);
+    GetUserId();
   };
-  
 
   return (
     <main className={classes.root}>
@@ -78,33 +138,60 @@ export default connect(
                 <InputAdornment position="start">
                   <Mail color="secondary" />
                 </InputAdornment>
-              )
+              ),
             }}
-            error={
-              (submitAttempted && email === '')
-            }
+            error={(submitAttempted && email === "") || notFound === true}
             helperText={
-              submitAttempted && email === ''
-                ? 'this field cannot be empty' : ''
+              (submitAttempted && email === ""
+                ? "this field cannot be empty"
+                : "") || (notFound === true ? "Email not found" : "")
             }
           ></TextField>
         </Grid>
-        <Grid item>
-          <Button
-            style={{
-              marginTop: 16,
-              padding: 5,
-              fontSize: 22,
-              borderRadius: "50px",
-              width: "260px",
-            }}
-            type="submit"
-            color="primary"
-            variant="contained"
-            onClick={onSubmit}
-          >
-            Submit
-          </Button>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item>
+            <Button
+              style={{
+                marginTop: 16,
+                padding: 5,
+                fontSize: 18,
+                borderRadius: "50px",
+                width: "130px",
+              }}
+              type="submit"
+              color="primary"
+              variant="contained"
+              onClick={onSubmit}
+            >
+              Submit
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              style={{
+                marginTop: 16,
+                marginLeft: 5,
+                padding: 5,
+                fontSize: 18,
+                borderRadius: "50px",
+                width: "130px",
+              }}
+              type="submit"
+              disabled={disableBut}
+              color="primary"
+              variant="contained"
+            >
+              <Link
+                style={{
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+                to={directory}
+              >
+                Next Page
+              </Link>
+            </Button>
+          </Grid>
         </Grid>
         <Grid item>
           <Typography>
@@ -116,18 +203,19 @@ export default connect(
       </Grid>
     </main>
   );
-})
+});
 
 function mapStateToProps(state) {
-	return {
-		user: state.user,
-	}
+  return {
+    user: state.user,
+  };
 }
 
 function matchDispatchToProps(dispatch) {
-	return bindActionCreators(
-		{
-		},
-		dispatch
-	)
+  return bindActionCreators(
+    {
+      setLoading: setLoading,
+    },
+    dispatch
+  );
 }

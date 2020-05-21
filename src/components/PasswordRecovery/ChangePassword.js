@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //******************************************************************************
 // src/PasswordRecovery/ChangePassword.js
 // Contains the function that provides the dialog to change a users
@@ -6,6 +7,12 @@
 import React from "react";
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+=======
+import React, { useState } from "react";
+import axios from "axios";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+>>>>>>> passwordLink
 import { Link } from "react-router-dom";
 import {
   Grid,
@@ -14,7 +21,7 @@ import {
   Button,
   makeStyles,
   IconButton,
-  InputAdornment
+  InputAdornment,
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
@@ -36,19 +43,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default connect(
-	mapStateToProps,
-	matchDispatchToProps
+  mapStateToProps,
+  matchDispatchToProps
 )(function ChangePassword(props) {
   const classes = useStyles();
-  const [newPassword, setNewPassword] = React.useState("");
+  const [password, setNewPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const [submitAttempted, setSubmitAttempt] = React.useState(false);
+  const [disableBut, setDisabled] = useState(true);
+  const [directory, setDirectory] = React.useState("/forgot/change");
 
   const onNewPasswordChange = (e) => setNewPassword(e.target.value);
-  const onConfirmPasswordChange = (e) =>
-    onConfirmPasswordChange(e.target.value);
+
+  const onConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
 
   const handleClickShowPassword = () => {
     if (showPassword === false) setShowPassword(true);
@@ -63,10 +72,31 @@ export default connect(
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const ChangePassword = async () => {
+    try {
+      if (password !== "") {
+        if (password === confirmPassword) {
+          const response = await axios.post(
+            `https://lorelines-expressapi.herokuapp.com/api/users/${props.user.id}/changePassword`,
+            {
+              password,
+            }
+          );
+          console.log(response.data);
+          if(response.data === "OK")
+          {
+            setDirectory("/forgot/confirmation")
+            setDisabled(false)
+          }
+        }
+      }
+    } catch (err) {}
+  };
 
   const onSubmit = (e) => {
-	  e.preventDefault()
-    setSubmitAttempt(true)
+    e.preventDefault();
+    ChangePassword();
+    setSubmitAttempt(true);
   };
   return (
     <main className={classes.root}>
@@ -96,11 +126,11 @@ export default connect(
               label="New Password"
               margin="normal"
               type={showPassword ? "text" : "password"}
-              value={newPassword}
+              value={password}
               onChange={onNewPasswordChange}
-              error={submitAttempted && newPassword === ""}
+              error={submitAttempted && password === ""}
               helperText={
-                submitAttempted && newPassword === ""
+                submitAttempted && password === ""
                   ? "this field cannot be empty"
                   : ""
               }
@@ -129,13 +159,13 @@ export default connect(
               value={confirmPassword}
               onChange={onConfirmPasswordChange}
               error={
-                newPassword !== confirmPassword ||
+                password !== confirmPassword ||
                 (submitAttempted && confirmPassword === "")
               }
               helperText={
                 submitAttempted && confirmPassword === ""
                   ? "this field cannot be empty"
-                  : "" || newPassword !== confirmPassword
+                  : "" || password !== confirmPassword
                   ? "passwords do not match"
                   : ""
               }
@@ -154,47 +184,63 @@ export default connect(
               }}
             />
           </Grid>
-          <Grid item>
-            <Button
-              style={{
-                marginTop: 16,
-                padding: 5,
-                fontSize: 22,
-                borderRadius: "50px",
-                width: "260px",
-              }}
-              type="submit"
-              color="primary"
-              variant="contained"
-              onClick={onSubmit}
-            >
-              Submit
-            </Button>
-          </Grid>
-          <Grid item>
-            <Typography style={{ padding: 5, fontSize: 16 }}>
-              <Link className={classes.link} to="/">
-                Cancel
-              </Link>
-            </Typography>
+          <Grid container direction="row" justify="center" alignItems="center">
+            <Grid item>
+              <Button
+                style={{
+                  marginTop: 16,
+                  padding: 5,
+                  fontSize: 18,
+                  borderRadius: "50px",
+                  width: "130px",
+                }}
+                type="submit"
+                color="primary"
+                variant="contained"
+                onClick={onSubmit}
+              >
+                Submit
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                style={{
+                  marginTop: 16,
+                  marginLeft: 5,
+                  padding: 5,
+                  fontSize: 18,
+                  borderRadius: "50px",
+                  width: "130px",
+                }}
+                type="submit"
+                disabled={disableBut}
+                color="primary"
+                variant="contained"
+              >
+                <Link
+                  style={{
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                  to={directory}
+                >
+                  Next Page
+                </Link>
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </form>
     </main>
   );
-})
+});
 
 function mapStateToProps(state) {
-	return {
-		user: state.user,
-	}
+  return {
+    user: state.user,
+  };
 }
 
 function matchDispatchToProps(dispatch) {
-	return bindActionCreators(
-		{
-		},
-		dispatch
-	)
+  return bindActionCreators({}, dispatch);
 }
-
