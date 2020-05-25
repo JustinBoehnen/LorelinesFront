@@ -4,7 +4,7 @@
 // Contains Entity Field function, for use w/ the directory
 //
 //
-import React from 'react';
+import React from "react";
 import {
   makeStyles,
   Grid,
@@ -12,39 +12,39 @@ import {
   Card,
   InputBase,
   IconButton,
-  Tooltip
-} from '@material-ui/core';
-import { Delete } from '@material-ui/icons';
+  Tooltip,
+} from "@material-ui/core";
+import { Delete } from "@material-ui/icons";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flex: 1
+    flex: 1,
   },
   card: {
     minWidth: 300,
-    padding: 10
+    padding: 10,
   },
   input: {
-    flex: 1
+    flex: 1,
   },
   delete: {
-    marginLeft: 'auto'
+    marginLeft: "auto",
   },
   content: {
-    flex: 1
-  }
+    flex: 1,
+  },
 }));
 
 export default function EntityField(props) {
   const classes = useStyles();
 
-  const handleLabelChange = e => {
+  const handleLabelChange = (e) => {
     props.changeLabel(props.index, e.target.value);
   };
 
-  if (props.validationFailed && props.label === '')
+  if (props.validationFailed && props.label === "")
     var errorStyle = {
-      style: { border: '2px solid red' }
+      style: { border: "2px solid red" },
     };
 
   return (
@@ -58,6 +58,9 @@ export default function EntityField(props) {
                 placeholder="Label"
                 onChange={handleLabelChange}
                 value={props.label}
+                inputProps={{
+                  dataTestId: "fieldName",
+                }}
               />
             </Grid>
             <Grid item>
