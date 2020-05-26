@@ -1,18 +1,12 @@
-<<<<<<< HEAD
 //******************************************************************************
 // src/PasswordRecovery/ChangePassword.js
 // Contains the function that provides the dialog to change a users
 // password
 //
-import React from "react";
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-=======
 import React, { useState } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
->>>>>>> passwordLink
 import { Link } from "react-router-dom";
 import {
   Grid,
@@ -83,10 +77,9 @@ export default connect(
             }
           );
           console.log(response.data);
-          if(response.data === "OK")
-          {
-            setDirectory("/forgot/confirmation")
-            setDisabled(false)
+          if (response.data === "OK") {
+            setDirectory("/forgot/confirmation");
+            setDisabled(false);
           }
         }
       }

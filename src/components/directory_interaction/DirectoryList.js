@@ -15,6 +15,8 @@ import {
   Typography,
   ButtonGroup,
   Divider,
+  Popover,
+  Grid,
 } from "@material-ui/core";
 import { ExpandLess, ExpandMore, AddCircle, Delete } from "@material-ui/icons";
 import { setInstanceId, setEntityId, setInstance } from "../../actions/index";
@@ -24,7 +26,11 @@ import { setInstanceId, setEntityId, setInstance } from "../../actions/index";
 class DirectoryList extends Component {
   constructor(props) {
     super(props);
-    this.state = { open: {}, entities: [] };
+    this.state = {
+      open: {},
+      entities: [],
+      anchorEl: null,
+    };
   }
 
   componentDidMount() {
@@ -44,8 +50,11 @@ class DirectoryList extends Component {
     this.setState({ [key]: !this.state[key] });
   };
 
-  handleEntityDelete = (id) => {
-    //this.props.deleteEntity(id)
+  handleEntityDelete = (event) => {
+    console.log("Here");
+    console.log(this.state.anchorEl);
+    this.setState({ anchorEl: event.currentTarget });
+    console.log(this.state.anchorEl);
   };
 
   handleEntityInstantiation = (id) => {
@@ -55,88 +64,108 @@ class DirectoryList extends Component {
 
   render() {
     return (
-      <List style={{ width: 300 }}>
-        {this.state.entities.map((entity) => {
-          const open = this.state[entity._id] || false;
-          return (
-            <div
-              style={{
-                borderStyle: "solid",
-                borderWidth: "1px 1px 1px 3px", //t r b l
-                borderColor: entity.color,
-                marginBottom: 5,
-                borderRadius: 5,
-              }}
-              key={entity._id}
-            >
-              <ListItem style={{ width: "100%", padding: 0 }}>
-                <ButtonGroup
-                  fullWidth
-                  variant="text"
-                  aria-label="text primary button group"
-                >
-                  <Button
-                    dataTestId="createInstanceButton"
-                    style={{ width: 44, borderRadius: 0, color: "#777" }}
-                    onClick={() => this.handleEntityInstantiation(entity._id)}
+      <Grid>
+        <List style={{ width: 300 }}>
+          {this.state.entities.map((entity) => {
+            const open = this.state[entity._id] || false;
+            return (
+              <div
+                style={{
+                  borderStyle: "solid",
+                  borderWidth: "1px 1px 1px 3px", //t r b l
+                  borderColor: entity.color,
+                  marginBottom: 5,
+                  borderRadius: 5,
+                }}
+                key={entity._id}
+              >
+                <ListItem style={{ width: "100%", padding: 0 }}>
+                  <ButtonGroup
+                    fullWidth
+                    variant="text"
+                    aria-label="text primary button group"
                   >
-                    <AddCircle />
-                  </Button>
-                  <Button
-                    style={{ borderRadius: 0 }}
-                    onClick={() => this.handleEntityDropdown(entity._id)}
-                  >
-                    <Typography
-                      style={{
-                        textAlign: "left",
-                        overflow: "hidden",
-                        textOverflow: "clip",
-                        width: 272,
-                        textTransform: "none",
-                        color: entity.color,
-                      }}
-                      variant="h6"
+                    <Button
+                      dataTestId="createInstanceButton"
+                      style={{ width: 44, borderRadius: 0, color: "#777" }}
+                      onClick={() => this.handleEntityInstantiation(entity._id)}
                     >
-                      {entity.name}
-                    </Typography>
-                    {open ? <ExpandLess /> : <ExpandMore />}
-                  </Button>
-                  <Button
-                    dataTestId="deleteEntityButton"
-                    style={{
-                      width: 44,
-                      borderRadius: 0,
-                      color: "#777",
-                    }}
-                    onClick={() => this.handleEntityDelete(entity._id)}
-                  >
-                    <Delete />
-                  </Button>
-                </ButtonGroup>
-              </ListItem>
-              <Collapse in={open} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  {entity.instances.map((instance, i) => {
-                    return (
-                      <div key={instance._id + i}>
-                        <Divider />
-                        <ListItem
-                          button
-                          onClick={() => {
-                            this.handleInstanceSelect(instance._id, entity._id);
-                          }}
-                        >
-                          <Typography>{instance.name}</Typography>
-                        </ListItem>
-                      </div>
-                    );
-                  })}
-                </List>
-              </Collapse>
-            </div>
-          );
-        })}
-      </List>
+                      <AddCircle />
+                    </Button>
+                    <Button
+                      style={{ borderRadius: 0 }}
+                      onClick={() => this.handleEntityDropdown(entity._id)}
+                    >
+                      <Typography
+                        style={{
+                          textAlign: "left",
+                          overflow: "hidden",
+                          textOverflow: "clip",
+                          width: 272,
+                          textTransform: "none",
+                          color: entity.color,
+                        }}
+                        variant="h6"
+                      >
+                        {entity.name}
+                      </Typography>
+                      {open ? <ExpandLess /> : <ExpandMore />}
+                    </Button>
+                    <Button
+                      dataTestId="deleteEntityButton"
+                      style={{
+                        width: 44,
+                        borderRadius: 0,
+                        color: "#777",
+                      }}
+                      onClick={this.handleEntityDelete}
+                    >
+                      <Delete />
+                    </Button>
+                  </ButtonGroup>
+                </ListItem>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    {entity.instances.map((instance, i) => {
+                      return (
+                        <div key={instance._id + i}>
+                          <Divider />
+                          <ListItem
+                            button
+                            onClick={() => {
+                              this.handleInstanceSelect(
+                                instance._id,
+                                entity._id
+                              );
+                            }}
+                          >
+                            <Typography>{instance.name}</Typography>
+                          </ListItem>
+                        </div>
+                      );
+                    })}
+                  </List>
+                </Collapse>
+              </div>
+            );
+          })}
+        </List>
+        <Popover
+          anchorEl={this.state.anchorEl}
+          open={Boolean(this.state.anchorEl)}
+          id={Boolean(this.state.anchorEl) ? "simple-popover" : undefined}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+        >
+          <Typography>Pretty please</Typography>
+        </Popover>
+      </Grid>
     );
   }
 }
