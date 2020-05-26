@@ -30,6 +30,8 @@ class DirectoryList extends Component {
       open: {},
       entities: [],
       anchorEl: null,
+      deleteEntityId: null,
+      deleteEntityName: null,
     };
   }
 
@@ -50,11 +52,13 @@ class DirectoryList extends Component {
     this.setState({ [key]: !this.state[key] });
   };
 
-  handleEntityDelete = (event) => {
-    console.log("Here");
-    console.log(this.state.anchorEl);
-    this.setState({ anchorEl: event.currentTarget });
-    console.log(this.state.anchorEl);
+  handleEntityDelete = (event, id, name) => {
+    this.setState({
+      anchorEl: event.currentTarget,
+      deleteEntityId: id,
+      deleteEntityName: name,
+    });
+    console.log(this.state.deleteEntityId);
   };
 
   handleEntityInstantiation = (id) => {
@@ -118,7 +122,9 @@ class DirectoryList extends Component {
                         borderRadius: 0,
                         color: "#777",
                       }}
-                      onClick={this.handleEntityDelete}
+                      onClick={(event) =>
+                        this.handleEntityDelete(event, entity._id, entity.name)
+                      }
                     >
                       <Delete />
                     </Button>
@@ -163,7 +169,13 @@ class DirectoryList extends Component {
             horizontal: "center",
           }}
         >
-          <Typography>Pretty please</Typography>
+          <Typography>
+            Are you sure you want to delete {this.state.deleteEntityName}?
+          </Typography>
+          <ButtonGroup>
+            <Button>Delete</Button>
+            <Button>Cancel</Button>
+          </ButtonGroup>
         </Popover>
       </Grid>
     );
