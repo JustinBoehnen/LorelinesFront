@@ -118,8 +118,8 @@ class CustomEntityCreator extends Component {
       this.state.fields.forEach((field, i) => {
         console.log("field[", i, "]: ", field);
         content = content.concat({
-          type: field.actualName,
-          name: field.label,
+          type: field.type,
+          name: field.name,
           content: field.content,
         });
 
@@ -128,7 +128,6 @@ class CustomEntityCreator extends Component {
 
           for (const option of field.options) {
             if (option.label === "") error = true;
-
             content[i].content = content[i].content.concat({
               name: option.label,
             });
@@ -139,12 +138,18 @@ class CustomEntityCreator extends Component {
 
     this.setState({ validationFailed: error });
 
-    // const instance = {
-    // 	name: this.state.instanceName,
-    // 	content: content,
-    // }
+    const instance = {
+      lorelineid: this.props.lorelineId,
+      name: this.state.instanceName,
+      content: content,
+      ceid: this.props.entityId,
+    };
 
-    //if (!error) this.addInstanceoDB(instance)
+    if (!error) this.addInstanceToDB(instance);
+  };
+
+  errorMessage = () => {
+    return "instance must have a name";
   };
 
   render() {
@@ -173,13 +178,15 @@ class CustomEntityCreator extends Component {
         </Grid>
         <Grid item>
           <TextField
-            error={this.state.validationFailed && this.state.entityName === ""}
+            error={
+              this.state.validationFailed && this.state.instanceName === ""
+            }
             helperText={
-              this.state.validationFailed && this.state.entityName === ""
-                ? "this field cannot be empty"
+              this.state.validationFailed && this.state.instanceName === ""
+                ? "instance must be named"
                 : ""
             }
-            label="Custom Entity Name"
+            label="Instance Name"
             value={this.state.instanceName}
             onChange={this.handleInstanceNameChange}
             inputProps={{
@@ -254,6 +261,19 @@ class CustomEntityCreator extends Component {
             })}
           </List>
         </Grid>
+        {this.state.validationFailed && (
+          <Grid item>
+            <Typography
+              style={{
+                padding: 5,
+                fontSize: 16,
+              }}
+              color="error"
+            >
+              {this.errorMessage()}
+            </Typography>
+          </Grid>
+        )}
         <Grid item>
           <Button
             startIcon={<Save />}

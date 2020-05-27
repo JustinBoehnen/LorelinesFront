@@ -20,7 +20,12 @@ import {
   Grid,
 } from "@material-ui/core";
 import { ExpandLess, ExpandMore, AddCircle, Delete } from "@material-ui/icons";
-import { setInstanceId, setEntityId, setInstance } from "../../actions/index";
+import {
+  setInstanceId,
+  setEntityId,
+  setInstance,
+  setLoading,
+} from "../../actions/index";
 
 //******************************************************************************
 // Directory List Class
@@ -71,6 +76,7 @@ class DirectoryList extends Component {
 
   deleteEntityFromDB = async (e) => {
     e.preventDefault();
+    this.props.setLoading(true);
     try {
       await axios
         .delete(
@@ -79,6 +85,7 @@ class DirectoryList extends Component {
         .then(() => {
           console.log(this.state.deleteEntityId + " deleted!");
           this.handleEntityDeleteCancel();
+          this.props.setLoading(false);
         });
     } catch (err) {}
   };
@@ -237,6 +244,7 @@ function matchDispatchToProps(dispatch) {
       setInstanceId: setInstanceId,
       setEntityId: setEntityId,
       setInstance: setInstance,
+      setLoading: setLoading,
     },
     dispatch
   );
