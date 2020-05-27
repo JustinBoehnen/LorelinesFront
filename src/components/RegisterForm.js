@@ -2,7 +2,7 @@
 //******************************************************************************
 // RegisterForm.js
 // Holds the RegisterForm function that handles taking a new users info
-// 
+//
 //
 import Recaptcha from "react-recaptcha";
 import React, { useEffect } from "react";
@@ -49,7 +49,7 @@ export default function RegisterForm(props) {
   const [verified, setVerified] = React.useState(false);
   const [securityOpen, setSecurityOpen] = React.useState(false);
   const [accountCreated, setAccountCreated] = React.useState(false);
-  const [directory, setDirectory] = React.useState('/register')
+  const [directory, setDirectory] = React.useState("/register");
   const [values, setValues] = React.useState({
     name: "",
     email: "",
@@ -65,18 +65,18 @@ export default function RegisterForm(props) {
     emailExists: false,
   });
   useEffect(() => {
-    console.log("useEffect Called")
-		if (Validator.validate(values.email) === true)
-        if (values.email === values.confirmEmail)
-          if (values.password !== "")
-            if (values.password === values.confirmPassword)
-              if (values.securityQ !== "")
-                if (values.securityAnswer !== "") {
-                  console.log('changing router path')
-                  setDirectory('/register/confirm')
-                  console.log(directory)
-                }
-	})
+    console.log("useEffect Called");
+    if (Validator.validate(values.email) === true)
+      if (values.email === values.confirmEmail)
+        if (values.password !== "")
+          if (values.password === values.confirmPassword)
+            if (values.securityQ !== "")
+              if (values.securityAnswer !== "") {
+                console.log("changing router path");
+                setDirectory("/register/confirm");
+                console.log(directory);
+              }
+  });
   const recaptchaLoaded = () => {
     console.log("RecaptchLoaded");
   };
@@ -127,8 +127,8 @@ export default function RegisterForm(props) {
                     values.securityQ,
                     values.securityAnswer
                   );
-                  setAccountCreated(true)
-                  setValues({ ...values, emailExists: exists })
+                  setAccountCreated(true);
+                  setValues({ ...values, emailExists: exists });
                 }
     }
   };
@@ -396,29 +396,31 @@ export default function RegisterForm(props) {
               theme="dark"
             />
           </Grid>
-            <Grid item>
-              <Button
+          <Grid item>
+            <Button
+              style={{
+                marginTop: 16,
+                padding: 5,
+                fontSize: 22,
+                borderRadius: "50px",
+                width: "260px",
+              }}
+              type="submit"
+              color="primary"
+              variant="contained"
+              onClick={onSubmit}
+            >
+              <Link
                 style={{
-                  marginTop: 16,
-                  padding: 5,
-                  fontSize: 22,
-                  borderRadius: "50px",
-                  width: "260px",
+                  color: "inherit",
+                  textDecoration: "none",
                 }}
-                type="submit"
-                color="primary"
-                variant="contained"
-                onClick={onSubmit}
-                
+                to={directory}
               >
-                <Link style ={{
-                  color: 'inherit',
-                  textDecoration: 'none'
-                }} to={directory}>
-                Submit     
-                </Link>         
-              </Button>
-            </Grid>
+                Submit
+              </Link>
+            </Button>
+          </Grid>
 
           <Grid item>
             <Typography style={{ padding: 5, fontSize: 16 }}>

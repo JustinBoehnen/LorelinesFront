@@ -4,11 +4,11 @@
 // Contains the class component to create a custom entity
 //
 //
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { setLoading } from '../../actions/index'
-import axios from 'axios'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { setLoading } from "../../actions/index";
+import axios from "axios";
 import {
   List,
   ListItem,
@@ -20,37 +20,37 @@ import {
   Tooltip,
   Typography,
   Snackbar,
-  IconButton
-} from '@material-ui/core'
-import { Add, Save, Close } from '@material-ui/icons'
-import EntityField from '../custom_entity_fields/EntityField'
-import SectionDivider from '../custom_entity_fields/SectionDivider.js'
-import RadioListEntityField from '../custom_entity_fields/RadioListEntityField'
-import { BlockPicker } from 'react-color'
+  IconButton,
+} from "@material-ui/core";
+import { Add, Save, Close } from "@material-ui/icons";
+import EntityField from "../custom_entity_fields/EntityField";
+import SectionDivider from "../custom_entity_fields/SectionDivider.js";
+import RadioListEntityField from "../custom_entity_fields/RadioListEntityField";
+import { BlockPicker } from "react-color";
 
 //******************************************************************************
 // Custom Entity Creator Class
 class CustomEntityCreator extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      name: '',
-      color: '#f78d1e',
+      name: "",
+      color: "#f78d1e",
       fields: [],
       anchorEl: null,
       validationFailed: false,
-      creationFeedbackOpen: false
-    }
+      creationFeedbackOpen: false,
+    };
   }
 
   handleFeedbackClose = (event, reason) => {
-    if (reason !== 'clickaway') {
-      this.setState({ creationFeedbackOpen: false })
+    if (reason !== "clickaway") {
+      this.setState({ creationFeedbackOpen: false });
     }
-  }
+  };
 
-  addEntityToDB = async entity => {
-    this.props.setLoading(true)
+  addEntityToDB = async (entity) => {
+    this.props.setLoading(true);
     try {
       await axios
         .post(
@@ -58,150 +58,153 @@ class CustomEntityCreator extends Component {
           {
             name: entity.name,
             color: entity.color,
-            content: entity.content
+            content: entity.content,
           }
         )
         .then(() => {
-          this.props.setLoading(false)
-          this.setState({ creationFeedbackOpen: true })
-          this.props.addEntityToList(entity)
-        })
+          this.props.setLoading(false);
+          this.setState({ creationFeedbackOpen: true });
+          this.props.addEntityToList(entity);
+        });
     } catch (err) {
-      this.props.setLoading(false)
+      this.props.setLoading(false);
     }
-  }
+  };
 
   handleAddItem = (commonName, actualName) => {
     this.setState({
       fields: [
         ...this.state.fields,
-        { commonName: commonName, actualName: actualName, label: '' }
-      ]
-    })
-    this.handleMenuClose()
-  }
+        { commonName: commonName, actualName: actualName, label: "" },
+      ],
+    });
+    this.handleMenuClose();
+  };
 
-  handleRemoveItem = index => {
-    const array = [...this.state.fields]
-    array.splice(index, 1)
-    this.setState({ fields: array })
-  }
+  handleRemoveItem = (index) => {
+    const array = [...this.state.fields];
+    array.splice(index, 1);
+    this.setState({ fields: array });
+  };
 
-  handleMenuClick = event => {
-    this.setState({ anchorEl: event.currentTarget })
-  }
+  handleMenuClick = (event) => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
 
   handleFieldLabelChange = (index, label) => {
-    const data = this.state.fields
-    data[index].label = label
+    const data = this.state.fields;
+    data[index].label = label;
 
-    this.setState({ fields: data })
-  }
+    this.setState({ fields: data });
+  };
 
   handleMenuClose = () => {
-    this.setState({ anchorEl: null })
-  }
+    this.setState({ anchorEl: null });
+  };
 
-  handleNameChange = e => this.setState({ name: e.target.value })
+  handleNameChange = (e) => this.setState({ name: e.target.value });
 
-  handleColorChange = color => this.setState({ color: color.hex })
+  handleColorChange = (color) => this.setState({ color: color.hex });
 
   handleSetRadioOptions = (index, options) => {
-    const data = this.state.fields
-    data[index].options = options
+    const data = this.state.fields;
+    data[index].options = options;
 
-    this.setState({ fields: data })
-  }
+    this.setState({ fields: data });
+  };
 
   handleCreateEntity = () => {
-    var error = false
+    var error = false;
 
-    if (this.state.name === '' || this.state.fields.length === 0) error = true
+    if (this.state.name === "" || this.state.fields.length === 0) error = true;
     else {
-      var content = []
+      var content = [];
 
       this.state.fields.forEach((field, i) => {
-        if (field.actualName === 'SECTION_DIVIDER') field.label = 'divider'
-        if (field.label === '') error = true
+        if (field.actualName === "SECTION_DIVIDER") field.label = "divider";
+        if (field.label === "") error = true;
 
-        content = content.concat({ type: field.actualName, name: field.label })
+        content = content.concat({ type: field.actualName, name: field.label });
 
-        if (field.actualName === 'RADIOLIST_FIELD') {
-          content[i].content = []
+        if (field.actualName === "RADIOLIST_FIELD") {
+          content[i].content = [];
 
           for (const option of field.options) {
-            if (option.label === '') error = true
+            if (option.label === "") error = true;
 
             content[i].content = content[i].content.concat({
-              name: option.label
-            })
+              name: option.label,
+            });
           }
         }
-      })
+      });
     }
 
-    this.setState({ validationFailed: error })
+    this.setState({ validationFailed: error });
 
     const entity = {
       name: this.state.name,
       color: this.state.color,
-      content: content
-    }
+      content: content,
+    };
 
-    if (!error) this.addEntityToDB(entity)
-  }
+    if (!error) this.addEntityToDB(entity);
+  };
 
   errorMessage = () => {
     return (
       <div>
         <Typography>all fields must have a label</Typography>
-        {this.state.name === '' && (
+        {this.state.name === "" && (
           <Typography>custom entity must be named</Typography>
         )}
         {this.state.fields.length === 0 && (
           <Typography>custom entity must have at least one field</Typography>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   render() {
     return (
       <Grid
-        style={{ textAlign: 'center', marginTop: 20 }}
+        style={{ textAlign: "center", marginTop: 20 }}
         container
-        direction='column'
-        justify='center'
-        alignItems='center'
+        direction="column"
+        justify="center"
+        alignItems="center"
         spacing={2}
       >
         <Grid item>
           <TextField
-            error={this.state.validationFailed && this.state.name === ''}
+            error={this.state.validationFailed && this.state.name === ""}
             helperText={
-              this.state.validationFailed && this.state.name === ''
-                ? 'this field cannot be empty'
-                : ''
+              this.state.validationFailed && this.state.name === ""
+                ? "this field cannot be empty"
+                : ""
             }
-            label='Custom Entity Name'
+            label="Custom Entity Name"
             value={this.state.name}
             onChange={this.handleNameChange}
-            inputProps={{ style: { color: this.state.color } }}
+            inputProps={{
+              dataTestId: "entityName",
+              style: { color: this.state.color },
+            }}
           />
         </Grid>
         <Grid item>
-          <Tooltip title='Select a color for your custom entity'>
+          <Tooltip title="Select a color for your custom entity">
             <BlockPicker
               color={this.state.color}
               onChangeComplete={this.handleColorChange}
-              width='300'
+              width="300"
             />
           </Tooltip>
         </Grid>
         <Grid item>
           <List>
             {this.state.fields.map((field, i) => {
-              if (field.actualName === 'SECTION_DIVIDER')
+              if (field.actualName === "SECTION_DIVIDER")
                 return (
                   <ListItem key={field + i}>
                     <SectionDivider
@@ -210,13 +213,13 @@ class CustomEntityCreator extends Component {
                       label={field.label}
                     />
                   </ListItem>
-                )
-              else if (field.actualName === 'RADIOLIST_FIELD')
+                );
+              else if (field.actualName === "RADIOLIST_FIELD")
                 return (
                   <ListItem key={field + i}>
                     <RadioListEntityField
                       index={i}
-                      options={field.options ?? [{ label: '' }]}
+                      options={field.options ?? [{ label: "" }]}
                       remove={this.handleRemoveItem}
                       changeLabel={this.handleFieldLabelChange}
                       label={field.label}
@@ -224,7 +227,7 @@ class CustomEntityCreator extends Component {
                       validationFailed={this.state.validationFailed}
                     />
                   </ListItem>
-                )
+                );
               else
                 return (
                   <ListItem key={field + i}>
@@ -237,7 +240,7 @@ class CustomEntityCreator extends Component {
                       validationFailed={this.state.validationFailed}
                     />
                   </ListItem>
-                )
+                );
             })}
           </List>
         </Grid>
@@ -246,9 +249,9 @@ class CustomEntityCreator extends Component {
             <Typography
               style={{
                 padding: 5,
-                fontSize: 16
+                fontSize: 16,
               }}
-              color='error'
+              color="error"
             >
               {this.errorMessage()}
             </Typography>
@@ -257,85 +260,89 @@ class CustomEntityCreator extends Component {
         <Grid item>
           <Button
             startIcon={<Add />}
-            variant='contained'
-            color='primary'
+            variant="contained"
+            color="primary"
             style={{ width: 150 }}
             onClick={this.handleMenuClick}
+            dataTestId="addFieldButton"
           >
             Add Field
           </Button>
           <Menu
-            id='simple-menu'
+            id="simple-menu"
             anchorEl={this.state.anchorEl}
             keepMounted
             open={Boolean(this.state.anchorEl)}
             onClose={this.handleMenuClose}
           >
-            <MenuItem onClick={() => this.handleAddItem('text', 'TEXT_FIELD')}>
+            <MenuItem
+              dataTestId="textField"
+              onClick={() => this.handleAddItem("text", "TEXT_FIELD")}
+            >
               Text
             </MenuItem>
             <MenuItem
-              onClick={() => this.handleAddItem('number', 'NUMBER_FIELD')}
+              onClick={() => this.handleAddItem("number", "NUMBER_FIELD")}
             >
               Number
             </MenuItem>
             <Tooltip
-              title='A list of references to other instances'
-              placement='right'
+              title="A list of references to other instances"
+              placement="right"
             >
               <MenuItem
-                onClick={() => this.handleAddItem('list', 'LIST_FIELD')}
+                onClick={() => this.handleAddItem("list", "LIST_FIELD")}
               >
                 List
               </MenuItem>
             </Tooltip>
             <Tooltip
-              title='A single reference to another instance'
-              placement='right'
+              title="A single reference to another instance"
+              placement="right"
             >
               <MenuItem
                 onClick={() =>
-                  this.handleAddItem('reference', 'REFERENCE_FIELD')
+                  this.handleAddItem("reference", "REFERENCE_FIELD")
                 }
               >
                 Reference
               </MenuItem>
             </Tooltip>
             <MenuItem
-              onClick={() => this.handleAddItem('checkbox', 'CHECKBOX_FIELD')}
+              onClick={() => this.handleAddItem("checkbox", "CHECKBOX_FIELD")}
             >
               Checkbox
             </MenuItem>
             <Tooltip
-              title='A list of options in which only one can be true'
-              placement='right'
+              title="A list of options in which only one can be true"
+              placement="right"
             >
               <MenuItem
                 onClick={() =>
-                  this.handleAddItem('radiolist', 'RADIOLIST_FIELD')
+                  this.handleAddItem("radiolist", "RADIOLIST_FIELD")
                 }
               >
                 Radio List
               </MenuItem>
             </Tooltip>
             <MenuItem
-              onClick={() => this.handleAddItem('image', 'IMAGE_FIELD')}
+              onClick={() => this.handleAddItem("image", "IMAGE_FIELD")}
             >
               Image
             </MenuItem>
-            <Tooltip title='A bold header for organization' placement='right'>
+            <Tooltip title="A bold header for organization" placement="right">
               <MenuItem
-                onClick={() => this.handleAddItem('header', 'SECTION_HEADER')}
+                onClick={() => this.handleAddItem("header", "SECTION_HEADER")}
               >
                 Header
               </MenuItem>
             </Tooltip>
             <Tooltip
-              title='A vertical line to break up your sections'
-              placement='right'
+              title="A vertical line to break up your sections"
+              placement="right"
             >
               <MenuItem
-                onClick={() => this.handleAddItem('divider', 'SECTION_DIVIDER')}
+                onClick={() => this.handleAddItem("divider", "SECTION_DIVIDER")}
               >
                 Divider
               </MenuItem>
@@ -345,38 +352,39 @@ class CustomEntityCreator extends Component {
         <Grid item>
           <Button
             startIcon={<Save />}
-            variant='contained'
-            color='primary'
+            variant="contained"
+            color="primary"
             style={{ width: 150 }}
             onClick={this.handleCreateEntity}
+            dataTestId="confirmCreateEntity"
           >
             Create
           </Button>
         </Grid>
         <Snackbar
           anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left'
+            vertical: "bottom",
+            horizontal: "left",
           }}
           open={this.state.creationFeedbackOpen}
           autoHideDuration={6000}
           onClose={this.handleFeedbackClose}
-          message='Custom Entity Added'
+          message="Custom Entity Added"
           action={
             <React.Fragment>
               <IconButton
-                size='small'
-                aria-label='close'
-                color='inherit'
+                size="small"
+                aria-label="close"
+                color="inherit"
                 onClick={this.handleFeedbackClose}
               >
-                <Close fontSize='small' />
+                <Close fontSize="small" />
               </IconButton>
             </React.Fragment>
           }
         />
       </Grid>
-    )
+    );
   }
 }
 
@@ -384,8 +392,8 @@ class CustomEntityCreator extends Component {
 // Redux Incoming Variables Function
 function mapStatetoProps(state) {
   return {
-    lorelineId: state.lorelineId
-  }
+    lorelineId: state.lorelineId,
+  };
 }
 
 //******************************************************************************
@@ -393,13 +401,13 @@ function mapStatetoProps(state) {
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      setLoading: setLoading
+      setLoading: setLoading,
     },
     dispatch
-  )
+  );
 }
 
 export default connect(
   mapStatetoProps,
   matchDispatchToProps
-)(CustomEntityCreator)
+)(CustomEntityCreator);

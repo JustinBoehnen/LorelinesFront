@@ -4,8 +4,8 @@
 // Holds the Topbar function that displays the bar at the top of the website
 // Contains the logout button
 //
-import clsx from 'clsx';
-import React from 'react';
+import clsx from "clsx";
+import React from "react";
 import {
   AppBar,
   Toolbar,
@@ -13,80 +13,84 @@ import {
   IconButton,
   Button,
   useMediaQuery,
-  useTheme
-} from '@material-ui/core';
-import { Menu, ExitToApp } from '@material-ui/icons';
+  useTheme,
+} from "@material-ui/core";
+import { Menu, ExitToApp } from "@material-ui/icons";
 
 const drawerWidthExpanded = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex'
+    display: "flex",
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
+      duration: theme.transitions.duration.leavingScreen,
+    }),
   },
   appBarShift: {
     marginLeft: drawerWidthExpanded,
     width: `calc(100% - ${drawerWidthExpanded}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   menuButton: {
-    marginRight: 36
+    marginRight: 36,
   },
   hide: {
-    display: 'none'
+    display: "none",
   },
   toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    ...theme.mixins.toolbar
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    ...theme.mixins.toolbar,
   },
   logo: {
-    fill: '#fff',
+    fill: "#fff",
     height: 35,
-    [theme.breakpoints.up('md')]: {
-      height: 50
-    }
+    [theme.breakpoints.up("md")]: {
+      height: 50,
+    },
   },
   orange: {
-    fill: theme.palette.primary.main
+    fill: theme.palette.primary.main,
   },
   logoutButton: {
     color: theme.palette.primary.main,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     fontSize: 14,
-    fontWeight: 'bolder',
-    marginLeft: 'auto',
+    fontWeight: "bolder",
+    marginLeft: "auto",
     marginRight: 0,
-    '&:hover': {
-      backgroundColor: '#303030',
-      color: theme.palette.primary.main
-    }
+    "&:hover": {
+      backgroundColor: "#303030",
+      color: theme.palette.primary.main,
+    },
   },
   logoutIcon: {
-    marginLeft: 'auto',
-    marginRight: 0
-  }
+    marginLeft: "auto",
+    marginRight: 0,
+  },
 }));
 
 export default function Topbar(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const widthAboveMd = useMediaQuery(theme.breakpoints.up('md'));
+  const widthAboveMd = useMediaQuery(theme.breakpoints.up("md"));
 
   function LogoutButton() {
     if (widthAboveMd)
       return (
-        <Button className={classes.logoutButton} onClick={props.logout}>
+        <Button
+          dataTestId="logout"
+          className={classes.logoutButton}
+          onClick={props.logout}
+        >
           Log Out
         </Button>
       );
@@ -103,7 +107,7 @@ export default function Topbar(props) {
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: props.drawerOpen
+          [classes.appBarShift]: props.drawerOpen,
         })}
       >
         <Toolbar>

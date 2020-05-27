@@ -4,7 +4,7 @@
 // Contains the function that creats a popup when a user attempts
 // to create a new loreline
 //
-import React from 'react'
+import React from "react";
 import {
   Typography,
   Button,
@@ -16,50 +16,50 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Tooltip
-} from '@material-ui/core'
+  Tooltip,
+} from "@material-ui/core";
 
 export default function NewLorelineDialog(props) {
-  const handleFileChange = files => {
-    const sizeInMB = 2
-    var failed = false
+  const handleFileChange = (files) => {
+    const sizeInMB = 2;
+    var failed = false;
 
     if (
-      files[0].type !== 'image/png' &&
-      files[0].type !== 'image/jpg' &&
-      files[0].type !== 'image/jpeg'
+      files[0].type !== "image/png" &&
+      files[0].type !== "image/jpg" &&
+      files[0].type !== "image/jpeg"
     ) {
       alert(
         files[0].name +
-          ' is not an accepted image format! Accepted formats are:\n.png .jpg .jpeg'
-      )
-      failed = true
+          " is not an accepted image format! Accepted formats are:\n.png .jpg .jpeg"
+      );
+      failed = true;
     }
 
     if (files[0].size > 1048576 * sizeInMB) {
       alert(
-        'File size exceeds ' +
+        "File size exceeds " +
           sizeInMB +
-          'MB limit! File uploaded was: ' +
+          "MB limit! File uploaded was: " +
           (files[0].size / 1048576).toFixed(2) +
-          'MB'
-      )
-      failed = true
+          "MB"
+      );
+      failed = true;
     }
 
-    if (!failed) props.setNewLorelineImage(files[0])
-  }
+    if (!failed) props.setNewLorelineImage(files[0]);
+  };
 
   return (
     <Dialog open={props.isOpen} onClose={props.handleNewDialogClose} fullWidth>
       <DialogTitle>Create a new loreline:</DialogTitle>
       <DialogContent>
         <TextField
-          error={props.submitAttempted && props.lorelineName === ''}
+          error={props.submitAttempted && props.lorelineName === ""}
           helperText={
-            props.submitAttempted && props.lorelineName === ''
-              ? 'This field cannot be empty!'
-              : ''
+            props.submitAttempted && props.lorelineName === ""
+              ? "This field cannot be empty!"
+              : ""
           }
           autoFocus
           name="LorelineName"
@@ -69,6 +69,9 @@ export default function NewLorelineDialog(props) {
           value={props.lorelineName}
           onChange={props.onLorelineNameChange}
           fullWidth
+          inputProps={{
+            dataTestId: "lorelineName",
+          }}
         />
         <FormGroup>
           <Button component="label">
@@ -76,12 +79,12 @@ export default function NewLorelineDialog(props) {
             <input
               type="file"
               accept=".jpg, .jpeg, .png"
-              onChange={e => handleFileChange(e.target.files)}
-              style={{ display: 'none' }}
+              onChange={(e) => handleFileChange(e.target.files)}
+              style={{ display: "none" }}
             />
           </Button>
           <Typography align="center">
-            {props.newLorelineImage !== null ? props.newLorelineImage.name : ''}
+            {props.newLorelineImage !== null ? props.newLorelineImage.name : ""}
           </Typography>
           <Tooltip
             arrow
@@ -103,14 +106,15 @@ export default function NewLorelineDialog(props) {
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={async e => await props.onNewLorelineSubmit(e)}
-          style={{ color: '#1ece6c' }}
+          onClick={async (e) => await props.onNewLorelineSubmit(e)}
+          style={{ color: "#1ece6c" }}
           autoFocus
+          dataTestId="createButton"
         >
           Create
         </Button>
         <Button onClick={props.handleNewDialogClose}>Cancel</Button>
       </DialogActions>
     </Dialog>
-  )
+  );
 }
