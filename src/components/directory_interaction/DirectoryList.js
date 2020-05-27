@@ -58,7 +58,14 @@ class DirectoryList extends Component {
       deleteEntityId: id,
       deleteEntityName: name,
     });
-    console.log(this.state.deleteEntityId);
+  };
+
+  handleEntityDeleteCancel = () => {
+    this.setState({
+      anchorEl: null,
+      deleteEntityId: null,
+      deleteEntityName: null,
+    });
   };
 
   handleEntityInstantiation = (id) => {
@@ -160,6 +167,7 @@ class DirectoryList extends Component {
           anchorEl={this.state.anchorEl}
           open={Boolean(this.state.anchorEl)}
           id={Boolean(this.state.anchorEl) ? "simple-popover" : undefined}
+          onClose={this.handleEntityDeleteCancel}
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "center",
@@ -169,13 +177,27 @@ class DirectoryList extends Component {
             horizontal: "center",
           }}
         >
-          <Typography>
-            Are you sure you want to delete {this.state.deleteEntityName}?
-          </Typography>
-          <ButtonGroup>
-            <Button>Delete</Button>
-            <Button>Cancel</Button>
-          </ButtonGroup>
+          <Grid
+            container
+            spacing={0}
+            align="center"
+            justify="center"
+            direction="column"
+          >
+            <Grid item>
+              <Typography variant="h6">
+                Are you sure you want to delete {this.state.deleteEntityName}?
+              </Typography>
+            </Grid>
+            <Grid item>
+              <ButtonGroup>
+                <Button color="inherit">Delete</Button>
+                <Button color="primary" onClick={this.handleEntityDeleteCancel}>
+                  Cancel
+                </Button>
+              </ButtonGroup>
+            </Grid>
+          </Grid>
         </Popover>
       </Grid>
     );
