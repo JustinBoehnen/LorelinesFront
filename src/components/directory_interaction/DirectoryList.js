@@ -7,6 +7,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import axios from "axios";
 import {
   List,
   ListItem,
@@ -66,6 +67,20 @@ class DirectoryList extends Component {
       deleteEntityId: null,
       deleteEntityName: null,
     });
+  };
+
+  deleteEntityFromDB = async (e) => {
+    e.preventDefault();
+    try {
+      await axios
+        .delete(
+          `https://lorelines-expressapi.herokuapp.com/api/lorelines/${this.props.lorelineId}/entities/${this.state.deleteEntityId}`
+        )
+        .then(() => {
+          console.log(this.state.deleteEntityId + " deleted!");
+          this.handleEntityDeleteCancel();
+        });
+    } catch (err) {}
   };
 
   handleEntityInstantiation = (id) => {
@@ -191,7 +206,9 @@ class DirectoryList extends Component {
             </Grid>
             <Grid item>
               <ButtonGroup>
-                <Button color="inherit">Delete</Button>
+                <Button color="inherit" onClick={this.deleteEntityFromDB}>
+                  Delete
+                </Button>
                 <Button color="primary" onClick={this.handleEntityDeleteCancel}>
                   Cancel
                 </Button>
