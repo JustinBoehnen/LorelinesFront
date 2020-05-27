@@ -1,15 +1,9 @@
-<<<<<<< HEAD
-import React from "react";
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-=======
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import axios from "axios";
 import { setLoading } from "../../actions/index";
->>>>>>> passwordLink
 import {
   makeStyles
 } from "@material-ui/core";
@@ -43,13 +37,9 @@ export default connect(
   const [disableBut, setDisable] = useState(true);
   const [wrongAnswer, setWrongAnswer] = useState(false);
 
-<<<<<<< HEAD
-  const classes = useStyles()
-=======
   useEffect(() => {
     GetSeqQuestion();
   }, []);
->>>>>>> passwordLink
 
   const onAnswerChange = (e) => setSecurityPassword(e.target.value);
 

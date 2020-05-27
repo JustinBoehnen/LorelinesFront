@@ -1,13 +1,9 @@
-<<<<<<< HEAD
 //******************************************************************************
 // src/PasswordRecovery/ForgotPassword.js
 // Contains the function that provides the dialog if a user forgets their 
 // password
 //
-import React, { useState } from "react";
-=======
 import React, { useState, useEffect } from "react";
->>>>>>> passwordLink
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
