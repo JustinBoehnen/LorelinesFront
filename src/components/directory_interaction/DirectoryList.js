@@ -44,7 +44,8 @@ class DirectoryList extends Component {
 
   componentDidMount() {
     this.props.updateList().then(() => {
-      this.setState({ entities: this.props.entites });
+      console.log(this.props.entities);
+      this.setState({ entities: this.props.entities });
     });
   }
 

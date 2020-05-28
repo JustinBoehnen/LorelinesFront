@@ -15,6 +15,10 @@ import CustomEntityCreator from "./directory_interaction/CustomEntityCreator";
 import EntityInstanceCreator from "./directory_interaction/EntityInstanceCreator";
 import { connect } from "react-redux";
 import { Add } from "@material-ui/icons";
+import {
+  DirectoryContextProvider,
+  DirectoryContext,
+} from "./DirectoryContextProvider";
 
 const drawerWidth = 300;
 
@@ -41,7 +45,6 @@ export default connect(
   matchDispatchToProps
 )(function Directory(props) {
   const [mode, setMode] = React.useState(0);
-  const [entities, setEntites] = React.useState([]);
 
   const classes = useStyles();
   const modes = {
@@ -52,7 +55,7 @@ export default connect(
   };
 
   const addEntityToList = (entity) => {
-    setEntites(entities.concat(entity));
+    props.setEntities(props.entities.concat(entity));
   };
 
   const getDirectoryList = async () => {
@@ -65,13 +68,14 @@ export default connect(
           )
           .then((res) => {
             console.log("NEW DATA: ", res.data);
-            setEntites(res.data);
+            props.setEntities(res.data);
             props.setLoading(false);
           });
       } catch (err) {
         props.setLoading(false);
       }
     }
+    console.log(props.entities);
   };
 
   const handleNewEntityClicked = () => {
@@ -112,7 +116,7 @@ export default connect(
         <DirectoryList
           modes={modes}
           setMode={setMode}
-          entites={entities}
+          entities={props.entities}
           updateList={getDirectoryList}
         />
       </Drawer>
