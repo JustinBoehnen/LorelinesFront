@@ -83,7 +83,7 @@ export default connect(
       case modes.ENTITY_CREATION:
         return <CustomEntityCreator addEntityToList={addEntityToList} />;
       case modes.INSTANCE_CREATION:
-        return <EntityInstanceCreator />;
+        return <EntityInstanceCreator getDirectoryList={getDirectoryList} />;
       case modes.INSTANCE_VIEWER:
         return <InstanceViewer />;
       default:
