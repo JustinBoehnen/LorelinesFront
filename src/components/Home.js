@@ -129,7 +129,6 @@ class Home extends Component {
                 </DirectoryContext.Consumer>
               </DirectoryContextProvider>
             </Route>
-
             <Route path="/app/about">
               <About />
             </Route>

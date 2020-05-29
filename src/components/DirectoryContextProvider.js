@@ -10,10 +10,12 @@ export class DirectoryContextProvider extends Component {
       <DirectoryContext.Provider
         value={{
           entities: this.state.entities,
-          setEntities: (e) =>
+          setEntities: (e) => {
             this.setState({
               entities: e,
-            }),
+            });
+            console.log(this.state.entities);
+          },
         }}
       >
         {this.props.children}

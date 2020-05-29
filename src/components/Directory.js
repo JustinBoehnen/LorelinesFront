@@ -54,10 +54,6 @@ export default connect(
     INSTANCE_VIEWER: 3,
   };
 
-  const addEntityToList = (entity) => {
-    props.setEntities(props.entities.concat(entity));
-  };
-
   const getDirectoryList = async () => {
     if (props.lorelineId !== null) {
       props.setLoading(true);
@@ -75,7 +71,6 @@ export default connect(
         props.setLoading(false);
       }
     }
-    console.log(props.entities);
   };
 
   const handleNewEntityClicked = () => {
@@ -85,7 +80,7 @@ export default connect(
   const ModeComponent = () => {
     switch (mode) {
       case modes.ENTITY_CREATION:
-        return <CustomEntityCreator addEntityToList={addEntityToList} />;
+        return <CustomEntityCreator getDirectoryList={getDirectoryList} />;
       case modes.INSTANCE_CREATION:
         return <EntityInstanceCreator getDirectoryList={getDirectoryList} />;
       case modes.INSTANCE_VIEWER:
@@ -113,12 +108,19 @@ export default connect(
       </Grid>
       <Drawer className={classes.drawer} variant="permanent" anchor="right">
         <div className={classes.toolbar}></div>
-        <DirectoryList
-          modes={modes}
-          setMode={setMode}
-          entities={props.entities}
-          updateList={getDirectoryList}
-        />
+        <DirectoryContextProvider>
+          <DirectoryContext.Consumer>
+            {(context) => (
+              <DirectoryList
+                modes={modes}
+                setMode={setMode}
+                entities={props.entities}
+                setEntities={props.setEntities}
+                updateList={getDirectoryList}
+              />
+            )}
+          </DirectoryContext.Consumer>
+        </DirectoryContextProvider>
       </Drawer>
       <Fab
         dataTestId="newEntityButton"

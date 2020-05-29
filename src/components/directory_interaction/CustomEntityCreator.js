@@ -64,7 +64,7 @@ class CustomEntityCreator extends Component {
         .then(() => {
           this.props.setLoading(false);
           this.setState({ creationFeedbackOpen: true });
-          this.props.addEntityToList(entity);
+          this.props.getDirectoryList();
         });
     } catch (err) {
       this.props.setLoading(false);

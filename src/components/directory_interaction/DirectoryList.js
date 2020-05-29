@@ -35,7 +35,6 @@ class DirectoryList extends Component {
     super(props);
     this.state = {
       open: {},
-      entities: [],
       anchorEl: null,
       deleteEntityId: null,
       deleteEntityName: null,
@@ -45,7 +44,6 @@ class DirectoryList extends Component {
   componentDidMount() {
     this.props.updateList().then(() => {
       console.log(this.props.entities);
-      this.setState({ entities: this.props.entities });
     });
   }
 
@@ -88,6 +86,7 @@ class DirectoryList extends Component {
           console.log(this.state.deleteEntityId + " deleted!");
           this.handleEntityDeleteCancel();
           this.props.setLoading(false);
+          this.props.updateList();
         });
     } catch (err) {}
   };
@@ -101,7 +100,7 @@ class DirectoryList extends Component {
     return (
       <Grid>
         <List style={{ width: 300 }}>
-          {this.state.entities.map((entity) => {
+          {this.props.entities.map((entity) => {
             const open = this.state[entity._id] || false;
             return (
               <div
