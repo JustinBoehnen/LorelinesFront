@@ -166,6 +166,14 @@ export default connect(mapStateToProps)(function Sidebar(props) {
               <ListItemText primary="About Lorelines" />
             </ListItem>
           </Link>
+          <Link className={classes.link} to="/app/help">
+            <ListItem button key="Help" dataTestId="helpLink">
+              <ListItemIcon>
+                <Info color="secondary" />
+              </ListItemIcon>
+              <ListItemText primary="Help" />
+            </ListItem>
+          </Link>
         </List>
       </Drawer>
     </div>

@@ -19,6 +19,7 @@ import Account from './Account'
 import Directory from './Directory'
 import About from './About'
 import Lorelines from './Lorelines'
+import Help from './Help'
 
 const styleClasses = () => ({
 	root: {
@@ -112,6 +113,10 @@ class Home extends Component {
 
 						<Route path="/app/about">
 							<About />
+						</Route>
+
+						<Route path="/app/help">
+							<Help />
 						</Route>
 					</div>
 				</div>
