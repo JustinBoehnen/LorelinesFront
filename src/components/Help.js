@@ -6,6 +6,8 @@
 //
 import React from 'react'
 import { connect } from 'react-redux'
+import Logo from "../images/logo.svg"
+import PDF from "../images/DownloadTest.pdf"
 import {
   makeStyles,
   Grid,
@@ -48,35 +50,11 @@ export default connect(mapStateToProps)(function Help(props) {
                   fontSize: 14
                 }}
               >
-                Lorelines.com is the junior project of the Oregon Institute of
-                Technology students:
+                Click the Lorelines icon below to download our tutorial PDF:
               </Typography>
-              <Typography
-                style={{
-                  fontWeight: 500,
-                  fontSize: 20,
-                  color: '#f78d1e'
-                }}
-              >
-                Justin Boehnen, Evan Clark, Seth Ray, and Isaac Medlin
-              </Typography>
-              <Typography
-                style={{
-                  fontSize: 14
-                }}
-              >
-                Also Known As...
-              </Typography>
-              <Typography
-                style={{
-                  padding: 20,
-                  fontWeight: 600,
-                  fontSize: 80,
-                  marginBottom: -50
-                }}
-              >
-                JESI
-              </Typography>
+              <a href={PDF} download>
+                <img src={Logo} alt="DownloadTest" width="104" height="142"></img>
+              </a>
             </CardContent>
           </Card>
         </Grid>
