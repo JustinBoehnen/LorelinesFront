@@ -7,7 +7,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Logo from "../images/logo.svg"
-import PDF from "../images/DownloadTest.pdf"
+import PDF from "../images/UserTutorials.pdf"
 import {
   makeStyles,
   Grid,
@@ -53,7 +53,7 @@ export default connect(mapStateToProps)(function Help(props) {
                 Click the Lorelines icon below to download our tutorial PDF:
               </Typography>
               <a href={PDF} download>
-                <img src={Logo} alt="DownloadTest" width="104" height="142"></img>
+                <img src={Logo} alt="UserTutorials" width="104" height="142"></img>
               </a>
             </CardContent>
           </Card>
