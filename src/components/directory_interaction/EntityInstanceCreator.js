@@ -33,7 +33,7 @@ class CustomEntityCreator extends Component {
 		this.retreiveEntityFromDB()
 	}
 
-	addInstanceToDB = async instance => {
+	addInstanceToDB = async (instance) => {
 		this.props.setLoading(true)
 		try {
 			await axios
@@ -51,6 +51,7 @@ class CustomEntityCreator extends Component {
 				})
 		} catch (err) {
 			this.props.setLoading(false)
+			console.log(err)
 		}
 	}
 
@@ -79,7 +80,7 @@ class CustomEntityCreator extends Component {
 		}
 	}
 
-	handleInstanceNameChange = e => {
+	handleInstanceNameChange = (e) => {
 		this.setState({ instanceName: e.target.value })
 	}
 
@@ -98,36 +99,29 @@ class CustomEntityCreator extends Component {
 	}
 
 	handleCreateInstance = () => {
+		console.log('in create instance')
 		var error = false
 
 		if (this.state.instanceName === '') {
 			error = true
-			console.log('no name')
 		} else {
 			var content = []
 
 			this.state.fields.forEach((field, i) => {
-				if (
-					field.type !== 'SECTION_HEADER' &&
-					field.type !== 'RADIOLIST_FIELD' &&
-					field.type !== 'SECTION_DIVIDER'
-				) {
-					if (field.content.length === 0) error = true
+				if (field.type === 'RADIOLIST_FIELD') {
+					console.log('VALUE:' + field.value)
+					content = content.concat({
+						name: field.name,
+						type: field.type,
+						content: field.content,
+						value: field.value,
+					})
 				} else {
-					if (field.type === 'RADIOLIST_FIELD')
-						content = content.concat({
-							name: field.name,
-							type: field.type,
-							content: field.content,
-							value: field.value,
-						})
-					else {
-						content = content.concat({
-							name: field.name,
-							type: field.type,
-							content: field.content,
-						})
-					}
+					content = content.concat({
+						name: field.name,
+						type: field.type,
+						content: field.content,
+					})
 				}
 			})
 		}

@@ -249,14 +249,14 @@ class CustomEntityCreator extends Component {
 					>
 						<MenuItem onClick={() => this.handleAddItem('text', 'TEXT_FIELD')}>Text</MenuItem>
 						<MenuItem onClick={() => this.handleAddItem('number', 'NUMBER_FIELD')}>Number</MenuItem>
-						<Tooltip title="A list of references to other instances" placement="right">
+						{/*<Tooltip title="A list of references to other instances" placement="right">
 							<MenuItem onClick={() => this.handleAddItem('list', 'LIST_FIELD')}>List</MenuItem>
-						</Tooltip>
-						<Tooltip title="A single reference to another instance" placement="right">
+						</Tooltip>*/}
+						{/*<Tooltip title="A single reference to another instance" placement="right">
 							<MenuItem onClick={() => this.handleAddItem('reference', 'REFERENCE_FIELD')}>
 								Reference
 							</MenuItem>
-						</Tooltip>
+						</Tooltip>*/}
 						<MenuItem onClick={() => this.handleAddItem('checkbox', 'CHECKBOX_FIELD')}>Checkbox</MenuItem>
 						<Tooltip title="A list of options in which only one can be true" placement="right">
 							<MenuItem onClick={() => this.handleAddItem('radiolist', 'RADIOLIST_FIELD')}>
