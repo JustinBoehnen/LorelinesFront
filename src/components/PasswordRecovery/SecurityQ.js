@@ -9,7 +9,7 @@ import {
   Grid,
   Typography,
   TextField,
-  Button
+  Button,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -66,16 +66,14 @@ export default connect(
         }
       );
       console.log(response.data);
-      if(response.data ==="Security answers match")
-      {
-        console.log("Sucess")
-        setDirectory("/forgot/change")
-        setDisable(false)
-        setWrongAnswer(false)
-      }
-      else{
-        setWrongAnswer(true)
-        console.log("nope")
+      if (response.data === "Security answers match") {
+        console.log("Sucess");
+        setDirectory("/forgot/change");
+        setDisable(false);
+        setWrongAnswer(false);
+      } else {
+        setWrongAnswer(true);
+        console.log("nope");
       }
     } catch (err) {}
   };
@@ -115,7 +113,10 @@ export default connect(
             autoComplete="off"
             value={securityPassword}
             onChange={onAnswerChange}
-            error={(submitAttempted && securityPassword === "") || wrongAnswer === true}
+            error={
+              (submitAttempted && securityPassword === "") ||
+              wrongAnswer === true
+            }
             helperText={
               (submitAttempted && securityPassword === ""
                 ? "this field cannot be empty"
@@ -131,7 +132,7 @@ export default connect(
                 padding: 5,
                 fontSize: 18,
                 borderRadius: "50px",
-                width: "130px"
+                width: "130px",
               }}
               type="submit"
               color="primary"

@@ -77,10 +77,9 @@ export default connect(
             }
           );
           console.log(response.data);
-          if(response.data === "OK")
-          {
-            setDirectory("/forgot/confirmation")
-            setDisabled(false)
+          if (response.data === "OK") {
+            setDirectory("/forgot/confirmation");
+            setDisabled(false);
           }
         }
       }

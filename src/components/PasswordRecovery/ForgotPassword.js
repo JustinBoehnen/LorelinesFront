@@ -1,6 +1,6 @@
 //******************************************************************************
 // src/PasswordRecovery/ForgotPassword.js
-// Contains the function that provides the dialog if a user forgets their 
+// Contains the function that provides the dialog if a user forgets their
 // password
 //
 import React, { useState, useEffect } from "react";
@@ -57,31 +57,28 @@ export default connect(
       setDirectory("/forgot/security");
       console.log("changing route", props.user.id);
     } else {
-      setDisabled(true)
+      setDisabled(true);
     }
   });
 
   const GetUserId = async () => {
     try {
-      const response =  await axios.get(
+      const response = await axios.get(
         `https://lorelines-expressapi.herokuapp.com/api/users/${email}/getuser`
-      )
-      console.log(response.data)
+      );
+      console.log(response.data);
       SetPropId(response.data);
-      setSubmitAttempt(true)
+      setSubmitAttempt(true);
     } catch (err) {}
   };
 
   const SetPropId = (resid) => {
     setIdObj(resid);
     console.log("object id:", idObj);
-    if(idObj === "")
-    { 
-      setNotFound(true)
-    }
-    else
-    {
-      setNotFound(false)
+    if (idObj === "") {
+      setNotFound(true);
+    } else {
+      setNotFound(false);
     }
 
     idObj.map((res) => {
