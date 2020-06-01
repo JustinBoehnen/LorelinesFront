@@ -1,11 +1,7 @@
 /** @format */
-//******************************************************************************
-// src/instance_fields/InstanceCheckBoxField.js
-// Contains the function to create the check box fields
-//
-//
+
 import React from 'react'
-import { makeStyles, Card, Checkbox, FormControlLabel } from '@material-ui/core'
+import { makeStyles, Card, Checkbox, FormControlLabel, CardContent } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -13,7 +9,6 @@ const useStyles = makeStyles(theme => ({
 	},
 	card: {
 		width: 300,
-		padding: 10,
 		textAlign: 'center',
 	},
 }))
@@ -28,13 +23,15 @@ export default function InstanceCheckBoxField(props) {
 	return (
 		<main className={classes.root}>
 			<Card className={classes.card}>
-				<FormControlLabel
-					control={<Checkbox color="primary" />}
-					checked={props.content}
-					onChange={handleChange}
-					label={props.label}
-					labelPlacement="start"
-				/>
+				<CardContent>
+					<FormControlLabel
+						control={<Checkbox color="primary" />}
+						checked={props.content}
+						onChange={handleChange}
+						label={props.label}
+						labelPlacement="start"
+					/>
+				</CardContent>
 			</Card>
 		</main>
 	)
