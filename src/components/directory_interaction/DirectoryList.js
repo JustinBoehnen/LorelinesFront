@@ -107,6 +107,7 @@ class DirectoryList extends Component {
           console.log(this.state.deleteEntityId + " deleted!");
           this.handleEntityDeleteCancel();
           this.props.setLoading(false);
+          this.props.updateDirectoryList();
         });
     } catch (err) {
       this.props.setLoading(false);
@@ -125,6 +126,7 @@ class DirectoryList extends Component {
           console.log(this.state.deleteInstanceId + " deleted!");
           this.handleInstanceDeleteCancel();
           this.props.setLoading(false);
+          this.props.updateDirectoryList();
         });
     } catch (err) {
       this.props.setLoading(false);
