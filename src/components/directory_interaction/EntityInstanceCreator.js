@@ -171,9 +171,11 @@ class CustomEntityCreator extends Component {
         </Grid>
         <Grid item>
           <TextField
-            error={this.state.validationFailed && this.state.entityName === ""}
+            error={
+              this.state.validationFailed && this.state.instanceName === ""
+            }
             helperText={
-              this.state.validationFailed && this.state.entityName === ""
+              this.state.validationFailed && this.state.instanceName === ""
                 ? "this field cannot be empty"
                 : ""
             }
@@ -260,6 +262,19 @@ class CustomEntityCreator extends Component {
             })}
           </List>
         </Grid>
+        {this.state.validationFailed && (
+          <Grid item>
+            <Typography
+              style={{
+                padding: 5,
+                fontSize: 16,
+              }}
+              color="error"
+            >
+              instance must be named
+            </Typography>
+          </Grid>
+        )}
         <Grid item>
           <Button
             startIcon={<Save />}
