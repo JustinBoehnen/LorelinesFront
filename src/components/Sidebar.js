@@ -25,6 +25,7 @@ import {
   List as ListIcon,
   Info,
   Close,
+  Help,
 } from "@material-ui/icons";
 
 const drawerWidthExpanded = 240;
@@ -164,6 +165,14 @@ export default connect(mapStateToProps)(function Sidebar(props) {
                 <Info color="secondary" />
               </ListItemIcon>
               <ListItemText primary="About Lorelines" />
+            </ListItem>
+          </Link>
+          <Link className={classes.link} to="/app/help">
+            <ListItem button key="Help" dataTestId="helpLink">
+              <ListItemIcon>
+                <Help color="secondary" />
+              </ListItemIcon>
+              <ListItemText primary="Help" />
             </ListItem>
           </Link>
         </List>
