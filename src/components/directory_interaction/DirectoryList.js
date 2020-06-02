@@ -31,7 +31,12 @@ import { equal } from "assert";
 class DirectoryList extends Component {
   constructor(props) {
     super(props);
-    this.state = { open: {} };
+    this.state = {
+      open: {},
+      anchorEl: null,
+      deleteEntityId: null,
+      deleteEntityName: null,
+    };
   }
 
   componentDidMount() {
@@ -139,7 +144,7 @@ class DirectoryList extends Component {
                       borderRadius: 0,
                       color: "#777",
                     }}
-                    onClick={() =>
+                    onClick={(event) =>
                       this.handleEntityDelete(event, entity._id, entity.name)
                     }
                   >

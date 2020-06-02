@@ -19,10 +19,6 @@ import Account from "./Account";
 import Directory from "./Directory";
 import About from "./About";
 import Lorelines from "./Lorelines";
-import {
-  DirectoryContextProvider,
-  DirectoryContext,
-} from "./DirectoryContextProvider";
 
 const styleClasses = () => ({
   root: {
@@ -117,17 +113,7 @@ class Home extends Component {
             </Route>
 
             <Route path="/app/directory">
-              <DirectoryContextProvider>
-                <DirectoryContext.Consumer>
-                  {(context) => (
-                    <Directory
-                      style={{}}
-                      entities={context.entities}
-                      setEntities={context.setEntities}
-                    />
-                  )}
-                </DirectoryContext.Consumer>
-              </DirectoryContextProvider>
+              <Directory style={{}} />
             </Route>
             <Route path="/app/about">
               <About />

@@ -7,7 +7,7 @@
 import React from "react";
 import axios from "axios";
 import { bindActionCreators } from "redux";
-import { setLoading } from "../actions/index";
+import { setLoading, setDirectory } from "../actions/index";
 import { Grid, Fab, makeStyles, Drawer, Typography } from "@material-ui/core";
 import DirectoryList from "./directory_interaction/DirectoryList";
 import InstanceViewer from "./directory_interaction/InstanceViewer";
