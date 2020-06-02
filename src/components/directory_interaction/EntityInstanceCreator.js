@@ -1,9 +1,5 @@
 /** @format */
-//******************************************************************************
-// src/directory_interaction/EntityInstanceCreator.js
-// Contains the class component to create a custom entity instance
-//
-//
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -25,9 +21,8 @@ import InstanceNumberField from "../instance_fields/InstanceNumberField";
 import InstanceHeader from "../instance_fields/InstanceHeader";
 import InstanceRadioListField from "../instance_fields/InstanceRadioListField";
 import InstanceDivider from "../instance_fields/InstanceDivider";
+import InstanceImageField from "../instance_fields/InstanceImageField";
 
-//******************************************************************************
-// Entity Instance Creator Class
 class CustomEntityCreator extends Component {
   constructor(props) {
     super(props);
@@ -57,11 +52,13 @@ class CustomEntityCreator extends Component {
           }
         )
         .then(() => {
-          //this.props.updateList()
-          this.props.setLoading(false);
+          this.props.updateDirectoryList().then(() => {
+            this.props.setLoading(false);
+          });
         });
     } catch (err) {
       this.props.setLoading(false);
+      console.log(err);
     }
   };
 
@@ -109,42 +106,44 @@ class CustomEntityCreator extends Component {
   };
 
   handleCreateInstance = () => {
+    console.log("in create instance");
     var error = false;
 
-    if (this.state.instanceName === "") error = true;
-    else {
+    if (this.state.instanceName === "") {
+      error = true;
+    } else {
       var content = [];
 
       this.state.fields.forEach((field, i) => {
-        console.log("field[", i, "]: ", field);
-        content = content.concat({
-          type: field.actualName,
-          name: field.label,
-          content: field.content,
-        });
-
-        if (field.actualName === "RADIOLIST_FIELD") {
-          content[i].content = [];
-
-          for (const option of field.options) {
-            if (option.label === "") error = true;
-
-            content[i].content = content[i].content.concat({
-              name: option.label,
-            });
-          }
+        if (field.type === "RADIOLIST_FIELD") {
+          console.log("VALUE:" + field.value);
+          content = content.concat({
+            name: field.name,
+            type: field.type,
+            content: field.content,
+            value: field.value,
+          });
+        } else {
+          content = content.concat({
+            name: field.name,
+            type: field.type,
+            content: field.content,
+          });
         }
       });
     }
 
     this.setState({ validationFailed: error });
 
-    // const instance = {
-    // 	name: this.state.instanceName,
-    // 	content: content,
-    // }
+    const instance = {
+      name: this.state.instanceName,
+      content: content,
+    };
 
-    //if (!error) this.addInstanceoDB(instance)
+    if (error) console.log("Encountered an error");
+    console.log("instance: ", instance);
+
+    if (!error) this.addInstanceToDB(instance);
   };
 
   render() {
@@ -165,7 +164,6 @@ class CustomEntityCreator extends Component {
             variant="h4"
             style={{
               color: this.state.color ?? "#ea4b35",
-              textTransform: "uppercase",
             }}
           >
             {this.state.entityName ?? "undefined"}
@@ -179,13 +177,10 @@ class CustomEntityCreator extends Component {
                 ? "this field cannot be empty"
                 : ""
             }
-            label="Custom Entity Name"
+            label="Instance Name"
             value={this.state.instanceName}
             onChange={this.handleInstanceNameChange}
-            inputProps={{
-              dataTestId: "instanceName",
-              style: { color: this.state.color },
-            }}
+            inputProps={{ style: { color: this.state.color } }}
           />
         </Grid>
         <Grid item>
@@ -238,6 +233,17 @@ class CustomEntityCreator extends Component {
                     />
                   </ListItem>
                 );
+              } else if (field.type === "IMAGE_FIELD") {
+                return (
+                  <ListItem key={field + i}>
+                    <InstanceImageField
+                      index={i}
+                      label={field.name}
+                      imageURL={field.content}
+                      setContent={this.handleContentChange}
+                    />
+                  </ListItem>
+                );
               } else if (field.type === "SECTION_DIVIDER")
                 return (
                   <ListItem key={field + i}>
@@ -261,7 +267,6 @@ class CustomEntityCreator extends Component {
             color="primary"
             style={{ width: 150 }}
             onClick={this.handleCreateInstance}
-            dataTestId="confirmCreateInstance"
           >
             Create
           </Button>
@@ -271,8 +276,6 @@ class CustomEntityCreator extends Component {
   }
 }
 
-//******************************************************************************
-// Redux Incoming Variables Function
 function mapStatetoProps(state) {
   return {
     lorelineId: state.lorelineId,
@@ -280,8 +283,6 @@ function mapStatetoProps(state) {
   };
 }
 
-//******************************************************************************
-// Redux Outgoing Variables Function
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {

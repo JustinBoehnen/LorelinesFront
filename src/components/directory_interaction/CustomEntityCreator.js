@@ -1,9 +1,5 @@
 /** @format */
-//******************************************************************************
-// src/directory_interaction/CustomEntityCreator.js
-// Contains the class component to create a custom entity
-//
-//
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -28,8 +24,6 @@ import SectionDivider from "../custom_entity_fields/SectionDivider.js";
 import RadioListEntityField from "../custom_entity_fields/RadioListEntityField";
 import { BlockPicker } from "react-color";
 
-//******************************************************************************
-// Custom Entity Creator Class
 class CustomEntityCreator extends Component {
   constructor(props) {
     super(props);
@@ -50,6 +44,7 @@ class CustomEntityCreator extends Component {
   };
 
   addEntityToDB = async (entity) => {
+    console.log(entity);
     this.props.setLoading(true);
     try {
       await axios
@@ -62,9 +57,10 @@ class CustomEntityCreator extends Component {
           }
         )
         .then(() => {
-          this.props.setLoading(false);
-          this.setState({ creationFeedbackOpen: true });
-          this.props.addEntityToList(entity);
+          this.props.updateDirectoryList().then(() => {
+            this.props.setLoading(false);
+            this.setState({ creationFeedbackOpen: true });
+          });
         });
     } catch (err) {
       this.props.setLoading(false);
@@ -186,10 +182,7 @@ class CustomEntityCreator extends Component {
             label="Custom Entity Name"
             value={this.state.name}
             onChange={this.handleNameChange}
-            inputProps={{
-              dataTestId: "entityName",
-              style: { color: this.state.color },
-            }}
+            inputProps={{ style: { color: this.state.color } }}
           />
         </Grid>
         <Grid item>
@@ -264,7 +257,6 @@ class CustomEntityCreator extends Component {
             color="primary"
             style={{ width: 150 }}
             onClick={this.handleMenuClick}
-            dataTestId="addFieldButton"
           >
             Add Field
           </Button>
@@ -275,10 +267,7 @@ class CustomEntityCreator extends Component {
             open={Boolean(this.state.anchorEl)}
             onClose={this.handleMenuClose}
           >
-            <MenuItem
-              dataTestId="textField"
-              onClick={() => this.handleAddItem("text", "TEXT_FIELD")}
-            >
+            <MenuItem onClick={() => this.handleAddItem("text", "TEXT_FIELD")}>
               Text
             </MenuItem>
             <MenuItem
@@ -286,28 +275,14 @@ class CustomEntityCreator extends Component {
             >
               Number
             </MenuItem>
-            <Tooltip
-              title="A list of references to other instances"
-              placement="right"
-            >
-              <MenuItem
-                onClick={() => this.handleAddItem("list", "LIST_FIELD")}
-              >
-                List
-              </MenuItem>
-            </Tooltip>
-            <Tooltip
-              title="A single reference to another instance"
-              placement="right"
-            >
-              <MenuItem
-                onClick={() =>
-                  this.handleAddItem("reference", "REFERENCE_FIELD")
-                }
-              >
-                Reference
-              </MenuItem>
-            </Tooltip>
+            {/*<Tooltip title="A list of references to other instances" placement="right">
+							<MenuItem onClick={() => this.handleAddItem('list', 'LIST_FIELD')}>List</MenuItem>
+						</Tooltip>*/}
+            {/*<Tooltip title="A single reference to another instance" placement="right">
+							<MenuItem onClick={() => this.handleAddItem('reference', 'REFERENCE_FIELD')}>
+								Reference
+							</MenuItem>
+						</Tooltip>*/}
             <MenuItem
               onClick={() => this.handleAddItem("checkbox", "CHECKBOX_FIELD")}
             >
@@ -356,7 +331,6 @@ class CustomEntityCreator extends Component {
             color="primary"
             style={{ width: 150 }}
             onClick={this.handleCreateEntity}
-            dataTestId="confirmCreateEntity"
           >
             Create
           </Button>
@@ -388,16 +362,12 @@ class CustomEntityCreator extends Component {
   }
 }
 
-//******************************************************************************
-// Redux Incoming Variables Function
 function mapStatetoProps(state) {
   return {
     lorelineId: state.lorelineId,
   };
 }
 
-//******************************************************************************
-// Redux Outgoing Variables Function
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {

@@ -7,7 +7,7 @@
 import React from "react";
 import axios from "axios";
 import { bindActionCreators } from "redux";
-import { setLoading } from "../actions/index";
+import { setLoading, setDirectory } from "../actions/index";
 import { Grid, Fab, makeStyles, Drawer, Typography } from "@material-ui/core";
 import DirectoryList from "./directory_interaction/DirectoryList";
 import InstanceViewer from "./directory_interaction/InstanceViewer";
@@ -41,7 +41,7 @@ export default connect(
   matchDispatchToProps
 )(function Directory(props) {
   const [mode, setMode] = React.useState(0);
-  const [entities, setEntites] = React.useState([]);
+  //const [entities, setEntites] = React.useState([])
 
   const classes = useStyles();
   const modes = {
@@ -51,11 +51,7 @@ export default connect(
     INSTANCE_VIEWER: 3,
   };
 
-  const addEntityToList = (entity) => {
-    setEntites(entities.concat(entity));
-  };
-
-  const getDirectoryList = async () => {
+  const updateDirectoryList = async () => {
     if (props.lorelineId !== null) {
       props.setLoading(true);
       try {
@@ -65,7 +61,7 @@ export default connect(
           )
           .then((res) => {
             console.log("NEW DATA: ", res.data);
-            setEntites(res.data);
+            props.setDirectory(res.data);
             props.setLoading(false);
           });
       } catch (err) {
@@ -81,9 +77,13 @@ export default connect(
   const ModeComponent = () => {
     switch (mode) {
       case modes.ENTITY_CREATION:
-        return <CustomEntityCreator addEntityToList={addEntityToList} />;
+        return (
+          <CustomEntityCreator updateDirectoryList={updateDirectoryList} />
+        );
       case modes.INSTANCE_CREATION:
-        return <EntityInstanceCreator />;
+        return (
+          <EntityInstanceCreator updateDirectoryList={updateDirectoryList} />
+        );
       case modes.INSTANCE_VIEWER:
         return <InstanceViewer />;
       default:
@@ -112,12 +112,10 @@ export default connect(
         <DirectoryList
           modes={modes}
           setMode={setMode}
-          entites={entities}
-          updateList={getDirectoryList}
+          updateDirectoryList={updateDirectoryList}
         />
       </Drawer>
       <Fab
-        dataTestId="newEntityButton"
         style={{
           position: "fixed",
           bottom: 20,
@@ -146,12 +144,12 @@ function mapStateToProps(state) {
     lorelineId: state.lorelineId,
   };
 }
-//******************************************************************************
-// Redux Outgoing Variables Function
+
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setLoading: setLoading,
+      setDirectory: setDirectory,
     },
     dispatch
   );
