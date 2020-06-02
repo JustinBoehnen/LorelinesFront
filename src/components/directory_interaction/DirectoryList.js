@@ -36,6 +36,10 @@ class DirectoryList extends Component {
       anchorEl: null,
       deleteEntityId: null,
       deleteEntityName: null,
+      deleteInstanceId: null,
+      deleteInstanceName: null,
+      deleteEntityConfirmation: false,
+      deleteInstanceConfirmation: false,
     };
   }
 
@@ -58,6 +62,7 @@ class DirectoryList extends Component {
       anchorEl: event.currentTarget,
       deleteEntityId: id,
       deleteEntityName: name,
+      deleteEntityConfirmation: true,
     });
   };
 
@@ -66,6 +71,27 @@ class DirectoryList extends Component {
       anchorEl: null,
       deleteEntityId: null,
       deleteEntityName: null,
+      deleteEntityConfirmation: false,
+    });
+  };
+
+  handleInstanceDelete = (event, entityId, instanceId, name) => {
+    this.setState({
+      anchorEl: event.currentTarget,
+      deleteEntityId: entityId,
+      deleteInstanceId: instanceId,
+      deleteInstanceName: name,
+      deleteInstanceConfirmation: true,
+    });
+  };
+
+  handleInstanceDeleteCancel = () => {
+    this.setState({
+      anchorEl: null,
+      deleteEntityId: null,
+      deleteInstanceId: null,
+      deleteInstanceName: null,
+      deleteInstanceConfirmation: false,
     });
   };
 
@@ -81,9 +107,28 @@ class DirectoryList extends Component {
           console.log(this.state.deleteEntityId + " deleted!");
           this.handleEntityDeleteCancel();
           this.props.setLoading(false);
-          this.props.updateList();
         });
-    } catch (err) {}
+    } catch (err) {
+      this.props.setLoading(false);
+    }
+  };
+
+  deleteInstanceFromDB = async (e) => {
+    e.preventDefault();
+    this.props.setLoading(true);
+    try {
+      await axios
+        .delete(
+          `https://lorelines-expressapi.herokuapp.com/api/lorelines/${this.props.lorelineId}/entities/${this.state.deleteEntityId}/instances/${this.state.deleteInstanceId}`
+        )
+        .then(() => {
+          console.log(this.state.deleteInstanceId + " deleted!");
+          this.handleInstanceDeleteCancel();
+          this.props.setLoading(false);
+        });
+    } catch (err) {
+      this.props.setLoading(false);
+    }
   };
 
   handleEntityInstantiation = (id) => {
@@ -159,16 +204,53 @@ class DirectoryList extends Component {
                       return (
                         <div key={instance._id + i}>
                           <Divider />
-                          <ListItem
-                            button
-                            onClick={() => {
-                              this.handleInstanceSelect(
-                                instance._id,
-                                entity._id
-                              );
-                            }}
-                          >
-                            <Typography>{instance.name}</Typography>
+                          <ListItem style={{ width: "100%", padding: 0 }}>
+                            <ButtonGroup
+                              fullWidth
+                              variant="text"
+                              aria-label="text primary button group"
+                            >
+                              <Button
+                                style={{ borderRadius: 0 }}
+                                onClick={() =>
+                                  this.handleInstanceSelect(
+                                    instance._id,
+                                    entity._id
+                                  )
+                                }
+                              >
+                                <Typography
+                                  style={{
+                                    textAlign: "left",
+                                    overflow: "hidden",
+                                    textOverflow: "clip",
+                                    width: 272,
+                                    textTransform: "none",
+                                    color: entity.color,
+                                  }}
+                                  variant="h6"
+                                >
+                                  {instance.name}
+                                </Typography>
+                              </Button>
+                              <Button
+                                style={{
+                                  width: 44,
+                                  borderRadius: 0,
+                                  color: "#777",
+                                }}
+                                onClick={(event) =>
+                                  this.handleInstanceDelete(
+                                    event,
+                                    entity._id,
+                                    instance._id,
+                                    instance.name
+                                  )
+                                }
+                              >
+                                <Delete />
+                              </Button>
+                            </ButtonGroup>
                           </ListItem>
                         </div>
                       );
@@ -181,7 +263,7 @@ class DirectoryList extends Component {
         </List>
         <Popover
           anchorEl={this.state.anchorEl}
-          open={Boolean(this.state.anchorEl)}
+          open={this.state.deleteEntityConfirmation}
           id={Boolean(this.state.anchorEl) ? "simple-popover" : undefined}
           onClose={this.handleEntityDeleteCancel}
           anchorOrigin={{
@@ -211,6 +293,47 @@ class DirectoryList extends Component {
                   Delete
                 </Button>
                 <Button color="primary" onClick={this.handleEntityDeleteCancel}>
+                  Cancel
+                </Button>
+              </ButtonGroup>
+            </Grid>
+          </Grid>
+        </Popover>
+        <Popover
+          anchorEl={this.state.anchorEl}
+          open={this.state.deleteInstanceConfirmation}
+          id={Boolean(this.state.anchorEl) ? "simple-popover" : undefined}
+          onClose={this.handleInstanceDeleteCancel}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+        >
+          <Grid
+            container
+            spacing={0}
+            align="center"
+            justify="center"
+            direction="column"
+          >
+            <Grid item>
+              <Typography variant="h6">
+                Are you sure you want to delete {this.state.deleteInstanceName}?
+              </Typography>
+            </Grid>
+            <Grid item>
+              <ButtonGroup>
+                <Button color="inherit" onClick={this.deleteInstanceFromDB}>
+                  Delete
+                </Button>
+                <Button
+                  color="primary"
+                  onClick={this.handleInstanceDeleteCancel}
+                >
                   Cancel
                 </Button>
               </ButtonGroup>
