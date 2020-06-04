@@ -41,43 +41,43 @@ const events = [
     title: 'Event 2',
     subheader: new Date().toDateString(),
     description: [ 'Some description for event 2' ],
-    icon: <Avatar><Icon>2</Icon></Avatar>,
+    icon: <Avatar><Icon></Icon></Avatar>,
   },
   {
     title: 'Event 1',
     subheader: new Date().toDateString(),
     description: [ 'Some description for event 1' ],
-    icon: <Avatar><Icon>1</Icon></Avatar>,
+    icon: <Avatar><Icon></Icon></Avatar>,
   },
   {
     title: 'Event 1',
     subheader: new Date().toDateString(),
     description: [ 'Some description for event 1' ],
-    icon: <Avatar><Icon>1</Icon></Avatar>,
+    icon: <Avatar><Icon></Icon></Avatar>,
   },
   {
     title: 'Event 1',
     subheader: new Date().toDateString(),
     description: [ 'Some description for event 1' ],
-    icon: <Avatar><Icon>1</Icon></Avatar>,
+    icon: <Avatar><Icon></Icon></Avatar>,
   },
   {
     title: 'Event 1',
     subheader: new Date().toDateString(),
     description: [ 'Some description for event 1' ],
-    icon: <Avatar><Icon>1</Icon></Avatar>,
+    icon: <Avatar><Icon></Icon></Avatar>,
   },
   {
     title: 'Event 1',
     subheader: new Date().toDateString(),
     description: [ 'Some description for event 1' ],
-    icon: <Avatar><Icon>1</Icon></Avatar>,
+    icon: <Avatar><Icon></Icon></Avatar>,
   },
   {
     title: 'Event 1',
     subheader: new Date().toDateString(),
     description: [ 'Some description for event 1' ],
-    icon: <Avatar><Icon>1</Icon></Avatar>,
+    icon: <Avatar><Icon></Icon></Avatar>,
   }
 ];
 
