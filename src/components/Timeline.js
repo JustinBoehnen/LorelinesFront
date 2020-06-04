@@ -159,7 +159,7 @@ export default connect(
 
 	return (
 		<main className={classes.root}>
-			<Grid container
+			<Grid container xs
 				style={{width: 2000, textAlign: 'center' }}
 				justify="center"
 				alignContent="center"
