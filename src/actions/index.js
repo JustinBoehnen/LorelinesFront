@@ -141,3 +141,14 @@ export const setDirectory = directory => {
     payload: directory
   }
 }
+
+//******************************************************************************
+// Update Timeline Redux Function
+// File(s) Used: Timeline.js
+export const updateTimeline = timeline => {
+  console.log ('Changed timeline to: ', timeline)
+  return {
+    type: 'TIMELINE_CHANGED',
+    payload: timeline
+  }
+}

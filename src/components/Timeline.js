@@ -4,6 +4,9 @@
 // 
 //
 import React from "react";
+import { bindActionCreators } from "redux";
+import { updateTimeline } from "../actions/index";
+import Logo from "../images/logo.svg";
 import {
   makeStyles,
   Grid,
@@ -13,8 +16,12 @@ import {
   Divider,
   ListItem,
   ListItemText,
-  ListItemIcon
+  ListItemIcon,
+  Avatar,
+  Icon
 } from "@material-ui/core";
+
+import { Timeline as UITimeline} from 'react-material-timeline';
 
 import FontDownloadIcon from "@material-ui/icons/FontDownloadOutlined";
 import FormatListNumbered from "@material-ui/icons/FormatListNumberedOutlined";
@@ -22,6 +29,57 @@ import FlightTakeoffOutlined from "@material-ui/icons/FlightTakeoffOutlined";
 import CallMade from "@material-ui/icons/CallMadeOutlined";
 
 const drawerWidth = 120;
+
+const events = [
+  {
+    title: 'Event 1',
+    subheader: new Date().toDateString(),
+    description: [ 'Some description for event 1' ],
+    icon: <Avatar><Icon></Icon></Avatar>,
+  },
+  {
+    title: 'Event 2',
+    subheader: new Date().toDateString(),
+    description: [ 'Some description for event 2' ],
+    icon: <Avatar><Icon>2</Icon></Avatar>,
+  },
+  {
+    title: 'Event 1',
+    subheader: new Date().toDateString(),
+    description: [ 'Some description for event 1' ],
+    icon: <Avatar><Icon>1</Icon></Avatar>,
+  },
+  {
+    title: 'Event 1',
+    subheader: new Date().toDateString(),
+    description: [ 'Some description for event 1' ],
+    icon: <Avatar><Icon>1</Icon></Avatar>,
+  },
+  {
+    title: 'Event 1',
+    subheader: new Date().toDateString(),
+    description: [ 'Some description for event 1' ],
+    icon: <Avatar><Icon>1</Icon></Avatar>,
+  },
+  {
+    title: 'Event 1',
+    subheader: new Date().toDateString(),
+    description: [ 'Some description for event 1' ],
+    icon: <Avatar><Icon>1</Icon></Avatar>,
+  },
+  {
+    title: 'Event 1',
+    subheader: new Date().toDateString(),
+    description: [ 'Some description for event 1' ],
+    icon: <Avatar><Icon>1</Icon></Avatar>,
+  },
+  {
+    title: 'Event 1',
+    subheader: new Date().toDateString(),
+    description: [ 'Some description for event 1' ],
+    icon: <Avatar><Icon>1</Icon></Avatar>,
+  }
+];
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,14 +108,16 @@ export default function Timeline() {
   return (
     <main className={classes.root}>
       <Grid
-        style={{ height: "70vh", width: "70vw", textAlign: "center" }}
+        container
+        style={{ height: "70vh", width: "60vw", textAlign: "center" }}
         direction="row"
         justify="center"
         alignItems="center"
-        container
+        spacing={2}
       >
         <Grid item>
-          <Typography>Canvas and Drag/Drop Components in progress</Typography>
+          {/* <Typography>Canvas and Drag/Drop Components in progress</Typography> */}
+          <UITimeline events={events}/>
         </Grid>
       </Grid>
       <div>
@@ -93,5 +153,23 @@ export default function Timeline() {
         </Drawer>
       </div>
     </main>
+  );
+}
+
+//******************************************************************************
+// Redux Incoming Variables Function
+function mapStateToProps(state) {
+  return {
+    lorelineId: state.lorelineId,
+  };
+}
+//******************************************************************************
+// Redux Outgoing Variables Function
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      updateTimeline: updateTimeline,
+    },
+    dispatch
   );
 }
