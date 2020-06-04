@@ -158,14 +158,16 @@ export default connect(
 
 	return (
 		<main className={classes.root}>
-			<Grid
-				container
-				style={{ height: '80vh', width: '85vw', textAlign: 'center' }}
+			<Grid container
+				style={{width: 2000, textAlign: 'center' }}
 				justify="center"
 				alignContent="center"
 				alignItems="center"
 			>
-				<Grid item>
+				<Grid item xs
+					style={{width: 1500, textAlign: 'center' }}
+					wrap="wrap"
+				>
 					{/* <Typography>Canvas and Drag/Drop Components in progress</Typography> */}
 					<UITimeline events={props.timeline.events} />
 				</Grid>
