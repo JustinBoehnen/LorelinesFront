@@ -124,6 +124,7 @@ export default connect(
 				})
 				.then((res) => {
 					console.log('created event ' + eventTitle + '!')
+					getTimeline()
 					props.setLoading(false)
 				})
 		} catch (err) {
