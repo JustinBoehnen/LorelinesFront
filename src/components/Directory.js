@@ -136,6 +136,8 @@ export default connect(
   );
 });
 
+//******************************************************************************
+// Redux Incoming Variables Function
 function mapStateToProps(state) {
   return {
     window: state.window,
@@ -144,7 +146,8 @@ function mapStateToProps(state) {
     lorelineId: state.lorelineId,
   };
 }
-
+//******************************************************************************
+// Redux Outgoing Variables Function
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {

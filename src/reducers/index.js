@@ -15,6 +15,7 @@ import LorelineArrayReducer from './LorelineArrayReducer'
 import CurrentEntityReducer from './CurrentEntityReducer'
 import CurrentInstanceReducer from './CurrentInstanceReducer'
 import AxiosInstanceReducer from './AxiosInstanceReducer'
+import TimelineReducer from './TimelineReducer'
 
 const allReducers = combineReducers({
   user: UserReducer,
@@ -26,7 +27,8 @@ const allReducers = combineReducers({
   lorelineArray: LorelineArrayReducer,
   entityId: CurrentEntityReducer,
   instanceId: CurrentInstanceReducer,
-  instance: AxiosInstanceReducer
+  instance: AxiosInstanceReducer,
+  timeline: TimelineReducer,
 })
 
 export default allReducers
