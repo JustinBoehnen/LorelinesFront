@@ -54,7 +54,14 @@ export default connect(mapStateToProps)(function About(props) {
 									fontSize: 14,
 								}}
 							>
-								Lorelines v0.7 ALPHA
+								Lorelines v0.81 ALPHA
+							</Typography>
+							<Typography
+								style={{
+									fontSize: 14,
+								}}
+							>
+								© 2020 All rights reserved
 							</Typography>
 						</CardContent>
 					</Card>
