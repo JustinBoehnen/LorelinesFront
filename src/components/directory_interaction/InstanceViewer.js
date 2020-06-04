@@ -53,7 +53,7 @@ class InstanceViewer extends Component {
 					if (field.type === 'IMAGE_FIELD') {
 						return (
 							<ListItem key={field + i} width={600}>
-								<Card>
+								<Card style={{ width: 600 }}>
 									<CardContent>
 										<Grid>
 											<Grid item>
@@ -71,33 +71,35 @@ class InstanceViewer extends Component {
 						)
 					} else if (field.type === 'RADIOLIST_FIELD') {
 						return (
-							<Card>
-								<CardContent>
-									<Grid>
-										<Grid item>
-											<Typography variant="overline" color="textSecondary" gutterBottom>
-												{field.name}
-											</Typography>
+							<ListItem key={field + i} width={600}>
+								<Card style={{ width: 600 }}>
+									<CardContent>
+										<Grid>
+											<Grid item>
+												<Typography variant="overline" color="textSecondary" gutterBottom>
+													{field.name}
+												</Typography>
+											</Grid>
+											<Grid item>
+												<RadioGroup value={field.value}>
+													{field.content.map((option, i) => {
+														return (
+															<FormControlLabel
+																key={option + i}
+																value={option + i}
+																control={<Radio color="primary" />}
+																label={option.name}
+																labelPlacement="start"
+																disabled
+															/>
+														)
+													})}
+												</RadioGroup>
+											</Grid>
 										</Grid>
-										<Grid item>
-											<RadioGroup value={field.value}>
-												{field.content.map((option, i) => {
-													return (
-														<FormControlLabel
-															key={option + i}
-															value={option + i}
-															control={<Radio color="primary" />}
-															label={option.name}
-															labelPlacement="start"
-															disabled
-														/>
-													)
-												})}
-											</RadioGroup>
-										</Grid>
-									</Grid>
-								</CardContent>
-							</Card>
+									</CardContent>
+								</Card>
+							</ListItem>
 						)
 					} else if (field.type === 'SECTION_DIVIDER') {
 						return (
@@ -114,7 +116,7 @@ class InstanceViewer extends Component {
 					} else if (field.type === 'CHECKBOX_FIELD') {
 						return (
 							<ListItem key={field + i}>
-								<Card>
+								<Card style={{ width: 600 }}>
 									<CardContent>
 										<Grid>
 											<Grid item>
@@ -133,7 +135,7 @@ class InstanceViewer extends Component {
 					} else {
 						return (
 							<ListItem key={field + i}>
-								<Card width={classes.card.width}>
+								<Card style={{ width: 600 }}>
 									<CardContent>
 										<Typography variant="overline" color="textSecondary" gutterBottom>
 											{field.name}
