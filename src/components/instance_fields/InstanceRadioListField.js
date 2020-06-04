@@ -1,20 +1,9 @@
 /** @format */
 
 import React from 'react'
-import {
-	makeStyles,
-	Grid,
-	Card,
-	InputBase,
-	RadioGroup,
-	FormControlLabel,
-	Radio,
-	CardContent,
-	CardHeader,
-	Typography,
-} from '@material-ui/core'
+import { makeStyles, Card, RadioGroup, FormControlLabel, Radio, CardContent, CardHeader } from '@material-ui/core'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		flex: 1,
 	},
@@ -24,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function InstanceRadioListField(props) {
-	const handleChange = event => {
+	const handleChange = (event) => {
 		props.setValue(props.index, event.target.value)
 	}
 
