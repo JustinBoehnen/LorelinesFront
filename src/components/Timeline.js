@@ -4,9 +4,10 @@
 // 
 //
 import React from "react";
+import axios from "axios";
+import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { updateTimeline } from "../actions/index";
-import Logo from "../images/logo.svg";
+import { setLoading, updateTimeline } from "../actions/index";
 import {
   makeStyles,
   Grid,
@@ -42,42 +43,6 @@ const events = [
     subheader: new Date().toDateString(),
     description: [ 'Some description for event 2' ],
     icon: <Avatar><Icon></Icon></Avatar>,
-  },
-  {
-    title: 'Event 1',
-    subheader: new Date().toDateString(),
-    description: [ 'Some description for event 1' ],
-    icon: <Avatar><Icon></Icon></Avatar>,
-  },
-  {
-    title: 'Event 1',
-    subheader: new Date().toDateString(),
-    description: [ 'Some description for event 1' ],
-    icon: <Avatar><Icon></Icon></Avatar>,
-  },
-  {
-    title: 'Event 1',
-    subheader: new Date().toDateString(),
-    description: [ 'Some description for event 1' ],
-    icon: <Avatar><Icon></Icon></Avatar>,
-  },
-  {
-    title: 'Event 1',
-    subheader: new Date().toDateString(),
-    description: [ 'Some description for event 1' ],
-    icon: <Avatar><Icon></Icon></Avatar>,
-  },
-  {
-    title: 'Event 1',
-    subheader: new Date().toDateString(),
-    description: [ 'Some description for event 1' ],
-    icon: <Avatar><Icon></Icon></Avatar>,
-  },
-  {
-    title: 'Event 1',
-    subheader: new Date().toDateString(),
-    description: [ 'Some description for event 1' ],
-    icon: <Avatar><Icon></Icon></Avatar>,
   }
 ];
 
@@ -102,8 +67,37 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar
 }));
 
-export default function Timeline() {
+export default connect(
+  mapStateToProps,
+  matchDispatchToProps
+)(function Timeline(props)  {
   const classes = useStyles();
+
+  const getTimeline = async () => {
+    if (props.lorelineId !== null) {
+      props.setLoading(true);
+      try {
+        await axios
+          .get(
+            `https://lorelines-expressapi.herokuapp.com/api/lorelines/${props.lorelineId}/timeline/`
+          )
+          .then((res) => {
+            console.log("NEW DATA: ", res.data);
+            props.updateTimeline(res.data);
+            props.setLoading(false);
+          });
+      } catch (err) {
+        props.setLoading(false);
+      }
+    }
+  };
+
+  if(props.lorelineId && !props.timeline)
+    getTimeline()
+
+  if (!props.timeline) {
+    return <p></p>
+  }
 
   return (
     <main className={classes.root}>
@@ -117,7 +111,9 @@ export default function Timeline() {
       >
         <Grid item>
           {/* <Typography>Canvas and Drag/Drop Components in progress</Typography> */}
-          <UITimeline events={events}/>
+          <UITimeline 
+          events={props.timeline.events}
+          />
         </Grid>
       </Grid>
       <div>
@@ -154,13 +150,14 @@ export default function Timeline() {
       </div>
     </main>
   );
-}
+});
 
 //******************************************************************************
 // Redux Incoming Variables Function
 function mapStateToProps(state) {
   return {
     lorelineId: state.lorelineId,
+    timeline: state.timeline,
   };
 }
 //******************************************************************************
@@ -168,6 +165,7 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
+      setLoading: setLoading,
       updateTimeline: updateTimeline,
     },
     dispatch

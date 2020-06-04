@@ -347,13 +347,16 @@ class DirectoryList extends Component {
   }
 }
 
+//******************************************************************************
+// Redux Incoming Variables Function
 function mapStatetoProps(state) {
   return {
     lorelineId: state.lorelineId,
     directory: state.directory,
   };
 }
-
+//******************************************************************************
+// Redux Outgoing Variables Function
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
