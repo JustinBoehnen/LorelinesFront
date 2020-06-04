@@ -3,7 +3,7 @@
 // Timeline page function that will contain the timeline tool
 // 
 //
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -73,6 +73,10 @@ export default connect(
 )(function Timeline(props)  {
   const classes = useStyles();
 
+  useEffect(() => {
+    getTimeline();
+  }, []);
+
   const getTimeline = async () => {
     if (props.lorelineId !== null) {
       props.setLoading(true);
@@ -92,8 +96,8 @@ export default connect(
     }
   };
 
-  if(props.lorelineId && !props.timeline)
-    getTimeline()
+  // if(props.lorelineId && !props.timeline)
+  //   getTimeline()
 
   if (!props.timeline) {
     return <p></p>
@@ -103,11 +107,10 @@ export default connect(
     <main className={classes.root}>
       <Grid
         container
-        style={{ height: "70vh", width: "60vw", textAlign: "center" }}
-        direction="row"
+        style={{ height: "80vh", width: "85vw", textAlign: "center" }}
         justify="center"
+        alignContent="center"
         alignItems="center"
-        spacing={2}
       >
         <Grid item>
           {/* <Typography>Canvas and Drag/Drop Components in progress</Typography> */}
@@ -116,7 +119,7 @@ export default connect(
           />
         </Grid>
       </Grid>
-      <div>
+      {/* <div>
         <Drawer className={classes.drawer} variant="permanent" anchor="right">
           <div className={classes.toolbar}></div>
           <List>
@@ -147,7 +150,7 @@ export default connect(
             </ListItem>
           </List>
         </Drawer>
-      </div>
+      </div> */}
     </main>
   );
 });
